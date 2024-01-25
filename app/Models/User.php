@@ -23,6 +23,7 @@ use Laravel\Sanctum\HasApiTokens;
         'email',
         'password',
         'status',
+        'type',
         'is_system'
     ];
 

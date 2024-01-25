@@ -9,4 +9,6 @@ class AuthConstant
     const USER_ACTIVE   = 1;
     const LOGIN_OTP_TYPE = 'login';
     const TOKEN_NAME = 'KarTat Personal Access Client';
+    const TYPE_CUSTOMER = 'customer';
+    const TYPE_ADMIN = 'admin';
 }

@@ -4,7 +4,10 @@ namespace App\Services;
 
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
+use App\Http\Requests\RegisterRequest;
+use App\Models\Customer;
 use App\Models\User;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Constants\AuthConstant;
@@ -14,6 +17,12 @@ use App\Http\Requests\LoginVerifyRequest;
 
 class AuthService
 {
+    private UserRepositoryInterface $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
     public function login(LoginRequest $request)
     {
         try {
@@ -70,6 +79,23 @@ class AuthService
                 'keyword' => 'RESEND_OTP_EXCEPTION'
             ]);
             return response()->error(['message' => $exception->getMessage()]);
+        }
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        try {
+            $user = $this->userRepository->create($request->validated());
+            $user->customer()->save(new Customer([
+                'gender' => $request->input('gender'),
+                'created_by' => $user->id
+            ]));
+            return response()->success();
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'CUSTOMER_REGISTER_EXCEPTION'
+            ]);
+            return response()->success(['message' => $exception->getMessage()]);
         }
     }
 }

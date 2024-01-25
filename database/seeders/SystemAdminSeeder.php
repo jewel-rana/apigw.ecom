@@ -21,11 +21,13 @@ class SystemAdminSeeder extends Seeder
 
         $user = User::create([
             'name' => 'System',
+            'mobile' => '+8801900000001',
             'email' => 'system@admin.com',
             'password' => bcrypt(Str::random(18)),
             'email_verified_at' => now(),
             'status' => AuthConstant::USER_ACTIVE,
-            'is_system' => AuthConstant::USER_IS_SYSTEM
+            'is_system' => AuthConstant::USER_IS_SYSTEM,
+            'type' => AuthConstant::TYPE_ADMIN
         ]);
         $user->assignRole('admin');
     }
