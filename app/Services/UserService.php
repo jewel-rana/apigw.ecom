@@ -27,6 +27,7 @@ class UserService
     {
         try {
             $this->userRepository->create($data);
+            return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'USER_CREATE_EXCEPTION'
