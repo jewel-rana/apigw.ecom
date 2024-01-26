@@ -2,18 +2,19 @@
 
 namespace App\Services;
 
+use App\Constants\AuthConstant;
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\LoginVerifyRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Customer;
+use App\Models\Otp;
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use App\Constants\AuthConstant;
-use App\Models\Otp;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\LoginVerifyRequest;
+use Spatie\Permission\Models\Permission;
 
 class AuthService
 {
@@ -23,6 +24,7 @@ class AuthService
     {
         $this->userRepository = $userRepository;
     }
+
     public function login(LoginRequest $request)
     {
         try {
@@ -32,11 +34,15 @@ class AuthService
                 throw ValidationException::withMessages(['password' => __('Password does not match')]);
             }
 
-            return response()->success([
-                'token' => $user->createToken('authToken')->accessToken
-            ]);
+            return response()->success($user->format() + [
+                    'token' => $user->createToken('authToken')->accessToken,
+                    'role' => $user->roles->first()->name,
+                    'permissions' => $user->roles->first()
+                        ->permissions->map(function (Permission $permission) {
+                            return $permission->only(['id', 'name']);
+                        })
+                ]);
         } catch (\Exception $exception) {
-            dd($exception);
             LogHelper::exception($exception, [
                 'keyword' => 'VENDOR_LOGIN_EXCEPTION'
             ]);

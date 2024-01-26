@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Helpers\LogHelper;
+use App\Models\Role;
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Cache;
@@ -26,7 +27,9 @@ class UserService
     public function create($data)
     {
         try {
-            $this->userRepository->create($data);
+            $user = $this->userRepository->create($data);
+            $user->assignRole(Role::find($data['role_id']));
+            return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'USER_CREATE_EXCEPTION'
@@ -38,7 +41,8 @@ class UserService
     public function update($data, $id)
     {
         try {
-            $this->userRepository->update($data, $id);
+            $user = $this->userRepository->update($data, $id);
+            $user->syncRoles(Role::find($data['role_id']));
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
