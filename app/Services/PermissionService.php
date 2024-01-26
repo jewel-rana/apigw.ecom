@@ -2,22 +2,24 @@
 
 namespace App\Services;
 
+use App\Repositories\Interfaces\PermissionRepositoryInterface;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
 use Illuminate\Support\Facades\Cache;
 
 class PermissionService
 {
-    private RoleRepositoryInterface $roleRepository;
+    private PermissionRepositoryInterface $permissionRepository;
 
-    public function __construct(RoleRepositoryInterface $roleRepository)
+    public function __construct(PermissionRepositoryInterface $permissionRepository)
     {
-        $this->roleRepository = $roleRepository;
+        $this->permissionRepository = $permissionRepository;
     }
 
     public function all()
     {
+        Cache::forget('permissions');
         return Cache::remember('permissions', 36000, function () {
-            return $this->roleRepository->all();
+            return $this->permissionRepository->all();
         });
     }
 }

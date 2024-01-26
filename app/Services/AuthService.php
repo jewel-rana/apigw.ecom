@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Permission;
 
 class AuthService
 {
@@ -35,7 +36,11 @@ class AuthService
 
             return response()->success($user->format() + [
                     'token' => $user->createToken($user->name)->plainTextToken,
-                    'permissions' => $user->permissions
+                    'role' => $user->roles->first()->name,
+                    'permissions' => $user->roles->first()
+                        ->permissions->map(function (Permission $permission) {
+                            return $permission->only(['id', 'name']);
+                        })
                 ]);
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
