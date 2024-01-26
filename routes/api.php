@@ -24,5 +24,5 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::resource('role', RoleController::class);
-    Route::resource('administrator', UserController::class);
+    Route::resource('user', UserController::class);
 });
