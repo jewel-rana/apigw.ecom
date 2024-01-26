@@ -28,6 +28,7 @@ class RoleService
     {
         try {
             $this->roleRepository->create($data);
+            return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'ROLE_CREATE_EXCEPTION'
