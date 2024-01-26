@@ -18,7 +18,8 @@ class UserUpdateRequest extends FormRequest
             'mobile' => 'required|string|unique:users,mobile,' . $this->user,
             'email' => 'required|email|unique:users,email,' . $this->user,
             'password' => 'nullable|string|min:6|max:18|same:password_confirm',
-            'gender' => 'required|string|in:male,female'
+            'gender' => 'required|string|in:male,female',
+            'role_id' => 'required|integer|exists:roles,id'
         ];
     }
 }
