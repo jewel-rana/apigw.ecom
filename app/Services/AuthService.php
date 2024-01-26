@@ -33,9 +33,10 @@ class AuthService
             }
 
             return response()->success([
-                'token' => $user->createToken($user->name)->plainTextToken
+                'token' => $user->createToken('authToken')->accessToken
             ]);
         } catch (\Exception $exception) {
+            dd($exception);
             LogHelper::exception($exception, [
                 'keyword' => 'VENDOR_LOGIN_EXCEPTION'
             ]);

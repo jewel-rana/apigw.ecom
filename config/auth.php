@@ -42,8 +42,9 @@ return [
         ],
 
         'api' => [
-            'dirver' => 'sunctam'
-        ]
+            'driver' => 'passport',
+            'provider' => 'users',
+        ],
     ],
 
     /*

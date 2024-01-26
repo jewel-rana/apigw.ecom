@@ -20,7 +20,10 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        return response()->success($this->userService->all()->where('type', AuthConstant::TYPE_ADMIN));
+        return response()->success($this->userService->all()
+            ->where('type', AuthConstant::TYPE_ADMIN)
+            ->where('is_system', false)
+        );
     }
 
     public function store(UserCreateRequest $request)
