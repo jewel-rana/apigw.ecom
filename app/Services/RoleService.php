@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Helpers\LogHelper;
 use App\Models\Role;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class RoleService
@@ -16,7 +17,7 @@ class RoleService
         $this->roleRepository = $roleRepository;
     }
 
-    public function all()
+    public function all(Request $request)
     {
         return Cache::remember('roles', 36000, function () {
             return $this->roleRepository->all();

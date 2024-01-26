@@ -23,7 +23,7 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         return response()->success([
-            'roles' => $this->roleService->all(),
+            'roles' => $this->roleService->all($request),
             'permissions' => $this->permissionService->all()
         ]);
     }

@@ -53,4 +53,9 @@ use Laravel\Sanctum\HasApiTokens;
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function format(): array
+    {
+        return $this->only(['id', 'name', 'mobile', 'email', 'status']);
+    }
 }

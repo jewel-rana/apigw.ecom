@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\AuthConstant;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
@@ -19,7 +20,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        return response()->success($this->userService->all());
+        return response()->success($this->userService->all()->where('type', AuthConstant::TYPE_ADMIN));
     }
 
     public function store(UserCreateRequest $request)
@@ -29,7 +30,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return response()->success($user->only(['id', 'name', 'mobile', 'email', 'status']));
+        return response()->success($user->format());
     }
 
     public function update(UserUpdateRequest $request, string $id)
