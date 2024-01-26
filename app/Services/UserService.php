@@ -42,7 +42,7 @@ class UserService
     {
         try {
             $user = $this->userRepository->update($data, $id);
-            $user->syncRole(Role::find($data['role_id']));
+            $user->syncRoles(Role::find($data['role_id']));
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
