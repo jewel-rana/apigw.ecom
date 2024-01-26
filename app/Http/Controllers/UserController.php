@@ -35,6 +35,7 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, string $id)
     {
+        dd($request->all());
         return $this->userService->update($request->validated(), $id);
     }
 

@@ -17,7 +17,7 @@ class UserUpdateRequest extends FormRequest
             'name' => 'required|string',
             'mobile' => 'required|string|unique:users,mobile,' . $this->user,
             'email' => 'required|email|unique:users,email,' . $this->user,
-            'password' => 'required|string|min:6|max:18|same:password_confirm',
+            'password' => 'nullable|string|min:6|max:18|same:password_confirm',
             'gender' => 'required|string|in:male,female'
         ];
     }
