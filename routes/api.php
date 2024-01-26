@@ -25,8 +25,8 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::resource('role', RoleController::class);
-    Route::resource('permission', PermissionController::class);
-    Route::resource('user', UserController::class);
-    Route::resource('customer', CustomerController::class);
+    Route::apiResource('role', RoleController::class);
+    Route::apiResource('permission', PermissionController::class);
+    Route::apiResource('user', UserController::class);
+    Route::apiResource('customer', CustomerController::class);
 });
