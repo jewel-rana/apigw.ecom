@@ -56,6 +56,9 @@ use Laravel\Sanctum\HasApiTokens;
 
     public function format(): array
     {
-        return $this->only(['id', 'name', 'mobile', 'email', 'status']);
+        return $this->only(['id', 'name', 'mobile', 'email', 'status']) +
+            [
+                'gender' => $this->customer->gender ?? '---'
+            ];
     }
 }

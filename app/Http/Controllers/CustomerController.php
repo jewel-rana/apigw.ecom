@@ -20,7 +20,7 @@ class CustomerController extends Controller
 
     public function index(Request $request)
     {
-        return response()->success($this->userService->all()->where('type', AuthConstant::TYPE_CUSTOMER));
+        return response()->success($this->userService->all()->where('type', AuthConstant::TYPE_CUSTOMER)->values());
     }
 
     public function store(UserCreateRequest $request)
