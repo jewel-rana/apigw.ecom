@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function store(UserCreateRequest $request)
     {
-        return $this->userService->create($request->validated());
+        return $this->userService->create($request->validated() + ['type' => AuthConstant::TYPE_CUSTOMER]);
     }
 
     public function show(User $user)
