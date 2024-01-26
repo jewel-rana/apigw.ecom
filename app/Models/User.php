@@ -14,11 +14,6 @@ use Laravel\Sanctum\HasApiTokens;
 {
     use HasRoles, HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'mobile',
@@ -29,21 +24,14 @@ use Laravel\Sanctum\HasApiTokens;
         'is_system'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
+        'email_verified_at',
+        'type',
+        'is_system'
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
@@ -52,6 +40,11 @@ use Laravel\Sanctum\HasApiTokens;
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function getStatusAttribute($value): string
+    {
+        return $value ? 'Active' : 'Inactive';
     }
 
     public function format(): array
