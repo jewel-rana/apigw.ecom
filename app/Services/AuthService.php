@@ -31,11 +31,10 @@ class AuthService
             if (!Hash::check($request->input('password'), $user->password)) {
                 throw ValidationException::withMessages(['password' => __('Password does not match')]);
             }
-            $otp = CommonHelper::createOtp(['email' => $request->input('email'), 'type' => AuthConstant::LOGIN_OTP_TYPE]);
 
             return response()->success([
-                'reference' => $otp->reference
-            ], __('An otp send to your email. please verify otp.'));
+                'token' => $user->createToken($user->name)->plainTextToken
+            ]);
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'VENDOR_LOGIN_EXCEPTION'
@@ -86,7 +85,7 @@ class AuthService
     {
         try {
             $user = $this->userRepository->create($request->validated());
-            $user->customer()->save(new Customer([
+            $user->customer()->associate(new Customer([
                 'gender' => $request->input('gender'),
                 'created_by' => $user->id
             ]));
