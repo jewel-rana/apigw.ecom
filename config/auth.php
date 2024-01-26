@@ -42,7 +42,8 @@ return [
         ],
 
         'api' => [
-            'dirver' => 'sunctam'
+            'driver' => 'sanctum',
+            'provider' => 'users'
         ]
     ],
 
