@@ -22,10 +22,10 @@ class RoleController extends Controller
 
     public function index(Request $request)
     {
-        return response()->success([
-            'roles' => $this->roleService->all($request),
-            'permissions' => $this->permissionService->all()
-        ]);
+        return response()->success($this->roleService->all($request)
+            ->map(function (Role $role) {
+                return $role->only(['id', 'name']);
+            }));
     }
 
     public function store(RoleCreateRequest $request)
@@ -37,7 +37,9 @@ class RoleController extends Controller
     {
         return response()->success($role->only(['id', 'name']) +
             [
-                'permissions' => $role->permissions()
+                'permissions' => $role->permissions->map(function ($permission) {
+                    return $permission->only('id', 'name', 'guard_name');
+                })
             ]);
     }
 

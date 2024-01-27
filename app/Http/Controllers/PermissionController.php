@@ -19,7 +19,7 @@ class PermissionController extends Controller
         return response()->success(
             $this->permissionService->all()
                 ->map(function (Permission $permission) {
-                    return $permission->only(['id', 'name']);
+                    return $permission->only(['id', 'name', 'guard_name']);
                 })->toArray());
     }
 }

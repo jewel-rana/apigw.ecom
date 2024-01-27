@@ -13,11 +13,21 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->string('gender')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users', 'id');
             $table->foreignId('updated_by')->nullable()->constrained('users', 'id');
+            $table->string('name');
+            $table->string('address')->nullable();
+            $table->string('email')->unique();
+            $table->string('mobile')->unique();
+            $table->string('password');
+            $table->string('gender')->nullable();
+            $table->enum('status', [
+                'Pending', 'Active', 'Inactive'
+            ])
+                ->default('Pending')->index();
             $table->timestamps();
+            $table->softDeletes();
+            $table->index(['created_at', 'deleted_at']);
         });
     }
 

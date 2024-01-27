@@ -11,4 +11,5 @@ class AuthConstant
     const TOKEN_NAME = 'KarTat Personal Access Client';
     const TYPE_CUSTOMER = 'customer';
     const TYPE_ADMIN = 'admin';
+    const DEFAULT_PROMOTION_PERIOD = 5;
 }
