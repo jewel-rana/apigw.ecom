@@ -8,12 +8,12 @@ use App\Helpers\LogHelper;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LoginVerifyRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\Customer;
 use App\Models\Otp;
 use App\Models\User;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Spatie\Permission\Models\Permission;
 
 class AuthService
 {
@@ -27,19 +27,14 @@ class AuthService
     public function login(LoginRequest $request)
     {
         try {
-            $user = User::where('email', $request->input('email'))->first();
+            $customer = Customer::where('email', $request->input('email'))->first();
 
-            if (!Hash::check($request->input('password'), $user->password)) {
+            if (!Hash::check($request->input('password'), $customer->password)) {
                 throw ValidationException::withMessages(['password' => __('Password does not match')]);
             }
 
-            return response()->success($user->format() + [
-                    'token' => $user->createToken('authToken')->accessToken,
-                    'role' => $user->roles->first()->name,
-                    'permissions' => $user->roles->first()
-                        ->permissions->map(function (Permission $permission) {
-                            return $permission->only(['id', 'name']);
-                        })
+            return response()->success($customer->format() + [
+                    'token' => $customer->createToken('authToken')->accessToken
                 ]);
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [

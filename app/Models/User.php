@@ -49,9 +49,6 @@ use Illuminate\Notifications\Notifiable;
 
     public function format(): array
     {
-        return $this->only(['id', 'name', 'mobile', 'email', 'status']) +
-            [
-                'gender' => $this->customer->gender ?? '---'
-            ];
+        return $this->only(['id', 'name', 'mobile', 'email', 'status']);
     }
 }
