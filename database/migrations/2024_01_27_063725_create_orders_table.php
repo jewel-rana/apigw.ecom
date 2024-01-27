@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->integer('promotion_period')->default(AuthConstant::DEFAULT_PROMOTION_PERIOD);
             $table->float('amount', 12, 2)->default(0);
             $table->string('location')->default('all');
-            $table->json('divisions');
+            $table->text('divisions');
             $table->integer('min_age')->default(13);
             $table->integer('max_age')->default(65);
             $table->enum('status',
