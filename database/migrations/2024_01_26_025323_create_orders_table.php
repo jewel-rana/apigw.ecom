@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->uuid('invoice_no')->index();
             $table->foreignId('promotion_id')->constrained();
+            $table->foreignId('promotion_adjective_id')->constrained();
             $table->integer('promotion_period')->default(AuthConstant::DEFAULT_PROMOTION_PERIOD);
             $table->float('amount', [12, 2])->default(0);
             $table->enum('status',

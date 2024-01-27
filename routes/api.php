@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -22,6 +23,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('verify', [AuthController::class, 'verify']);
     Route::post('register', [AuthController::class, 'register']);
+
+    Route::group(['prefix' => 'user'], function () {
+        Route::post('login', [AuthUserController::class, 'login']);
+    });
 });
 
 Route::group(['middleware' => 'auth:api'], function () {

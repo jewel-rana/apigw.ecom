@@ -8,21 +8,20 @@ use App\Helpers\LogHelper;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LoginVerifyRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Models\Customer;
 use App\Models\Otp;
 use App\Models\User;
-use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Permission;
 
 class AuthService
 {
-    private UserRepositoryInterface $userRepository;
+    private CustomerRepositoryInterface $customerRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(CustomerRepositoryInterface $customerRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->customerRepository = $customerRepository;
     }
 
     public function login(LoginRequest $request)
@@ -91,12 +90,10 @@ class AuthService
     public function register(RegisterRequest $request)
     {
         try {
-            $user = $this->userRepository->create($request->validated());
-            $user->customer()->associate(new Customer([
-                'gender' => $request->input('gender'),
-                'created_by' => $user->id
-            ]));
-            return response()->success();
+            $customer = $this->customerRepository->create($request->validated());
+            return response()->success($customer->format() + [
+                    'token' => $customer->createToken($customer->name)->accessToken
+                ]);
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'CUSTOMER_REGISTER_EXCEPTION'
