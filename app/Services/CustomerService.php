@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
 use App\Models\Customer;
 use App\Models\Role;
@@ -20,10 +21,8 @@ class CustomerService
 
     public function all(Request $request)
     {
-        return response()->success(
-            Customer::filter($request)
-                ->paginate($request->per_page ?? 10)
-        );
+        $customers = Customer::filter($request)->paginate($request->input('per_page', 10));
+        return response()->success(CommonHelper::parsePaginator($customers));
     }
 
     public function create($data)

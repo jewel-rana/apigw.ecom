@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\AuthConstant;
-use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use App\Services\CustomerService;
 use Illuminate\Http\Request;
+use App\Http\Requests\CustomerCreateRequest;
 
 class CustomerController extends Controller
 {
@@ -23,7 +22,7 @@ class CustomerController extends Controller
         return $this->customerService->all($request);
     }
 
-    public function store(UserCreateRequest $request)
+    public function store(CustomerCreateRequest $request)
     {
         return $this->customerService->create($request->validated());
     }

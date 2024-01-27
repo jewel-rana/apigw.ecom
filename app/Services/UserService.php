@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
 use App\Models\Role;
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class UserService
@@ -17,11 +19,10 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function all()
+    public function all(Request $request)
     {
-        return Cache::remember('administrators', 36000, function () {
-            return $this->userRepository->all();
-        });
+        $users = User::filter($request)->paginate($request->input('per_page', 10));
+        return response()->success(CommonHelper::parsePaginator($users));
     }
 
     public function create($data)

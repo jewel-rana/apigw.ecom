@@ -51,4 +51,30 @@ use Illuminate\Notifications\Notifiable;
     {
         return $this->only(['id', 'name', 'mobile', 'email', 'status']);
     }
+
+     public function scopeFilter($query, $request)
+     {
+         if($request->filled('from')) {
+             $query->where('created_at', '>=', $request->input('form') . ' 00:00:00');
+         }
+         if($request->filled('to')) {
+             $query->where('created_at', '<=', $request->input('to') . ' 00:00:00');
+         }
+         if($request->filled('email')) {
+             $query->where('email', '=', $request->input('email'));
+         }
+         if($request->filled('mobile')) {
+             $query->where('mobile', '=', $request->input('mobile'));
+         }
+         if($request->filled('status') && in_array(strtolower($request->input('status')), ['active', 'inactive'])) {
+             $query->where('status', '=', ucfirst($request->input('status')));
+         }
+
+         if($request->filled('keyword')) {
+             $query->where(function($query) use($request) {
+                 $query->where('name', 'like', $request->input('keyword') . "%");
+             });
+         }
+         return $query;
+     }
 }
