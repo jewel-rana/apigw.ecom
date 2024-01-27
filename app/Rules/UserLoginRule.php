@@ -10,21 +10,29 @@ use Illuminate\Support\Facades\Hash;
 
 class UserLoginRule implements ValidationRule
 {
-
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $user = User::where('email', $attribute)->first();
+        try {
+            $user = User::where('email', $value)->first();
 
-        if ($user->status != AuthConstant::STATUS_ACTIVE) {
-            $fail(__('Your account is ' . $user->status));
-        }
+            if (is_null($user)) {
+                $fail(__('No account associate with this email'));
+            } else {
 
-        if (is_null($user->email_verified_at)) {
-            $fail(__('Your account is not verified'));
-        }
+                if ($user->status != AuthConstant::STATUS_ACTIVE) {
+                    $fail(__('Your account is ' . $user->status));
+                }
 
-        if (!Hash::check(request()->input('password'), $user->password)) {
-            $fail(__('Password does not match'));
+                if (is_null($user->email_verified_at)) {
+                    $fail(__('Your account is not verified'));
+                }
+
+                if (!Hash::check(request()->input('password'), $user->password)) {
+                    $fail(__('Password does not match'));
+                }
+            }
+        } catch (\Exception $exception) {
+            $fail(__('Internal server error'));
         }
     }
 }
