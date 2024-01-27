@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants\AuthConstant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -82,5 +83,15 @@ class Customer extends Authenticatable
                 'created_by' => $this->createdBy->name ?? 'Self',
                 'updated_by' => $this->updatedBy->name ?? 'Self',
             ];
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function(Customer $customer) {
+            $customer->email_verified_at = now();
+            $customer->status = AuthConstant::STATUS_ACTIVE;
+        });
     }
 }
