@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\LogHelper;
+use App\Http\Requests\OrderCreateRequest;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 
@@ -24,9 +26,9 @@ class OrderController extends Controller
         return $this->orderService->form($request);
     }
 
-    public function store(Request $request)
+    public function store(OrderCreateRequest $request)
     {
-        //
+        return $this->orderService->create($request->validated());
     }
 
     /**
