@@ -16,9 +16,9 @@ class OrderController extends Controller
         $this->orderService = $orderService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $this->orderService->getOrders($request);
     }
 
     public function create(Request $request)

@@ -9,8 +9,8 @@ class CommonHelper
     public static function parsePaginator($collections = null): array
     {
         return [
-            'from' => $collections->firstItem(),
-            'to' => $collections->lastItem(),
+            'from' => $collections->firstItem() ?? 0,
+            'to' => $collections->lastItem() ?? 0,
             'per_page' => $collections->perPage(),
             'current_page' => $collections->currentPage(),
             'last_page' => $collections->lastPage(),
@@ -55,23 +55,5 @@ class CommonHelper
     {
         preg_match("/(" . strtolower($match) . ")/", strtolower($subject), $matches, PREG_OFFSET_CAPTURE);
         return (bool)$matches;
-    }
-
-    public static function sanitizePayload(array $payload): array
-    {
-        $payload = preg_replace("/(')*/", "", array_filter($payload));
-        return preg_replace('/(")*/', "", array_filter($payload));
-    }
-
-    public static function unlinkFiles($paths = null, array $extensions = [], $recursive = true): void
-    {
-        $paths = $paths ?? [public_path('uploads'), public_path('public'), storage_path('app/public'), env('FILE_STORAGE_PATH')];
-        $extensions = empty($extensions) ? ['csv', 'txt', 'xls', 'xlsx'] : $extensions;
-        $files = ScanDir::scan($paths, $extensions, $recursive);
-        foreach (array_unique($files) as $file) {
-            if (file_exists($file)) {
-                unlink($file);
-            }
-        }
     }
 }
