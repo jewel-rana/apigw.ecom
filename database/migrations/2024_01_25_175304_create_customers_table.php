@@ -25,6 +25,7 @@ return new class extends Migration
                 'Pending', 'Active', 'Inactive'
             ])
                 ->default('Pending')->index();
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->index(['created_at', 'deleted_at']);

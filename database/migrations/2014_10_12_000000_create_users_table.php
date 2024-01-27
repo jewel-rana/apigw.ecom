@@ -24,6 +24,7 @@ return new class extends Migration
             $table->enum('type', ['customer', 'admin'])->default('customer');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
             $table->index(['created_at', 'deleted_at']);
         });
     }
