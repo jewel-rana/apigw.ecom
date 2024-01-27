@@ -14,7 +14,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['bail', 'required', 'email', 'exists:customers,email', new CustomerLoginRule()],
-            'password' => ['required', 'string']
+            'password' => ['bail', 'required', 'string']
         ];
     }
 
