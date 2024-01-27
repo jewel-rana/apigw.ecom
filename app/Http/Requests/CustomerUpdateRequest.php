@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CustomerCreateRequest extends FormRequest
+class CustomerUpdateRequest extends FormRequest
 {
     use FormValidationResponseTrait;
 

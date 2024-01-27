@@ -28,8 +28,7 @@ class CustomerService
     public function create($data)
     {
         try {
-            $user = $this->customerRepository->create($data);
-            $user->assignRole(Role::find($data['role_id']));
+            $this->customerRepository->create($data);
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
