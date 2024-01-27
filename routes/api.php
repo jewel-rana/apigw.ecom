@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -23,11 +24,14 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('verify', [AuthController::class, 'verify']);
     Route::post('register', [AuthController::class, 'register']);
-    Route::get('logout', [AuthController::class, 'logout'])
-        ->middleware('auth:api');
 
     Route::group(['prefix' => 'user'], function () {
         Route::post('login', [AuthUserController::class, 'login']);
+    });
+
+    Route::group(['middleware' => 'auth:api'], function() {
+        Route::get('logout', [AuthController::class, 'logout'])
+            ->middleware('auth:api');
     });
 });
 
@@ -36,4 +40,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('permission', PermissionController::class);
     Route::apiResource('user', UserController::class);
     Route::apiResource('customer', CustomerController::class);
+
+    Route::group(['prefix' => 'order'], function() {
+        Route::get('form', [OrderController::class, 'create']);
+    });
+    Route::apiResource('order', OrderController::class);
 });

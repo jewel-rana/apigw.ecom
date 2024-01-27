@@ -14,10 +14,14 @@ return new class extends Migration
         Schema::create('promotion_objective_params', function (Blueprint $table) {
             $table->id();
             $table->foreignId('promotion_objective_id')->constrained();
+            $table->enum('type', ['text', 'number', 'checkbox', 'radio', 'select', 'textarea'])->default('text');
             $table->string('key');
             $table->string('label');
             $table->string('placeholder')->nullable();
             $table->text('items');
+            $table->boolean('is_required')->default(1);
+            $table->integer('min_length')->default(2);
+            $table->integer('max_length')->default(32);
             $table->enum('status', ['Active', 'Inactive'])->index();
             $table->timestamps();
         });

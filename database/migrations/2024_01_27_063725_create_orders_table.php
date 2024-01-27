@@ -12,7 +12,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(1000001);
             $table->foreignId('customer_id')->constrained();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->uuid('invoice_no')->index();
