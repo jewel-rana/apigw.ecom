@@ -2,12 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Models\User;
+use App\Models\Customer;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 
 class CustomerRepository extends BaseRepository implements CustomerRepositoryInterface
 {
-    public function __construct(User $model)
+    public function __construct(Customer $model)
     {
         parent::__construct($model);
     }

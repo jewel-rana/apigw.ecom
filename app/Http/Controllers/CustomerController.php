@@ -6,26 +6,26 @@ use App\Constants\AuthConstant;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
-use App\Services\UserService;
+use App\Services\CustomerService;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    private UserService $userService;
+    private CustomerService $customerService;
 
-    public function __construct(UserService $userService)
+    public function __construct(CustomerService $customerService)
     {
-        $this->userService = $userService;
+        $this->customerService = $customerService;
     }
 
     public function index(Request $request)
     {
-        return response()->success($this->userService->all()->where('type', AuthConstant::TYPE_CUSTOMER)->values());
+        return $this->customerService->all($request);
     }
 
     public function store(UserCreateRequest $request)
     {
-        return $this->userService->create($request->validated());
+        return $this->customerService->create($request->validated());
     }
 
     public function show(User $user)
@@ -35,11 +35,11 @@ class CustomerController extends Controller
 
     public function update(UserUpdateRequest $request, string $id)
     {
-        return $this->userService->update($request->validated(), $id);
+        return $this->customerService->update($request->validated(), $id);
     }
 
     public function destroy(User $user)
     {
-        return $this->userService->delete($user);
+        return $this->customerService->delete($user);
     }
 }
