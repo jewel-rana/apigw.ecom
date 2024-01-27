@@ -14,12 +14,14 @@ class OrderCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'gender' => 'required|string|in:male,female,all',
-            'min_age' => 'required|integer|min:13|max:90',
-            'max_age' => 'required|integer|min:13|max:90',
+            'gender' => 'bail|required|string|in:male,female,both',
+            'min_age' => 'bail|required|integer|min:13|max:90',
+            'max_age' => 'bail|required|integer|min:13|max:90',
+            'location' => 'bail|required|in:All,all,divisions',
+            'divisions' => 'bail|required_if:location,divisions|array',
             'amount' => 'bail|required|integer|min:1000|max:100000',
             'promotion_period' => 'bail|required|integer|min:5|max:90',
-            'promotion_id' => ['required', 'integer', 'exists:promotions,id'],
+            'promotion_id' => ['bail', 'required', 'integer', 'exists:promotions,id'],
             'promotion_objective_id' => 'bail|required|integer|exists:promotion_objectives,id',
             'objectives' => 'bail|required|array'
         ];

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PromotionObjectiveParam extends Model
 {
     protected $attributes = [
-        'items' => ['']
+        'items' => []
     ];
 
     public function format(): array
