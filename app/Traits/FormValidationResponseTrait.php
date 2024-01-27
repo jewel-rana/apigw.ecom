@@ -14,6 +14,6 @@ trait FormValidationResponseTrait
             'message' => __('Validation failed'),
             'errors' => $validator->errors()
         ];
-        throw new HttpResponseException(response()->json($response, 200));
+        throw new HttpResponseException(response()->json($response, 422));
     }
 }
