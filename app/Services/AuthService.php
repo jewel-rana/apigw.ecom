@@ -28,11 +28,6 @@ class AuthService
     {
         try {
             $customer = Customer::where('email', $request->input('email'))->first();
-
-            if (!Hash::check($request->input('password'), $customer->password)) {
-                throw ValidationException::withMessages(['password' => __('Password does not match')]);
-            }
-
             return response()->success($customer->format() + [
                     'token' => $customer->createToken('authToken')->accessToken
                 ]);

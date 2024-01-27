@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CustomerLoginRule;
 use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -12,7 +13,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'exists:customers,email'],
+            'email' => ['required', 'email', 'exists:customers,email', new CustomerLoginRule()],
             'password' => ['required', 'string']
         ];
     }
