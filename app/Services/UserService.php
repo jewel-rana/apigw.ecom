@@ -4,11 +4,14 @@ namespace App\Services;
 
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\UserLoginRequest;
+use App\Models\Customer;
 use App\Models\Role;
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use Spatie\Permission\Models\Permission;
 
 class UserService
 {
@@ -61,6 +64,26 @@ class UserService
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'USER_DESTROY_EXCEPTION'
+            ]);
+            return response()->error(['message' => $exception->getMessage()]);
+        }
+    }
+
+
+    public function login(UserLoginRequest $request)
+    {
+        try {
+            $user = User::where('email', $request->input('email'))->first();
+            return response()->success($user->format() + [
+                    'token' => $user->createToken('authToken')->accessToken,
+                    'role' => $user->roles->first()->name ?? '',
+                    'permission' => $user->getAllPermissions()->map(function(Permission $permission) {
+                        return $permission->only(['id', 'name']);
+                    })
+                ]);
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'USER_LOGIN_EXCEPTION'
             ]);
             return response()->error(['message' => $exception->getMessage()]);
         }

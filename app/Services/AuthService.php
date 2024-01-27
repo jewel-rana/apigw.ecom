@@ -91,4 +91,14 @@ class AuthService
             return response()->success(['message' => $exception->getMessage()]);
         }
     }
+
+    public function logout($request)
+    {
+        try {
+            $request->user()->token()->revoke();
+            return response()->success();
+        } catch (\Exception $exception) {
+            return response()->error(['message' => $exception->getMessage()]);
+        }
+    }
 }

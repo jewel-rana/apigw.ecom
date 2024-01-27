@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\AuthConstant;
+use App\Helpers\CommonHelper;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
@@ -20,12 +21,10 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        return response()->success(
-            $this->userService->all()
-                ->where('type', AuthConstant::TYPE_ADMIN)
-                ->where('is_system', false)
-                ->values()
-        );
+        $users = User::where('is_system', false)
+                ->filter($request)
+            ->paginate($request->input('per_page', 10));
+        return response()->success(CommonHelper::parsePaginator($users));
     }
 
     public function store(UserCreateRequest $request)

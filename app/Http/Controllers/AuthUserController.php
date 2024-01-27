@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LoginVerifyRequest;
+use App\Http\Requests\UserLoginRequest;
 use App\Services\UserService;
 
 class AuthUserController extends Controller
@@ -15,7 +16,7 @@ class AuthUserController extends Controller
         $this->userService = $userService;
     }
 
-    public function login(LoginRequest $request)
+    public function login(UserLoginRequest $request)
     {
         return $this->userService->login($request);
     }

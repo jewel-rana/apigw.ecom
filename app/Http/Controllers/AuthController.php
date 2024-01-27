@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LoginVerifyRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -29,6 +30,11 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         return $this->authService->register($request);
+    }
+
+    public function logout(Request $request)
+    {
+        return $this->authService->logout($request);
     }
 
     public function resendOtp($reference)

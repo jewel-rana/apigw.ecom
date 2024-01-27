@@ -23,6 +23,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('verify', [AuthController::class, 'verify']);
     Route::post('register', [AuthController::class, 'register']);
+    Route::get('logout', [AuthController::class, 'logout'])
+        ->middleware('auth:api');
 
     Route::group(['prefix' => 'user'], function () {
         Route::post('login', [AuthUserController::class, 'login']);
