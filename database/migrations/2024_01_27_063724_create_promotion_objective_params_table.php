@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('key');
             $table->string('label');
             $table->string('placeholder')->nullable();
-            $table->json('items')->nullable();
+            $table->json('items');
             $table->enum('status', ['Active', 'Inactive'])->index();
             $table->timestamps();
         });
