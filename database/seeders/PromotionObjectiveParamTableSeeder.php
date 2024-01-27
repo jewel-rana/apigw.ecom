@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Promotion;
 use App\Models\PromotionObjective;
 use App\Models\PromotionObjectiveParam;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
 class PromotionObjectiveParamTableSeeder extends Seeder
@@ -15,10 +14,16 @@ class PromotionObjectiveParamTableSeeder extends Seeder
      */
     public function run(): void
     {
+        Model::unguard();
         PromotionObjective::all()
             ->each(function (PromotionObjective $promotionObjective) {
                 for ($i = 0; $i <= 2; $i++) {
-                    $promotionObjective->params()->save(new PromotionObjectiveParam(['key' => 'foo ' . $i, 'label' => 'Foo ' . $i]));
+                    PromotionObjectiveParam::create([
+                        'promotion_objective_id' => $promotionObjective->id,
+                        'key' => "foo {$i}",
+                        'label' => "Foo {$i}",
+                        'placeholder' => "Foo $i"
+                    ]);
                 }
             });
     }

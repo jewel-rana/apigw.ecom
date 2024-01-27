@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('key');
             $table->string('label');
             $table->string('placeholder')->nullable();
-            $table->text('items');
+            $table->text('items')->nullable();
             $table->boolean('is_required')->default(1);
             $table->integer('min_length')->default(2);
             $table->integer('max_length')->default(32);

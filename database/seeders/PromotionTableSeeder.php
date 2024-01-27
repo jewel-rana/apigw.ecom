@@ -15,7 +15,7 @@ class PromotionTableSeeder extends Seeder
     {
         $promotions = ['Facebook', 'Youtube', 'Google Adsense'];
         foreach ($promotions as $promotion) {
-            Promotion::create(['name' => $promotion]);
+            Promotion::create(['user_id' => 1, 'name' => $promotion]);
         }
     }
 }

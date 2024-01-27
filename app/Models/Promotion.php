@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Promotion extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'name'
+    ];
 
     public function objectives(): HasMany
     {
