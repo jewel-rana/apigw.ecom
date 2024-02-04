@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\AuthConstant;
 use App\Helpers\CommonHelper;
+use App\Http\Requests\UserActionRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
@@ -48,7 +49,7 @@ class UserController extends Controller
         return $this->userService->delete($user);
     }
 
-    public function action(Request $request, $id)
+    public function action(UserActionRequest $request, $id)
     {
         return $this->userService->userAction($request, $id);
     }
