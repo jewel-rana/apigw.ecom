@@ -25,6 +25,7 @@ return new class extends Migration
                 'Pending', 'Active', 'Inactive'
             ])
                 ->default('Pending')->index();
+            $table->text('remarks')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

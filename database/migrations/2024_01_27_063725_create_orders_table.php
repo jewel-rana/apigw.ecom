@@ -30,6 +30,7 @@ return new class extends Migration {
                     'Pending', 'Active', 'Completed', 'Cancelled', 'Hold'
                 ])
                 ->default('Pending')->index();
+            $table->text('remarks')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->index(['created_at', 'deleted_at']);

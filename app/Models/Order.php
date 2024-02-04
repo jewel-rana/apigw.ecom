@@ -23,7 +23,8 @@ class Order extends Model
         'divisions',
         'status',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'remarks'
     ];
 
     protected $casts = [

@@ -23,7 +23,8 @@ class Customer extends Authenticatable
         'email',
         'password',
         'status',
-        'is_system'
+        'is_system',
+        'remarks'
     ];
 
     protected $hidden = [
