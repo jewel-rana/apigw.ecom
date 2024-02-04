@@ -23,10 +23,6 @@ class CustomerLoginRule implements ValidationRule
                     $fail(__('Your account is ' . $customer->status));
                 }
 
-                if (is_null($customer->email_verified_at)) {
-                    $fail(__('Your account is not verified'));
-                }
-
                 if (!Hash::check(request()->input('password'), $customer->password)) {
                     $fail(__('Password does not match'));
                 }
