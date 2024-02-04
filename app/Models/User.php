@@ -33,23 +33,31 @@ use Illuminate\Notifications\Notifiable;
     ];
 
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'datetime:d/m/Y h:i a',
         'password' => 'hashed',
     ];
+
+     public function createdBy(): BelongsTo
+     {
+         return $this->belongsTo(User::class, 'created_by', 'id');
+     }
+
+     public function updatedBy(): BelongsTo
+     {
+         return $this->belongsTo(User::class, 'updated_by', 'id');
+     }
 
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
-    public function getStatusAttribute($value): string
-    {
-        return $value ? 'Active' : 'Inactive';
-    }
-
     public function format(): array
     {
-        return $this->only(['id', 'name', 'mobile', 'email', 'status']);
+        return $this->only(['id', 'name', 'mobile', 'email', 'status', 'created_at', 'updated_at']) +
+            [
+                'created_by' => $this->createdBy->only(['id', 'name', 'email'])
+            ];
     }
 
      public function scopeFilter($query, $request)

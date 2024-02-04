@@ -14,7 +14,8 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id()->startingValue(1000001);
             $table->foreignId('customer_id')->constrained();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('created_by')->nullable()->constrained('users', 'id');
+            $table->foreignId('updated_by')->nullable()->constrained('users', 'id');
             $table->uuid('invoice_no')->index();
             $table->foreignId('promotion_id')->constrained();
             $table->foreignId('promotion_objective_id')->constrained();
