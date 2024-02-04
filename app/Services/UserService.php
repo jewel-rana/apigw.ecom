@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Constants\AppConstant;
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
 use App\Http\Requests\LoginRequest;
@@ -11,6 +12,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 
 class UserService
@@ -86,6 +88,21 @@ class UserService
                 'keyword' => 'USER_LOGIN_EXCEPTION'
             ]);
             return response()->error(['message' => $exception->getMessage()]);
+        }
+    }
+
+    public function userAction($request, $id)
+    {
+        try {
+            $this->userRepository->update(['status', $request->input('action')], $id);
+            if($request->input('action') != 'active') {
+                DB::table('oauth_tokens')->where('id', $id)->update(['revoked' => 1]);
+            }
+            return response()->success();
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'USER_ACTION_EXCEPTION'
+            ]);
         }
     }
 }

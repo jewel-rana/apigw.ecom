@@ -36,6 +36,10 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'user'], function () {
+        Route::post('action', [UserController::class, 'action']);
+    });
+
     Route::apiResource('role', RoleController::class);
     Route::apiResource('permission', PermissionController::class);
     Route::apiResource('user', UserController::class);
