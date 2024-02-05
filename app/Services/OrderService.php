@@ -58,9 +58,21 @@ class OrderService
                 ->paginate($request->integer('per_page', 10));
             return response()->success(CommonHelper::parsePaginator($orders));
         } catch (\Exception $exception) {
-            dd($exception);
             LogHelper::exception($exception, [
-                'keyword' => 'ORDER_LIST_EXCEPTION'
+                'keyword' => 'ORDER_CREATE_EXCEPTION'
+            ]);
+            return response()->error(['message' => $exception->getMessage()]);
+        }
+    }
+
+    public function update(array $data, $id)
+    {
+        try {
+            $this->orderRepository->update($data, $id);
+            return response()->success();
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'ORDER_UPDATE_EXCEPTION'
             ]);
             return response()->error(['message' => $exception->getMessage()]);
         }

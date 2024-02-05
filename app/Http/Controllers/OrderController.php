@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\LogHelper;
 use App\Http\Requests\OrderCreateRequest;
+use App\Http\Requests\OrderUpdateRequest;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 
@@ -42,9 +42,9 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(OrderUpdateRequest $request, int $id)
     {
-        //
+        return $this->orderService->update($request->validated(), $id);
     }
 
     /**
