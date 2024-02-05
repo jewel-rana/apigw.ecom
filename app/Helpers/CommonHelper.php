@@ -16,7 +16,7 @@ class CommonHelper
             'current_page' => $collections->currentPage(),
             'last_page' => $collections->lastPage(),
             'total' => $collections->total(),
-            'data' => collect($collections->items())->map(function(Order $item) {
+            'data' => collect($collections->items())->map(function($item) {
                 return $item->format();
             })
         ];

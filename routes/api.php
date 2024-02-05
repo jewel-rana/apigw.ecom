@@ -37,7 +37,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'user'], function () {
-        Route::post('action/{id}', [UserController::class, 'action']);
+        Route::post('{id}/action', [UserController::class, 'action']);
     });
 
     Route::apiResource('role', RoleController::class);

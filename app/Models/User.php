@@ -81,4 +81,9 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         return $query;
     }
+
+    public static function boot()
+    {
+        parent::boot();
+    }
 }
