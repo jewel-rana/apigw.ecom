@@ -34,8 +34,15 @@ class OrderService
     public function create(array $data)
     {
         try {
-            $order = $this->orderRepository->create($data);
-            $order->attributes()->saveMany($data['objectives']);
+            $order = $this->orderRepository->create($data + [
+                    'customer_id' => $data['customer_id'] ?? 1
+                ]);
+//            foreach($data['objectives'] as $objective) {
+//                foreach($objective as $key => $value) {
+//                    $order->attributes()->save(['key' => $key, 'value' => $value]);
+//                }
+//            }
+            return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'ORDER_CREATE_EXCEPTION'

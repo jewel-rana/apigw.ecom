@@ -14,6 +14,7 @@ class OrderCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'customer_id' => 'nullable|integer|exists:customers,id',
             'gender' => 'bail|required|string|in:male,female,both',
             'min_age' => 'bail|required|integer|min:13|max:90',
             'max_age' => 'bail|required|integer|min:13|max:90',

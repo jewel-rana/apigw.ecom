@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Order;
 use App\Models\Otp;
 
 class CommonHelper
@@ -15,7 +16,7 @@ class CommonHelper
             'current_page' => $collections->currentPage(),
             'last_page' => $collections->lastPage(),
             'total' => $collections->total(),
-            'data' => collect($collections->items())->each(function($item, $key) {
+            'data' => collect($collections->items())->map(function(Order $item) {
                 return $item->format();
             })
         ];

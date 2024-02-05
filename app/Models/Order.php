@@ -4,14 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
+        'customer_id',
         'promotion_id',
         'promotion_objective_id',
         'promotion_period',
@@ -28,16 +31,16 @@ class Order extends Model
     ];
 
     protected $casts = [
-//        'divisions' => 'array'
+        'divisions' => 'array'
     ];
 
     protected $hidden = [
         'deleted_at'
     ];
 
-    protected $attributes = [
-//        'divisions' => []
-    ];
+//    protected $attributes = [
+//        'divisions' => ''
+//    ];
 
     public function createdBy(): BelongsTo
     {
@@ -47,6 +50,11 @@ class Order extends Model
     public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    public function attributes(): HasMany
+    {
+        return $this->hasMany(OrderAttribute::class);
     }
 
     public function scopeFilter($query, Request $request)
@@ -75,5 +83,26 @@ class Order extends Model
             });
         }
         return $query;
+    }
+
+    public function format(): array
+    {
+        return $this->only(['id', 'invoice_no', 'promotion_period', 'amount', 'location', 'divisions', 'gender', 'min_age', 'max_age', 'status', 'remarks']) +
+            [
+                'created_by' => $this->createdBy,
+                'updated_by' => $this->updatedBy,
+//                'objectives' => $this->attributes->map(function(OrderAttribute $orderAttribute) {
+//                    return $orderAttribute->only(['key', 'value']);
+//                })
+            ];
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function(Order $order) {
+            $order->divisions = json_encode($order->divisions);
+            $order->invoice_no = Str::random(16);
+        });
     }
 }
