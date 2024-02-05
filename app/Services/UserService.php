@@ -26,7 +26,9 @@ class UserService
 
     public function all(Request $request)
     {
-        $users = User::filter($request)->paginate($request->input('per_page', 10));
+        $users = User::filter($request)
+            ->latest()
+            ->paginate($request->input('per_page', 10));
         return response()->success(CommonHelper::parsePaginator($users));
     }
 

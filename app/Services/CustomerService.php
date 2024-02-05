@@ -21,7 +21,9 @@ class CustomerService
 
     public function all(Request $request)
     {
-        $customers = Customer::filter($request)->paginate($request->input('per_page', 10));
+        $customers = Customer::filter($request)
+            ->latest()
+            ->paginate($request->input('per_page', 10));
         return response()->success(CommonHelper::parsePaginator($customers));
     }
 
