@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->float('amount', 12, 2)->default(0);
             $table->string('location')->default('all');
             $table->text('divisions');
+            $table->string('gender')->nullable();
             $table->integer('min_age')->default(13);
             $table->integer('max_age')->default(65);
             $table->enum('status',

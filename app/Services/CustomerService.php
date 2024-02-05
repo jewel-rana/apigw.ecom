@@ -41,8 +41,7 @@ class CustomerService
     public function update($data, $id)
     {
         try {
-            $user = $this->customerRepository->update($data, $id);
-            $user->syncRoles(Role::find($data['role_id']));
+            $this->customerRepository->update($data, $id);
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [

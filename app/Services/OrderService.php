@@ -51,6 +51,7 @@ class OrderService
                 ->paginate($request->integer('per_page', 10));
             return response()->success(CommonHelper::parsePaginator($orders));
         } catch (\Exception $exception) {
+            dd($exception);
             LogHelper::exception($exception, [
                 'keyword' => 'ORDER_LIST_EXCEPTION'
             ]);

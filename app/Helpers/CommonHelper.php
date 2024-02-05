@@ -15,7 +15,7 @@ class CommonHelper
             'current_page' => $collections->currentPage(),
             'last_page' => $collections->lastPage(),
             'total' => $collections->total(),
-            'data' => $collections->items()->each(function($item, $key) {
+            'data' => collect($collections->items())->each(function($item, $key) {
                 return $item->format();
             })
         ];

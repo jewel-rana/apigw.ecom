@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomerUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Models\Customer;
 use App\Models\User;
 use App\Services\CustomerService;
 use Illuminate\Http\Request;
@@ -27,12 +29,12 @@ class CustomerController extends Controller
         return $this->customerService->create($request->validated());
     }
 
-    public function show(User $user)
+    public function show(Customer $customer)
     {
-        return response()->success($user->format());
+        return response()->success($customer->format());
     }
 
-    public function update(UserUpdateRequest $request, string $id)
+    public function update(CustomerUpdateRequest $request, string $id)
     {
         return $this->customerService->update($request->validated(), $id);
     }

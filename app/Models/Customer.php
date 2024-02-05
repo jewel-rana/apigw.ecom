@@ -41,12 +41,12 @@ class Customer extends Authenticatable
 
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id')->select('id', 'name', 'email');
     }
 
     public function updatedBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'updated_by', 'id');
+        return $this->belongsTo(User::class, 'updated_by', 'id')->select('id', 'name', 'email');
     }
 
     public function scopeFilter($query, $request)
@@ -79,10 +79,10 @@ class Customer extends Authenticatable
 
     public function format(): array
     {
-        return $this->only(['id', 'name', 'mobile', 'email', 'gender', 'address', 'status', 'created_at', 'updated_at']) +
+        return $this->only(['id', 'name', 'mobile', 'email', 'gender', 'address', 'status', 'created_at', 'updated_at', 'remarks']) +
             [
-                'created_by' => $this->createdBy->name ?? 'Self',
-                'updated_by' => $this->updatedBy->name ?? 'Self',
+                'created_by' => $this->createdBy,
+                'updated_by' => $this->updatedBy,
             ];
     }
 

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('address')->nullable();
             $table->string('email')->unique();
-            $table->string('mobile')->unique();
+            $table->string('mobile')->nullable()->index();
             $table->string('password');
             $table->string('gender')->nullable();
             $table->enum('status', [

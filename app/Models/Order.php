@@ -28,7 +28,7 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'divisions' => 'array'
+//        'divisions' => 'array'
     ];
 
     protected $hidden = [
@@ -36,7 +36,7 @@ class Order extends Model
     ];
 
     protected $attributes = [
-        'divisions' => []
+//        'divisions' => []
     ];
 
     public function createdBy(): BelongsTo
