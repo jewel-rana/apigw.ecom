@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('order_attributes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_id')->constrained();
+            $table->string('key');
+            $table->text('value');
             $table->timestamps();
         });
     }

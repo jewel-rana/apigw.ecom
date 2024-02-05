@@ -2,10 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderAttribute extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'key',
+        'value'
+    ];
+
+    protected $hidden = [
+        'order_id',
+        'created_at',
+        'updated_at'
+    ];
 }

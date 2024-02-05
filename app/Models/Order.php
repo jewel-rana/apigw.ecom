@@ -52,7 +52,7 @@ class Order extends Model
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
-    public function attributes(): HasMany
+    public function objectives(): HasMany
     {
         return $this->hasMany(OrderAttribute::class);
     }
@@ -91,9 +91,9 @@ class Order extends Model
             [
                 'created_by' => $this->createdBy,
                 'updated_by' => $this->updatedBy,
-//                'objectives' => $this->attributes->map(function(OrderAttribute $orderAttribute) {
-//                    return $orderAttribute->only(['key', 'value']);
-//                })
+                'objectives' => $this->objectives->map(function(OrderAttribute $item) {
+                    return $item->only(['key', 'value']);
+                })
             ];
     }
 

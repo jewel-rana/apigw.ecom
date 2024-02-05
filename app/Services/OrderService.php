@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
 use App\Models\Order;
+use App\Models\OrderAttribute;
 use App\Models\Promotion;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
 use Illuminate\Http\Request;
@@ -37,11 +38,11 @@ class OrderService
             $order = $this->orderRepository->create($data + [
                     'customer_id' => $data['customer_id'] ?? 1
                 ]);
-//            foreach($data['objectives'] as $objective) {
-//                foreach($objective as $key => $value) {
-//                    $order->attributes()->save(['key' => $key, 'value' => $value]);
-//                }
-//            }
+            foreach($data['objectives'] as $objective) {
+                foreach($objective as $key => $value) {
+                    $order->objectives()->save(new OrderAttribute(['key' => $key, 'value' => $value]));
+                }
+            }
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
