@@ -21,7 +21,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'status',
         'type',
-        'is_system'
+        'is_system',
+        'remarks'
     ];
 
     protected $hidden = [
@@ -49,7 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function format(): array
     {
-        return $this->only(['id', 'name', 'mobile', 'email', 'status', 'created_at', 'updated_at']) +
+        return $this->only(['id', 'name', 'mobile', 'email', 'status', 'remarks', 'created_at', 'updated_at']) +
             [
                 'type' => 'user',
                 'created_by' => $this->createdBy,

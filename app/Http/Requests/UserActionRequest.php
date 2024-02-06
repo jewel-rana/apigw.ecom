@@ -14,7 +14,8 @@ class UserActionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'action' => 'required|in:Active,Inactive'
+            'action' => 'required|in:Active,Inactive',
+            'remarks' => 'required|string'
         ];
     }
 }
