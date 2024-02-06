@@ -81,6 +81,7 @@ class Customer extends Authenticatable
     {
         return $this->only(['id', 'name', 'mobile', 'email', 'gender', 'address', 'status', 'created_at', 'updated_at', 'remarks']) +
             [
+                'type' => 'customer',
                 'created_by' => $this->createdBy,
                 'updated_by' => $this->updatedBy,
             ];

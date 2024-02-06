@@ -2,12 +2,9 @@
 
 namespace App\Services;
 
-use App\Constants\AppConstant;
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
-use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UserLoginRequest;
-use App\Models\Customer;
 use App\Models\Role;
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
@@ -79,9 +76,10 @@ class UserService
         try {
             $user = User::where('email', $request->input('email'))->first();
             return response()->success($user->format() + [
+                    'type' => 'user',
                     'token' => $user->createToken('authToken')->accessToken,
                     'role' => $user->roles->first()->name ?? '',
-                    'permission' => $user->getAllPermissions()->map(function(Permission $permission) {
+                    'permission' => $user->getAllPermissions()->map(function (Permission $permission) {
                         return $permission->only(['id', 'name']);
                     })
                 ]);
@@ -97,7 +95,7 @@ class UserService
     {
         try {
             $this->userRepository->update(['status' => $request->input('action')], $id);
-            if($request->input('action') != 'Active') {
+            if ($request->input('action') != 'Active') {
                 DB::table('oauth_access_tokens')->where('id', $id)->update(['revoked' => 1]);
             }
             return response()->success();
