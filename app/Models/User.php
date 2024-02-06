@@ -86,5 +86,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function boot()
     {
         parent::boot();
+
+        static::creating(function (User $user) {
+            $user->created_by =  auth()->user()->id ?? 1;
+        });
+
+        static::updating(function (User $user) {
+            $user->updated_by =  auth()->user()->id ?? 1;
+        });
     }
 }

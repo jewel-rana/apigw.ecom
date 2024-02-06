@@ -95,5 +95,9 @@ class Customer extends Authenticatable
             $customer->email_verified_at = now();
             $customer->status = AuthConstant::STATUS_ACTIVE;
         });
+
+        static::updating(function(Customer $customer) {
+            $customer->updated_by = auth()->user()->id ?? 1;
+        });
     }
 }
