@@ -94,7 +94,7 @@ class UserService
     public function userAction($request, $id)
     {
         try {
-            $this->userRepository->update(['status' => $request->input('action')], $id);
+            $this->userRepository->update($request->validated() + ['status' => $request->input('action')], $id);
             if ($request->input('action') != 'Active') {
                 DB::table('oauth_access_tokens')->where('id', $id)->update(['revoked' => 1]);
             }

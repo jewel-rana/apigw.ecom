@@ -15,7 +15,7 @@ class UserActionRequest extends FormRequest
     {
         return [
             'action' => 'required|in:Active,Inactive',
-            'remarks' => 'required|string'
+            'remarks' => 'required|string|min:5|max:250'
         ];
     }
 }
