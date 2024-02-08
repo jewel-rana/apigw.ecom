@@ -24,7 +24,7 @@ class UserController extends Controller
     {
         $users = User::where('is_system', false)
                 ->filter($request)
-            ->orderBy('created_at', $request->order ? 'ASC' : 'DESC')
+            ->orderBy('created_at', $request->order ??'DESC')
             ->paginate($request->input('per_page', 10));
         return response()->success(CommonHelper::parsePaginator($users));
     }

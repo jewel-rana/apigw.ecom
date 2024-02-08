@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -63,15 +64,18 @@ class User extends Authenticatable implements MustVerifyEmail
         if ($request->filled('from')) {
             $query->where('created_at', '>=', $request->input('form') . ' 00:00:00');
         }
+
         if ($request->filled('to')) {
             $query->where('created_at', '<=', $request->input('to') . ' 00:00:00');
         }
+
         if ($request->filled('email')) {
             $query->where('email', '=', $request->input('email'));
         }
         if ($request->filled('mobile')) {
-            $query->where('mobile', '=', $request->input('mobile'));
+            $query->where('mobile', 'like', "%" . $request->input('mobile') . "%");
         }
+
         if ($request->filled('status') && in_array(strtolower($request->input('status')), ['active', 'inactive'])) {
             $query->where('status', '=', ucfirst($request->input('status')));
         }
