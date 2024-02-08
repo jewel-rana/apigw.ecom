@@ -108,10 +108,10 @@ class AuthService
     public function forgot(ForgotPasswordRequest $request)
     {
         try {
-            $customer = $this->customerRepository->getModel()
-                ->where('email', $request->input('email'))
-                ->first();
-            return response()->success([]);
+            $otp = CommonHelper::createOtp(['email' => $request->input('email')]);
+            return response()->success([
+                'reference' => $otp->reference
+            ]);
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'FORGOT_PASSWORD_EXCEPTION'
@@ -123,20 +123,18 @@ class AuthService
     public function resetPassword(ResetPasswordRequest $request)
     {
         try {
-//            $otp = Otp::where('email', $request->input('email'))->where('code', $request->input('otp'))->first();
-//            if(!$otp || now()->addMinutes(5)->lt($otp->created_at)) {
-//                return response()->error('Sorry! otp does not match or expired');
-//            }
-
-            if($request->input('otp') == '123456') {
+            $otp = Otp::where('reference', $request->input('reference'))->first();
+            if(!$otp || now()->addMinutes(5)->lt($otp->created_at)) {
                 return response()->error('Sorry! otp does not match or expired');
             }
 
             $this->customerRepository->getModel()
                 ->where('email', $request->input('email'))
-                ->update(['passport' => Hash::make($request->input('password'))]);
+                ->update(['password' => Hash::make($request->input('password'))]);
+            $otp->delete();
             return response()->success();
         } catch (\Exception $exception) {
+            dd('test');
             LogHelper::exception($exception, [
                 'keyword' => 'PASSWORD_RESET_EXCEPTION'
             ]);
