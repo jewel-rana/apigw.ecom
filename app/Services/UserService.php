@@ -70,7 +70,6 @@ class UserService
         }
     }
 
-
     public function login(UserLoginRequest $request)
     {
         try {

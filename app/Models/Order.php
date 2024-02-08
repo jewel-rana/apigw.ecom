@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\CommonHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -59,30 +60,7 @@ class Order extends Model
 
     public function scopeFilter($query, Request $request)
     {
-        if ($request->filled('from')) {
-            $query->where('created_at', '>=', $request->input('form') . ' 00:00:00');
-        }
-        if ($request->filled('to')) {
-            $query->where('created_at', '<=', $request->input('to') . ' 00:00:00');
-        }
-        if ($request->filled('email')) {
-            $query->where('email', '=', $request->input('email'));
-        }
-        if ($request->filled('mobile')) {
-            $query->where('mobile', '=', $request->input('mobile'));
-        }
-        if ($request->filled('status') && in_array(strtolower($request->input('status')), ['pending', 'active', 'inactive'])) {
-            $query->where('status', '=', ucfirst($request->input('status')));
-        }
-        if ($request->filled('created_by')) {
-            $query->where('created_by', '=', $request->input('created_by'));
-        }
-        if ($request->filled('keyword')) {
-            $query->where(function ($query) use ($request) {
-                $query->where('name', 'like', $request->input('keyword') . "%");
-            });
-        }
-        return $query;
+        return CommonHelper::filterModel($query, $request);
     }
 
     public function format(): array
