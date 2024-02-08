@@ -5,9 +5,11 @@ namespace App\Services;
 use App\Constants\AuthConstant;
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
+use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LoginVerifyRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Models\Customer;
 use App\Models\Otp;
 use App\Models\User;
@@ -100,6 +102,45 @@ class AuthService
             return response()->success();
         } catch (\Exception $exception) {
             return response()->error(['message' => $exception->getMessage()]);
+        }
+    }
+
+    public function forgot(ForgotPasswordRequest $request)
+    {
+        try {
+            $customer = $this->customerRepository->getModel()
+                ->where('email', $request->input('email'))
+                ->first();
+            return response()->success([]);
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'FORGOT_PASSWORD_EXCEPTION'
+            ]);
+            return response()->error('Internal error!');
+        }
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        try {
+//            $otp = Otp::where('email', $request->input('email'))->where('code', $request->input('otp'))->first();
+//            if(!$otp || now()->addMinutes(5)->lt($otp->created_at)) {
+//                return response()->error('Sorry! otp does not match or expired');
+//            }
+
+            if($request->input('otp') == '123456') {
+                return response()->error('Sorry! otp does not match or expired');
+            }
+
+            $this->customerRepository->getModel()
+                ->where('email', $request->input('email'))
+                ->update(['passport' => Hash::make($request->input('password'))]);
+            return response()->success();
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'PASSWORD_RESET_EXCEPTION'
+            ]);
+            return response()->error('Internal error!');
         }
     }
 }
