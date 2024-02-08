@@ -91,7 +91,7 @@ class AuthService
             LogHelper::exception($exception, [
                 'keyword' => 'CUSTOMER_REGISTER_EXCEPTION'
             ]);
-            return response()->success(['message' => $exception->getMessage()]);
+            return response()->error(['message' => 'Internal error!']);
         }
     }
 
