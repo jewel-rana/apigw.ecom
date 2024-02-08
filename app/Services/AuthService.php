@@ -134,7 +134,6 @@ class AuthService
             $otp->delete();
             return response()->success();
         } catch (\Exception $exception) {
-            dd('test');
             LogHelper::exception($exception, [
                 'keyword' => 'PASSWORD_RESET_EXCEPTION'
             ]);
