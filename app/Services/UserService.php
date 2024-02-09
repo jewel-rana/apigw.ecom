@@ -36,7 +36,7 @@ class UserService
     public function create($data)
     {
         try {
-            $user = $this->userRepository->create($data);
+            $user = $this->userRepository->create($data + ['email_verified_at' => now()]);
             $user->assignRole(Role::find($data['role_id']));
             return response()->success();
         } catch (\Exception $exception) {
