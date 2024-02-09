@@ -20,7 +20,8 @@ class UserUpdateRequest extends FormRequest
             'password' => 'nullable|string|min:6|max:18|same:password_confirm',
             'gender' => 'nullable|string|in:male,female',
             'role_id' => 'required|integer|exists:roles,id',
-            'remarks' => 'nullable|string'
+            'remarks' => 'nullable|string',
+            'status' => 'required|in:Active,Inactive'
         ];
     }
 }
