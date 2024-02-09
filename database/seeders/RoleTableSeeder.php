@@ -11,11 +11,12 @@ class RoleTableSeeder extends Seeder
     {
         $roles = [
         	'admin',
-            'customer'
+            'manager',
+            'moderator'
         ];
 
-        foreach ($roles as $role) {
-             Role::create(['name' => $role, 'guard_name' => 'web']);
+        foreach ($roles as $role_name) {
+             Role::create(['name' => $role_name, 'guard_name' => 'web']);
         }
     }
 }
