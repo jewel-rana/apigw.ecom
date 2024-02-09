@@ -8,7 +8,7 @@ class UserUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return auth()->check() && $this->user != auth()->user()->id;
     }
 
     public function rules(): array

@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Order;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class OrderExport implements FromQuery, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
+class CustomerExport implements FromQuery, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
 {
     use Exportable;
 
@@ -25,29 +25,23 @@ class OrderExport implements FromQuery, WithMapping, WithHeadings, WithStyles, S
 
     public function query()
     {
-        return Order::filter($this->request);
+        return Customer::filter($this->request);
     }
 
-    public function map($order): array
+    public function map($customer): array
     {
         return [
-            $order->id,
-            $order->invoice_no,
-            $order->customer->name,
-            $order->promotion->name,
-            $order->promotionObjective->name,
-            $order->promotion_period,
-            $order->amount,
-            $order->divisions ?? $order->location,
-            $order->gender,
-            $order->min_age,
-            $order->max_age,
-            $order->status,
-            $order->remarks ?? 'N/A',
-            $order->created_at,
-            $order->updated_at,
-            $order->createdBy->name ?? 'Self',
-            $order->updatedBy->name ?? '---'
+            $customer->id,
+            $customer->name,
+            $customer->email,
+            $customer->mobile,
+            $customer->gender,
+            $customer->status,
+            $customer->remarks ?? 'N/A',
+            $customer->created_at,
+            $customer->updated_at,
+            $customer->createdBy->name ?? 'Self',
+            $customer->updatedBy->name ?? '---'
         ];
     }
 
@@ -55,16 +49,10 @@ class OrderExport implements FromQuery, WithMapping, WithHeadings, WithStyles, S
     {
         return [
             'ID#',
-            'Invoice#',
-            'Customer Name',
-            'Promotion',
-            'Promotion Objective',
-            'Promotion Period',
-            'Amount',
-            'Divisions',
+            'Name',
+            'Email',
+            'Mobile',
             'Gender',
-            'Min Age',
-            'Max Age',
             'Status',
             'Remarks',
             'Created At',

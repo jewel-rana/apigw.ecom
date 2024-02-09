@@ -47,6 +47,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('role', RoleController::class);
     Route::apiResource('permission', PermissionController::class);
     Route::apiResource('user', UserController::class);
+
+    Route::group(['prefix' => 'customer'], function() {
+        Route::get('export', [CustomerController::class, 'export']);
+    });
     Route::apiResource('customer', CustomerController::class);
 
     Route::group(['prefix' => 'order'], function() {

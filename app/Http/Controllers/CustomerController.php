@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OrderExport;
 use App\Http\Requests\CustomerUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\Customer;
@@ -42,5 +43,11 @@ class CustomerController extends Controller
     public function destroy(User $user)
     {
         return $this->customerService->delete($user);
+    }
+
+    public function export(Request $request)
+    {
+//        return (new OrderExport($request))->raw(Excel::XLSX);
+        return (new OrderExport($request))->download('order.xlsx');
     }
 }
