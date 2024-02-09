@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Order;
 use App\Models\Otp;
+use App\Notifications\OtpNotification;
 
 class CommonHelper
 {
@@ -24,11 +25,13 @@ class CommonHelper
 
     public static function createOtp($data)
     {
-        return Otp::updateOrCreate($data,
+        $otp = Otp::updateOrCreate($data,
             [
                 'code' => self::generateOtp(),
             ]
         );
+        auth()->user()->notify(new OtpNotification($otp));
+        return $otp;
     }
 
     public static function generateOtp(): int
