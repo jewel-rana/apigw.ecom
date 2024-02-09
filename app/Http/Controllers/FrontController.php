@@ -12,9 +12,4 @@ class FrontController extends Controller
     {
         return view('welcome');
     }
-
-    public function download(Request $request): BinaryFileResponse
-    {
-        return (new OrderExport($request))->download('order.xlsx');
-    }
 }

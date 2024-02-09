@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OrderExport;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class OrderController extends Controller
 {
@@ -53,5 +56,11 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function export(Request $request)
+    {
+        return (new OrderExport($request))->raw(Excel::XLSX);
+//        return (new OrderExport($request))->download('order.xlsx');
     }
 }

@@ -20,6 +20,6 @@ class OrderExport implements FromQuery
 
     public function query()
     {
-        return Order::filter($this->request)->query();
+        return Order::filter($this->request);
     }
 }
