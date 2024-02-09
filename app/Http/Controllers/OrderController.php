@@ -60,7 +60,7 @@ class OrderController extends Controller
 
     public function export(Request $request)
     {
-        return (new OrderExport($request))->raw(Excel::XLSX);
-//        return (new OrderExport($request))->download('order.xlsx');
+//        return (new OrderExport($request))->raw(Excel::XLSX);
+        return (new OrderExport($request))->download('order.xlsx');
     }
 }

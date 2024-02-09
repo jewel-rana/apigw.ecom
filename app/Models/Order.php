@@ -43,6 +43,21 @@ class Order extends Model
 //        'divisions' => ''
 //    ];
 
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class)->select('id', 'name', 'email');
+    }
+
+    public function promotion(): BelongsTo
+    {
+        return $this->belongsTo(Promotion::class);
+    }
+
+    public function promotionObjective(): BelongsTo
+    {
+        return $this->belongsTo(PromotionObjective::class);
+    }
+
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
