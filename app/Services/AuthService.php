@@ -131,7 +131,7 @@ class AuthService
             $this->customerRepository->getModel()
                 ->where('email', $request->input('email'))
                 ->update(['password' => Hash::make($request->input('password'))]);
-            $otp->delete();
+            $otp->update(['code' => mt_rand(111111,999999)]);
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [

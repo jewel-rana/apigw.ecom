@@ -4,12 +4,16 @@ namespace App\Services;
 
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
+use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UserLoginRequest;
+use App\Models\Otp;
 use App\Models\Role;
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 
 class UserService
@@ -102,6 +106,42 @@ class UserService
             LogHelper::exception($exception, [
                 'keyword' => 'USER_ACTION_EXCEPTION'
             ]);
+        }
+    }
+
+    public function forgot(ForgotPasswordRequest $request)
+    {
+        try {
+            $otp = CommonHelper::createOtp(['email' => $request->input('email')]);
+            return response()->success([
+                'reference' => $otp->reference
+            ]);
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'FORGOT_PASSWORD_EXCEPTION'
+            ]);
+            return response()->error('Internal error!');
+        }
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        try {
+            $otp = Otp::where('reference', $request->input('reference'))->first();
+            if(!$otp || now()->addMinutes(5)->lt($otp->created_at)) {
+                return response()->error('Sorry! otp does not match or expired');
+            }
+
+            $this->userRepository->getModel()
+                ->where('email', $request->input('email'))
+                ->update(['password' => Hash::make($request->input('password'))]);
+            $otp->update(['code' => mt_rand(111111,999999)]);
+            return response()->success();
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'PASSWORD_RESET_EXCEPTION'
+            ]);
+            return response()->error('Internal error!');
         }
     }
 }
