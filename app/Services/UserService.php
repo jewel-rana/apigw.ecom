@@ -135,7 +135,7 @@ class UserService
             $this->userRepository->getModel()
                 ->where('email', $request->input('email'))
                 ->update(['password' => Hash::make($request->input('password'))]);
-            $otp->update(['code' => mt_rand(111111,999999)]);
+            $otp->delete();
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
