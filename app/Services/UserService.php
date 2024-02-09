@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
-use App\Http\Requests\ForgotPasswordRequest;
-use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Requests\UserForgotPasswordRequest;
 use App\Http\Requests\UserLoginRequest;
+use App\Http\Requests\UserResetPasswordRequest;
 use App\Models\Otp;
 use App\Models\Role;
 use App\Models\User;
@@ -109,7 +109,7 @@ class UserService
         }
     }
 
-    public function forgot(ForgotPasswordRequest $request)
+    public function forgot(UserForgotPasswordRequest $request)
     {
         try {
             $otp = CommonHelper::createOtp(['email' => $request->input('email')]);
@@ -124,7 +124,7 @@ class UserService
         }
     }
 
-    public function resetPassword(ResetPasswordRequest $request)
+    public function resetPassword(UserResetPasswordRequest $request)
     {
         try {
             $otp = Otp::where('reference', $request->input('reference'))->first();
