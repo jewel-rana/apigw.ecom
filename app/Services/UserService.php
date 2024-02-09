@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UserForgotPasswordRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserResetPasswordRequest;
@@ -113,7 +114,7 @@ class UserService
     public function forgot(UserForgotPasswordRequest $request)
     {
         try {
-            $otp = CommonHelper::createOtp(['email' => $request->input('email')]);
+            $otp = CommonHelper::createOtp(['email' => $request->input('email'), 'type' => 'user.login']);
             User::where('email', $request->input('email'))->first()
                 ->notify(new OtpNotification($otp));
             return response()->success([
@@ -130,7 +131,7 @@ class UserService
     public function resetPassword(UserResetPasswordRequest $request)
     {
         try {
-            $otp = Otp::where('reference', $request->input('reference'))->first();
+            $otp = Otp::where(['reference' => $request->input('reference'), 'type' => 'user.login'])->first();
             if(!$otp || now()->addMinutes(5)->lt($otp->created_at)) {
                 return response()->error('Sorry! otp does not match or expired');
             }
@@ -143,6 +144,19 @@ class UserService
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'PASSWORD_RESET_EXCEPTION'
+            ]);
+            return response()->error('Internal error!');
+        }
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        try {
+            $request->user()->update(['password' => Hash::make($request->input('password'))]);
+            return response()->success();
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'USER_PASSWORD_CHANGE_EXCEPTION'
             ]);
             return response()->error('Internal error!');
         }

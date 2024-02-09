@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LoginVerifyRequest;
@@ -52,5 +53,10 @@ class AuthController extends Controller
     public function resetPassword(ResetPasswordRequest $request)
     {
         return $this->authService->resetPassword($request);
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        return $this->authService->changePassword($request);
     }
 }

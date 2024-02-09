@@ -26,11 +26,15 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('forgot', [AuthController::class, 'forgot']);
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
+    Route::post('change-password', [AuthController::class, 'changePassword'])
+        ->middleware('auth:api');
 
     Route::group(['prefix' => 'user'], function () {
         Route::post('login', [AuthUserController::class, 'login']);
         Route::post('forgot', [AuthUserController::class, 'forgot']);
         Route::post('reset-password', [AuthUserController::class, 'resetPassword']);
+        Route::post('change-password', [AuthUserController::class, 'changePassword'])
+            ->middleware('auth:api');
     });
 
     Route::group(['middleware' => 'auth:api'], function() {

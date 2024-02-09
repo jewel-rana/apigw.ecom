@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Constants\AuthConstant;
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LoginVerifyRequest;
@@ -110,7 +111,7 @@ class AuthService
     {
         try {
             $otp = CommonHelper::createOtp(['email' => $request->input('email')]);
-            Customer::where('email', $request->input('email'))->first()
+            Customer::where(['email' => $request->input('email'), 'type' => 'login'])->first()
                 ->notify(new OtpNotification($otp));
             return response()->success([
                 'reference' => $otp->reference
@@ -139,6 +140,19 @@ class AuthService
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'PASSWORD_RESET_EXCEPTION'
+            ]);
+            return response()->error('Internal error!');
+        }
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        try {
+            $request->user()->update(['password' => Hash::make($request->input('password'))]);
+            return response()->success();
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'PASSWORD_CHANGE_EXCEPTION'
             ]);
             return response()->error('Internal error!');
         }

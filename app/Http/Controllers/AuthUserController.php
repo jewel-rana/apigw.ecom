@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\LoginVerifyRequest;
-use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UserForgotPasswordRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserResetPasswordRequest;
@@ -37,5 +36,10 @@ class AuthUserController extends Controller
     public function resetPassword(UserResetPasswordRequest $request)
     {
         return $this->userService->resetPassword($request);
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        return $this->userService->changePassword($request);
     }
 }
