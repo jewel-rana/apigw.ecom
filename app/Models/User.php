@@ -55,6 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->only(['id', 'name', 'mobile', 'email', 'status', 'remarks', 'created_at', 'updated_at']) +
             [
                 'type' => 'user',
+                'role' => $this->roles->first()->only(['id', 'name']),
                 'created_by' => $this->createdBy,
                 'updated_by' => $this->updatedBy
             ];
