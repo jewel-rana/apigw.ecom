@@ -66,7 +66,7 @@ class CommonHelper
             $query->where('created_at', '>=', $request->input('form') . ' 00:00:00');
         }
         if ($request->filled('to')) {
-            $query->where('created_at', '<=', $request->input('to') . ' 00:00:00');
+            $query->where('created_at', '<=', $request->input('to') . ' 23:59:59');
         }
         if ($request->filled('email')) {
             $query->where('email', '=', $request->input('email'));
