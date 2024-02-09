@@ -25,13 +25,11 @@ class CommonHelper
 
     public static function createOtp($data)
     {
-        $otp = Otp::updateOrCreate($data,
+        return Otp::updateOrCreate($data,
             [
                 'code' => self::generateOtp(),
             ]
         );
-        auth()->user()->notify(new OtpNotification($otp));
-        return $otp;
     }
 
     public static function generateOtp(): int

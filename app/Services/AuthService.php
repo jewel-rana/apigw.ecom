@@ -13,6 +13,7 @@ use App\Http\Requests\ResetPasswordRequest;
 use App\Models\Customer;
 use App\Models\Otp;
 use App\Models\User;
+use App\Notifications\OtpNotification;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -109,6 +110,8 @@ class AuthService
     {
         try {
             $otp = CommonHelper::createOtp(['email' => $request->input('email')]);
+            Customer::where('email', $request->input('email'))->first()
+                ->notify(new OtpNotification($otp));
             return response()->success([
                 'reference' => $otp->reference
             ]);

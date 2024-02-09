@@ -10,6 +10,7 @@ use App\Http\Requests\UserResetPasswordRequest;
 use App\Models\Otp;
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\OtpNotification;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -113,6 +114,8 @@ class UserService
     {
         try {
             $otp = CommonHelper::createOtp(['email' => $request->input('email')]);
+            User::where('email', $request->input('email'))->first()
+                ->notify(new OtpNotification($otp));
             return response()->success([
                 'reference' => $otp->reference
             ]);
