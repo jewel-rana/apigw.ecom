@@ -43,7 +43,7 @@ class CustomerService
     public function update($data, $id)
     {
         try {
-            $this->customerRepository->update($data, $id);
+            $this->customerRepository->update(array_filter($data), $id);
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
