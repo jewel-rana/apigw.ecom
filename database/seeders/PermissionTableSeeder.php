@@ -11,32 +11,23 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'administrator-list',
-            'administrator-create',
-            'administrator-edit',
-            'administrator-show',
-            'administrator-delete',
+            'user-list',
+            'user-create',
+            'user-edit',
+            'user-show',
+            'user-delete',
             'role-list',
             'role-create',
             'role-edit',
             'role-delete',
-            'permission-list',
-            'permission-create',
-            'permission-edit',
-            'permission-show',
-            'permission-delete',
-            'provider-list',
-            'provider-create',
-            'provider-update',
-            'provider-delete',
-            'vendor-list',
-            'vendor-create',
-            'vendor-update',
-            'vendor-delete',
-            'bundle-list',
-            'bundle-create',
-            'bundle-update',
-            'bundle-delete'
+            'customer-list',
+            'customer-create',
+            'customer-update',
+            'customer-delete',
+            'order-list',
+            'order-create',
+            'order-update',
+            'order-delete'
         ];
 
         $role = Role::where('name', 'admin')->first();

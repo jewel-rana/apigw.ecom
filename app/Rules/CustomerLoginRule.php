@@ -16,7 +16,7 @@ class CustomerLoginRule implements ValidationRule
             $customer = Customer::where('email', $value)->first();
 
             if(is_null($customer)) {
-                $fail(__('No account associate with this email'));
+                $fail('email', __( 'No account associate with this email'));
             } else {
 
                 if ($customer->status != AuthConstant::STATUS_ACTIVE) {
@@ -24,7 +24,7 @@ class CustomerLoginRule implements ValidationRule
                 }
 
                 if (!Hash::check(request()->input('password'), $customer->password)) {
-                    $fail(__('Password does not match'));
+                    $fail('password', __('Password does not match'));
                 }
             }
         } catch (\Exception $exception) {

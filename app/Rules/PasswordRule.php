@@ -14,10 +14,10 @@ class PasswordRule implements ValidationRule
             $user = request()->user();
             if(request()->filled('old_password')) {
                 if(request()->input('old_password') == request()->input('password')) {
-                    $fail('Password could not be same with old password');
+                    $fail('password', 'Password could not be same with old password');
                 }
                 if (!Hash::check(request()->input('old_password'), $user->password)) {
-                    $fail('Old password does not match');
+                    $fail('old_password', 'Old password does not match');
                 }
             }
         }
