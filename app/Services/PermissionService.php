@@ -22,4 +22,15 @@ class PermissionService
             return $this->permissionRepository->all();
         });
     }
+
+    public function format(): array
+    {
+        $array = [];
+        $permissions = $this->all();
+        foreach ($permissions as $q) {
+            $param = explode('-', $q->name);
+            $array[$param[0]][] = $q;
+        }
+        return $array;
+    }
 }
