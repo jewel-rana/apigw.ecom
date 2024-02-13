@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OrderCreateRequest extends FormRequest
 {
+    use FormValidationResponseTrait;
     public function authorize(): bool
     {
         return true;

@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserUpdateRequest extends FormRequest
 {
+    use FormValidationResponseTrait;
+
     public function authorize(): bool
     {
         return auth()->check() && $this->user != auth()->user()->id;

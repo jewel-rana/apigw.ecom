@@ -3,10 +3,12 @@
 namespace App\Http\Requests;
 
 use App\Rules\PasswordRule;
+use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ChangePasswordRequest extends FormRequest
 {
+    use FormValidationResponseTrait;
     public function authorize(): bool
     {
         return true;
