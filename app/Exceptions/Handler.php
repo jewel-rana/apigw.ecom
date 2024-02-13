@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -23,8 +24,14 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->reportable(function (Throwable $exception) {
+            if ($exception instanceof AccessDeniedException) {
+                return response()->json([
+                    'message' => 'your error message'
+                ],401);
+            }
+
+            return parent::render($request, $exception);
         });
     }
 }

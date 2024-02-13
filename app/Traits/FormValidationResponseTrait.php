@@ -16,4 +16,13 @@ trait FormValidationResponseTrait
         ];
         throw new HttpResponseException(response()->json($response, 422));
     }
+
+    protected function failedAuthorization()
+    {
+        $response = [
+            'status' => false,
+            'message' => __('This action is unauthorized!')
+        ];
+        throw new HttpResponseException(response()->json($response, 403));
+    }
 }
