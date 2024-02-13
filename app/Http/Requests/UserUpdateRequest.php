@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\CommonHelper;
 use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,7 +12,7 @@ class UserUpdateRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return auth()->check() && $this->user != auth()->user()->id;
+        return CommonHelper::hasPermission(['user-create']) && $this->user != auth()->user()->id;
     }
 
     public function rules(): array

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\CommonHelper;
 use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,7 +12,7 @@ class UserActionRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return auth()->check();
+        return CommonHelper::hasPermission(['user-action']);
     }
 
     public function rules(): array

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\CommonHelper;
 use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,7 +12,7 @@ class RoleCreateRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return true;
+        return CommonHelper::hasPermission(['role-create']);
     }
 
     public function rules(): array
