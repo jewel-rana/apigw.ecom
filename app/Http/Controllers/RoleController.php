@@ -20,6 +20,11 @@ class RoleController extends Controller
         $this->permissionService = $permissionService;
     }
 
+    public function callAction($method, $parameters)
+    {
+        $this->authorize($method);
+    }
+
     public function index(Request $request)
     {
         return response()->success($this->roleService->all($request)

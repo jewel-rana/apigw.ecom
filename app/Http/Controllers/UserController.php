@@ -20,9 +20,13 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
+    public function callAction($method, $parameters)
+    {
+        $this->authorize($method);
+    }
+
     public function index(Request $request)
     {
-        $this->authorize('list');
         $users = User::where('is_system', false)
                 ->filter($request)
             ->orderBy('created_at', $request->order ??'DESC')
@@ -47,7 +51,6 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        $this->authorize('list');
         return $this->userService->delete($user);
     }
 

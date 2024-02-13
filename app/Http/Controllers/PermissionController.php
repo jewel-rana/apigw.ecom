@@ -14,6 +14,11 @@ class PermissionController extends Controller
         $this->permissionService = $permissionService;
     }
 
+    public function callAction($method, $parameters)
+    {
+        $this->authorize($method);
+    }
+
     public function index()
     {
         return response()->success($this->permissionService->format());

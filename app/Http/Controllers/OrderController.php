@@ -19,6 +19,11 @@ class OrderController extends Controller
         $this->orderService = $orderService;
     }
 
+    public function callAction($method, $parameters)
+    {
+        $this->authorize($method);
+    }
+
     public function index(Request $request)
     {
         return $this->orderService->getOrders($request);
