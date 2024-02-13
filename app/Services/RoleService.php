@@ -24,10 +24,10 @@ class RoleService
         });
     }
 
-    public function create($data)
+    public function create($data, $id)
     {
         try {
-            $this->roleRepository->create($data);
+            $this->roleRepository->update($data, $id);
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
