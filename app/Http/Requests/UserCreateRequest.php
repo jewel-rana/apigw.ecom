@@ -12,7 +12,7 @@ class UserCreateRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return CommonHelper::hasPermission(['user-create']);
+        return CommonHelper::hasPermission('user-create');
     }
 
     public function rules(): array

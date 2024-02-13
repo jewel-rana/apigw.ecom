@@ -12,7 +12,7 @@ class UpdatePromotionRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return CommonHelper::hasPermission(['promotion-update']);
+        return CommonHelper::hasPermission('promotion-update');
     }
 
     public function rules(): array

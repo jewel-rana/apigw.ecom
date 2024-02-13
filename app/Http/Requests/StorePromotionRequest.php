@@ -12,7 +12,7 @@ class StorePromotionRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return CommonHelper::hasPermission(['promotion-create']);
+        return CommonHelper::hasPermission('promotion-create');
     }
 
     public function rules(): array

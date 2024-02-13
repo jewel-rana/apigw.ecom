@@ -12,7 +12,7 @@ class RoleCreateRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return CommonHelper::hasPermission(['role-create']);
+        return CommonHelper::hasPermission('role-create');
     }
 
     public function rules(): array

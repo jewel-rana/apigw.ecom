@@ -8,9 +8,9 @@ use App\Notifications\OtpNotification;
 
 class CommonHelper
 {
-    public static function hasPermission(array $permissions = []): bool
+    public static function hasPermission(string $permission): bool
     {
-        return auth()->check() && (auth()->user()->can($permissions));
+        return auth()->check() && (auth()->user()->tokenCan($permission));
     }
 
     public static function parsePaginator($collections = null): array
