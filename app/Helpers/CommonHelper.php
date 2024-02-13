@@ -11,7 +11,7 @@ class CommonHelper
     public static function hasPermission(array $permissions = []): bool
     {
         $user = auth()->user();
-        return auth()->check() && ($user->can($permissions));
+        return auth()->check() && ($user->can($permissions) || $user->hasRole('admin'));
     }
 
     public static function parsePaginator($collections = null): array

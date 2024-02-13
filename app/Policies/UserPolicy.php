@@ -13,7 +13,7 @@ class UserPolicy
         $this->authorize = auth()->check();
     }
 
-    public function index(): bool
+    public function list(): bool
     {
         return $this->authorize && CommonHelper::hasPermission(['user-list']);
     }

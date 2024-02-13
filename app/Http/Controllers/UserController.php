@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $this->authorize('index');
+        $this->authorize('list');
         $users = User::where('is_system', false)
                 ->filter($request)
             ->orderBy('created_at', $request->order ??'DESC')
@@ -47,6 +47,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        $this->authorize('list');
         return $this->userService->delete($user);
     }
 
