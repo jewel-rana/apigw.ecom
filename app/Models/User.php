@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Helpers\CommonHelper;
+use App\Services\PermissionService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -60,6 +62,13 @@ class User extends Authenticatable implements MustVerifyEmail
                 'created_by' => $this->createdBy,
                 'updated_by' => $this->updatedBy
             ];
+    }
+
+    public function getPermissions(): array
+    {
+        return $this->hasRole('admin') ?
+            app(PermissionService::class)->all()->pluck('name')->toArray() :
+            $this->getAllPermissions()->pluck('name')->toArray();
     }
 
     public function scopeFilter($query, $request)

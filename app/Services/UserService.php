@@ -82,7 +82,7 @@ class UserService
             $user = User::where('email', $request->input('email'))->first();
             return response()->success($user->format() + [
                     'type' => 'user',
-                    'token' => $user->createToken('authToken')->accessToken,
+                    'token' => $user->createToken('authToken', $user->getPermissions())->accessToken,
                     'role' => $user->roles->first()->name ?? '',
                     'permission' => $user->getAllPermissions()->map(function (Permission $permission) {
                         return $permission->only(['id', 'name']);
