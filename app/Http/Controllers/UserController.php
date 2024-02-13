@@ -22,6 +22,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('index');
         $users = User::where('is_system', false)
                 ->filter($request)
             ->orderBy('created_at', $request->order ??'DESC')

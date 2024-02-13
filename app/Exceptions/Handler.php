@@ -2,8 +2,10 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -25,13 +27,20 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $exception) {
-            if ($exception instanceof AccessDeniedException) {
-                return response()->json([
-                    'message' => 'your error message'
-                ],401);
-            }
+            //
+        });
 
-            return parent::render($request, $exception);
+        $this->renderable(function (AccessDeniedHttpException $e, $request) {
+            $previous = $e->getPrevious();
+
+            if ($previous instanceof AuthorizationException) {
+                $response = [
+                    'status' => false,
+                    'message' => __('This action is unauthorized!')
+                ];
+                throw new HttpResponseException(response()->json($response, 403));
+            }
+            return null;
         });
     }
 }
