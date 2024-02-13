@@ -13,28 +13,28 @@ class UserPolicy
         $this->authorize = auth()->check();
     }
 
-    public function list(): bool
+    public function index(): bool
     {
-        return $this->authorize && CommonHelper::hasPermission(['user-list']);
+        return CommonHelper::hasPermission('user-list');
     }
 
     public function show(): bool
     {
-        return $this->authorize && CommonHelper::hasPermission(['user-show']);
+        return $this->authorize && CommonHelper::hasPermission('user-show');
     }
 
     public function create(): bool
     {
-        return $this->authorize && CommonHelper::hasPermission(['user-create']);
+        return $this->authorize && CommonHelper::hasPermission('user-create');
     }
 
     public function update(): bool
     {
-        return $this->authorize && CommonHelper::hasPermission(['user-update']);
+        return $this->authorize && CommonHelper::hasPermission('user-update');
     }
 
     public function destroy(): bool
     {
-        return $this->authorize && CommonHelper::hasPermission(['user-delete']);
+        return $this->authorize && CommonHelper::hasPermission('user-delete');
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -22,7 +23,9 @@ class UserController extends Controller
 
     public function callAction($method, $parameters)
     {
-        $this->authorize($method);
+        if($this->authorize($method, User::class)) {
+            return parent::callAction($method, $parameters);
+        }
     }
 
     public function index(Request $request)
