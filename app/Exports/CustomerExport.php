@@ -25,7 +25,7 @@ class CustomerExport implements FromQuery, WithMapping, WithHeadings, WithStyles
 
     public function query()
     {
-        return Customer::filter($this->request);
+        return Customer::query()->filter($this->request);
     }
 
     public function map($customer): array

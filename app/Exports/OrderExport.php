@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class OrderExport implements FromQuery, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
+class OrderExport implements FromQuery, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
 {
     use Exportable;
 
@@ -25,7 +25,7 @@ class OrderExport implements FromQuery, WithMapping, WithHeadings, WithStyles, S
 
     public function query()
     {
-        return Order::filter($this->request);
+        return Order::query()->filter($this->request);
     }
 
     public function map($order): array
@@ -54,8 +54,8 @@ class OrderExport implements FromQuery, WithMapping, WithHeadings, WithStyles, S
     public function headings(): array
     {
         return [
-            'ID#',
-            'Invoice#',
+            'ID',
+            'Invoice No',
             'Customer Name',
             'Promotion',
             'Promotion Objective',
