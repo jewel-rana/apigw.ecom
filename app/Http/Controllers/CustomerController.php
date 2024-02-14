@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CustomerExport;
 use App\Exports\OrderExport;
 use App\Http\Requests\CustomerUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
@@ -10,6 +11,7 @@ use App\Models\User;
 use App\Services\CustomerService;
 use Illuminate\Http\Request;
 use App\Http\Requests\CustomerCreateRequest;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class CustomerController extends Controller
 {
@@ -45,9 +47,8 @@ class CustomerController extends Controller
         return $this->customerService->delete($user);
     }
 
-    public function export(Request $request)
+    public function export(Request $request): BinaryFileResponse
     {
-//        return (new OrderExport($request))->raw(Excel::XLSX);
-        return (new OrderExport($request))->download('order.xlsx');
+        return (new CustomerExport($request))->download('customers.xlsx');
     }
 }

@@ -63,9 +63,8 @@ class OrderController extends Controller
         //
     }
 
-    public function export(Request $request)
+    public function export(Request $request): BinaryFileResponse
     {
-//        return (new OrderExport($request))->raw(Excel::XLSX);
         return (new OrderExport($request))->download('order.xlsx');
     }
 }
