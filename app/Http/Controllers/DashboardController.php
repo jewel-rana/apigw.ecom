@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Services\CustomerService;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -37,25 +38,30 @@ class DashboardController extends Controller
         ];
     }
 
-    private function getOrderStats(Request $request)
+    private function getOrderStats(Request $request): array
     {
-        return Order::select(DB::raw('count(*) as total, status'))->groupBy('status')
-            ->get()
-            ->map(function (Order $order) {
-                return [
-                    $order->status => $order->total
-                ];
-            });
+        return Cache::remember('order_stats', 30*60, function() {
+            $array = ['active' => 0, 'inactive' => 0, 'pending' => 0];
+            Order::select(DB::raw('count(*) as total, status'))->groupBy('status')
+                ->get()
+                ->each(function ($order, $key) use (&$array) {
+                    $array[strtolower($order->status)] = $order->total;
+                });
+            return $array;
+        });
     }
 
-    private function getCustomerStats(Request $request)
+    private function getCustomerStats(Request $request): array
     {
-        return Customer::select(DB::raw('count(*) as total, status'))->groupBy('status')
-            ->get()
-            ->map(function (Customer $customer) {
-                return [
-                    $customer->status => $customer->total
-                ];
-            });
+        return Cache::remember('customer_stats', 30*60, function() {
+            $array = ['active' => 0, 'inactive' => 0, 'pending' => 0];
+            Customer::select(DB::raw('count(*) as total, status'))->groupBy('status')
+                ->get()
+                ->each(function ($customer, $key) use (&$array) {
+                    $array[strtolower($customer->status)] = $customer->total;
+                });
+
+            return $array;
+        });
     }
 }
