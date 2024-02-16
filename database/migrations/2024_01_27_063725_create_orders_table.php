@@ -17,8 +17,8 @@ return new class extends Migration {
             $table->foreignId('created_by')->nullable()->constrained('users', 'id');
             $table->foreignId('updated_by')->nullable()->constrained('users', 'id');
             $table->uuid('invoice_no')->index();
-            $table->foreignId('promotion_id')->constrained();
-            $table->foreignId('promotion_objective_id')->constrained();
+            $table->string('promotion');
+            $table->string('promotion_objective');
             $table->integer('promotion_period')->default(AuthConstant::DEFAULT_PROMOTION_PERIOD);
             $table->float('amount', 12, 2)->default(0);
             $table->string('location')->default('all');
