@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\CustomerExport;
-use App\Exports\OrderExport;
 use App\Http\Requests\CustomerUpdateRequest;
-use App\Http\Requests\UserUpdateRequest;
 use App\Models\Customer;
 use App\Models\User;
 use App\Services\CustomerService;

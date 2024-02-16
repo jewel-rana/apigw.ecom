@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -44,6 +45,7 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('dashboard', [DashboardController::class, 'index']);
     Route::group(['prefix' => 'user'], function () {
         Route::post('{id}/action', [UserController::class, 'action']);
     });
