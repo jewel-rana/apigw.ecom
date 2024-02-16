@@ -17,15 +17,15 @@ class OrderCreateRequest extends FormRequest
     {
         return [
             'customer_id' => 'nullable|integer|exists:customers,id',
-            'gender' => 'bail|required|string|in:male,female,both',
+            'gender' => 'bail|required|string',
             'min_age' => 'bail|required|integer|min:13|max:90',
             'max_age' => 'bail|required|integer|min:13|max:90',
             'location' => 'bail|nullable|in:All,all,divisions',
             'divisions' => 'bail|required|array',
             'amount' => 'bail|required|integer|min:1000|max:100000',
             'promotion_period' => 'bail|required|integer|min:5|max:90',
-            'promotion' => ['bail', 'required', 'string', 'exists:promotions,id'],
-            'promotion_objective' => 'bail|required|string|exists:promotion_objectives,id',
+            'promotion' => ['bail', 'required', 'string'],
+            'promotion_objective' => 'bail|required|string',
             'objectives' => 'bail|required|array',
             'promotion_start_date' => 'bail|nullable',
             'promotion_end_date' => 'bail|nullable'
