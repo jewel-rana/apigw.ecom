@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Exports\OrderExport;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
+use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class OrderController extends Controller
@@ -21,7 +21,9 @@ class OrderController extends Controller
 
     public function callAction($method, $parameters)
     {
-        $this->authorize($method);
+        if($this->authorize($method, Order::class)) {
+            return parent::callAction($method, $parameters);
+        }
     }
 
     public function index(Request $request)
