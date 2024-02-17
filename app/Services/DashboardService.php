@@ -40,8 +40,8 @@ class DashboardService
         $customers = $this->getYearlyCustomers();
         foreach ($customers as $customer) {
             $month = date('F', strtotime('Y-' . $customer->month . '-d'));
-            $data[$month][strtolower($customer->status)] = (int) $customer->total;
-            $data[$month]['total'] += (int) $customer->total;
+            $data[$month][strtolower($customer->status)] = (int)$customer->total;
+            $data[$month]['total'] += (int)$customer->total;
         }
 
         return $data;
@@ -93,28 +93,28 @@ class DashboardService
 
     public function getOrderStats(Request $request): array
     {
-//        return Cache::remember('order_stats', 30*60, function() {
-        $array = ['active' => 0, 'inactive' => 0, 'pending' => 0, 'completed' => 0, 'cancelled' => 0, 'hold' => 0];
-        Order::select(DB::raw('count(*) as total, status'))->groupBy('status')
-            ->get()
-            ->each(function ($order, $key) use (&$array) {
-                $array[strtolower($order->status)] = $order->total;
-            });
-        return $array;
-//        });
+        return Cache::remember('order_stats', 30 * 60, function () {
+            $array = ['active' => 0, 'inactive' => 0, 'pending' => 0, 'completed' => 0, 'cancelled' => 0, 'hold' => 0];
+            Order::select(DB::raw('count(*) as total, status'))->groupBy('status')
+                ->get()
+                ->each(function ($order, $key) use (&$array) {
+                    $array[strtolower($order->status)] = $order->total;
+                });
+            return $array;
+        });
     }
 
     public function getCustomerStats(Request $request): array
     {
-//        return Cache::remember('customer_stats', 30*60, function() {
-        $array = ['active' => 0, 'inactive' => 0, 'pending' => 0];
-        Customer::select(DB::raw('count(*) as total, status'))->groupBy('status')
-            ->get()
-            ->each(function ($customer, $key) use (&$array) {
-                $array[strtolower($customer->status)] = $customer->total;
-            });
+        return Cache::remember('customer_stats', 30 * 60, function () {
+            $array = ['active' => 0, 'inactive' => 0, 'pending' => 0];
+            Customer::select(DB::raw('count(*) as total, status'))->groupBy('status')
+                ->get()
+                ->each(function ($customer, $key) use (&$array) {
+                    $array[strtolower($customer->status)] = $customer->total;
+                });
 
-        return $array;
-//        });
+            return $array;
+        });
     }
 }
