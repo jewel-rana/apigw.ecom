@@ -22,7 +22,7 @@ class DashboardService
         $data = $this->getLabels();
         $orders = $this->getYearlyOrders();
         foreach($orders as $order) {
-            $month = date('F-Y', strtotime('Y-' . $order->month . '-d'));
+            $month = date('F', strtotime('Y-' . $order->month . '-d'));
             $data[$month][strtolower($order->status)] = (int) $order->total;
             $data[$month]['total'] += (int) $order->total;
         }
