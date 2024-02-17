@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Permission;
+use App\Models\Role;
 use App\Services\PermissionService;
 
 class PermissionController extends Controller
@@ -14,13 +15,15 @@ class PermissionController extends Controller
         $this->permissionService = $permissionService;
     }
 
-    public function callAction($method, $parameters)
-    {
-        $this->authorize($method);
-    }
-
     public function index()
     {
         return response()->success($this->permissionService->format());
+    }
+
+    public function callAction($method, $parameters)
+    {
+        if($this->authorize($method, Permission::class)) {
+            return parent::callAction($method, $parameters);
+        }
     }
 }
