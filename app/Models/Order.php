@@ -70,7 +70,7 @@ class Order extends Model
 
     public function format(): array
     {
-        return $this->only(['id', 'invoice_no', 'promotion_period', 'amount', 'location', 'divisions', 'gender', 'min_age', 'max_age', 'status', 'remarks']) +
+        return $this->only(['id', 'invoice_no', 'promotion', 'promotion_objective', 'promotion_period', 'amount', 'location', 'divisions', 'gender', 'min_age', 'max_age', 'status', 'remarks']) +
             [
                 'created_by' => $this->createdBy,
                 'updated_by' => $this->updatedBy,

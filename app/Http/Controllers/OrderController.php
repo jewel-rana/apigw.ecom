@@ -19,13 +19,6 @@ class OrderController extends Controller
         $this->orderService = $orderService;
     }
 
-    public function callAction($method, $parameters)
-    {
-        if($this->authorize($method, Order::class)) {
-            return parent::callAction($method, $parameters);
-        }
-    }
-
     public function index(Request $request)
     {
         return $this->orderService->getOrders($request);
@@ -68,5 +61,12 @@ class OrderController extends Controller
     public function export(Request $request): BinaryFileResponse
     {
         return (new OrderExport($request))->download('order.xlsx');
+    }
+
+    public function callAction($method, $parameters)
+    {
+        if($this->authorize($method, Order::class)) {
+            return parent::callAction($method, $parameters);
+        }
     }
 }
