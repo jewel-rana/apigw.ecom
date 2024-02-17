@@ -62,7 +62,7 @@ class DashboardService
 
     public function getOrderStats(Request $request): array
     {
-        return Cache::remember('order_stats', 30*60, function() {
+//        return Cache::remember('order_stats', 30*60, function() {
             $array = ['active' => 0, 'inactive' => 0, 'pending' => 0, 'completed' => 0, 'cancelled' => 0, 'hold' => 0];
             Order::select(DB::raw('count(*) as total, status'))->groupBy('status')
                 ->get()
@@ -70,7 +70,7 @@ class DashboardService
                     $array[strtolower($order->status)] = $order->total;
                 });
             return $array;
-        });
+//        });
     }
 
     public function getCustomerStats(Request $request): array
