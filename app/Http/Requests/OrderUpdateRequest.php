@@ -26,7 +26,7 @@ class OrderUpdateRequest extends FormRequest
             'promotion_period' => 'bail|required|integer|min:5|max:90',
             'promotion' => ['bail', 'required', 'string'],
             'promotion_objective' => 'bail|required|string',
-            'objectives' => 'bail|required|array',
+            'objectives' => 'bail|nullable|array',
             'promotion_start_date' => 'bail|nullable',
             'promotion_end_date' => 'bail|nullable'
         ];

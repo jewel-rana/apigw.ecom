@@ -5,43 +5,54 @@ namespace App\Services;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class DashboardService
 {
+    private int $year;
+    private Carbon $startOfYear;
+    private Carbon $endOfYear;
     public function getLastSevenDaysStats(Request $request): array
     {
+        $this->year = $request->input('year', now()->format('Y'));
+        $this->startOfYear = Carbon::createFromFormat('Y-m-d', date($this->year . '-m-d'))->startOfYear();
+        $this->endOfYear = ($this->year == now()->format('Y')) ? now()->endOfDay() : $this->startOfYear->endOfYear();
         $data = $this->getLabels();
-        $orders = $this->getLastSevenDaysOrders(9);
+        $orders = $this->getYearlyOrders();
         foreach($orders as $order) {
-            $data[$order->date][strtolower($order->status)] = (int) $order->total;
+            $data[$order->month][strtolower($order->status)] = (int) $order->total;
+            $data[$order->month]['total'] += (int) $order->total;
         }
 
         return $data;
     }
 
-    private function getLastSevenDaysOrders($days)
+    private function getYearlyOrders()
     {
-//        return Cache::remember('last_ten_days_card_purchases', 3600, function() use ($days) {
-            return Order::select(DB::raw("DATE(created_at) as date, SUM(amount) as total, status"))
-                ->whereBetween('created_at', [now()->subDays($days)->format('Y-m-d 00:00:00'), now()->subDay()->format('Y-m-d 23:59:59')])
-                ->groupBy('date', 'status')
+        $key = 'yearly_orders_' . $this->year;
+        return Cache::remember($key, 3600, function() {
+            return Order::select(DB::raw("MONTH(created_at) as month, SUM(amount) as total, status"))
+                ->whereBetween('created_at', [$this->startOfYear->toString(), $this->endOfYear->toString()])
+                ->groupBy('month', 'status')
                 ->get();
-//        });
+        });
     }
 
     private function getLabels(): array
     {
+        $max = ($this->year == now()->format('Y')) ? now()->subMonth()->format('m') : 11;
         $data = [];
-        for($i = 7; $i > 0;) {
-            $data[now()->subDays($i)->format('Y-m-d')] = [
+        for($i = $max; $i >= 0;) {
+            $data[now()->subMonths($i)->format('F-Y')] = [
                 'active' => 0,
                 'pending' => 0,
                 'inactive' => 0,
                 'completed' => 0,
                 'cancelled' => 0,
-                'refunded' => 0
+                'refunded' => 0,
+                'total' => 0
             ];
             $i--;
         }
