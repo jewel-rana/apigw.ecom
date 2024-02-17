@@ -35,7 +35,7 @@ class DashboardService
 //        return Cache::remember($key, 3600, function() {
             dd(Order::query()
                 ->select(DB::raw("MONTH(created_at) as month, SUM(amount) as total, status"))
-//                ->whereBetween('created_at', [$this->startOfYear->toString(), $this->endOfYear->toString()])
+                ->whereBetween('created_at', [$this->startOfYear->toString(), $this->endOfYear->toString()])
                 ->groupBy('month', 'status')
                 ->get());
 //        });
