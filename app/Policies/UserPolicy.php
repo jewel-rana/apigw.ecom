@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Helpers\CommonHelper;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserPolicy
 {
@@ -21,7 +23,12 @@ class UserPolicy
         return CommonHelper::hasPermission('user-create');
     }
 
-    public function update(): bool
+    public function store(): bool
+    {
+        return CommonHelper::isHierarchyOk() && CommonHelper::hasPermission('user-create');
+    }
+
+    public function update(Request $request, User $user): bool
     {
         return CommonHelper::hasPermission('user-update');
     }

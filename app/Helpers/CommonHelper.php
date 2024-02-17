@@ -8,6 +8,14 @@ use App\Notifications\OtpNotification;
 
 class CommonHelper
 {
+    public static function isHierarchyOk(): bool
+    {
+        $userRole = request()->user()->roles->first()->id;
+        return match ($userRole) {
+            1 => true,
+            default => request()->input('role_id') > 2
+        };
+    }
     public static function hasPermission(string $permission): bool
     {
         return auth()->check() && (auth()->user()->tokenCan($permission));
