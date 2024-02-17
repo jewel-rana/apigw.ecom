@@ -75,7 +75,7 @@ class DashboardService
 
     public function getCustomerStats(Request $request): array
     {
-        return Cache::remember('customer_stats', 30*60, function() {
+//        return Cache::remember('customer_stats', 30*60, function() {
             $array = ['active' => 0, 'inactive' => 0, 'pending' => 0];
             Customer::select(DB::raw('count(*) as total, status'))->groupBy('status')
                 ->get()
@@ -84,6 +84,6 @@ class DashboardService
                 });
 
             return $array;
-        });
+//        });
     }
 }
