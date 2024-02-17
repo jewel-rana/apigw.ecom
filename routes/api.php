@@ -5,10 +5,10 @@ use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,14 +38,19 @@ Route::group(['prefix' => 'auth'], function () {
             ->middleware('auth:api');
     });
 
-    Route::group(['middleware' => 'auth:api'], function() {
+    Route::group(['middleware' => 'auth:api'], function () {
         Route::get('logout', [AuthController::class, 'logout'])
             ->middleware('auth:api');
     });
 });
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('dashboard', [DashboardController::class, 'index']);
+    Route::group(['prefix' => 'dashboard'], function () {
+        Route::get('/', [DashboardController::class, 'index']);
+        Route::get('orders', [DashboardController::class, 'orderGraphs']);
+        Route::get('customers', [DashboardController::class, 'customerGraphs']);
+    });
+
     Route::group(['prefix' => 'user'], function () {
         Route::post('{id}/action', [UserController::class, 'action']);
     });
@@ -54,12 +59,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('permission', PermissionController::class);
     Route::apiResource('user', UserController::class);
 
-    Route::group(['prefix' => 'customer'], function() {
+    Route::group(['prefix' => 'customer'], function () {
         Route::get('export', [CustomerController::class, 'export']);
     });
     Route::apiResource('customer', CustomerController::class);
 
-    Route::group(['prefix' => 'order'], function() {
+    Route::group(['prefix' => 'order'], function () {
         Route::get('form', [OrderController::class, 'create']);
         Route::get('export', [OrderController::class, 'export']);
     });
