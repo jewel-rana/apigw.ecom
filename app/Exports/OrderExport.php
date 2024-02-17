@@ -32,10 +32,9 @@ class OrderExport implements FromQuery, WithHeadings, WithMapping, WithStyles, S
     {
         return [
             $order->id,
-            $order->invoice_no,
             $order->customer->name,
-            $order->promotion->name,
-            $order->promotionObjective->name,
+            $order->promotion,
+            $order->promotion_objective,
             $order->promotion_period,
             $order->amount,
             $order->divisions ?? $order->location,
@@ -55,7 +54,6 @@ class OrderExport implements FromQuery, WithHeadings, WithMapping, WithStyles, S
     {
         return [
             'ID',
-            'Invoice No',
             'Customer Name',
             'Promotion',
             'Promotion Objective',
