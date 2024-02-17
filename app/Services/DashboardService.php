@@ -33,11 +33,10 @@ class DashboardService
     {
         $key = 'yearly_orders_' . $this->year;
 //        return Cache::remember($key, 3600, function() {
-            dd(Order::query()
-                ->select(DB::raw("MONTH(created_at) as month, SUM(amount) as total, status"))
+            return Order::select(DB::raw("MONTH(created_at) as month, SUM(amount) as total, status"))
                 ->whereBetween('created_at', [$this->startOfYear, $this->endOfYear])
                 ->groupBy('month', 'status')
-                ->get());
+                ->get();
 //        });
     }
 
