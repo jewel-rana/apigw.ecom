@@ -19,7 +19,8 @@ class DashboardController extends Controller
         return response()->success([
             'customers' => $this->dashboardService->getCustomerStats($request),
             'orders' => $this->dashboardService->getOrderStats($request),
-            'yearly_customers_graph' => $this->dashboardService->getLastSevenDaysStats($request)
+            'yearly_orders_graph' => $this->dashboardService->getYearlyOrderGraph($request),
+            'yearly_customers_graph' => $this->dashboardService->getYearlyCustomerGraph($request)
         ]);
     }
 }
