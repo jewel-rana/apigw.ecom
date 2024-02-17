@@ -21,10 +21,10 @@ class DashboardService
         $this->endOfYear = ($this->year == now()->format('Y')) ? now()->endOfDay() : $this->startOfYear->endOfYear();
         $data = $this->getLabels();
         $orders = $this->getYearlyOrders();
-        dd($orders);
         foreach($orders as $order) {
-            $data[$order->month][strtolower($order->status)] = (int) $order->total;
-            $data[$order->month]['total'] += (int) $order->total;
+            $month = date('F-Y', strtotime('Y-' . $order->month . '-d'));
+            $data[$month][strtolower($order->status)] = (int) $order->total;
+            $data[$month]['total'] += (int) $order->total;
         }
 
         return $data;
