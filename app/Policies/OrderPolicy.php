@@ -3,25 +3,31 @@
 namespace App\Policies;
 
 use App\Helpers\CommonHelper;
-use App\Models\User;
 
 class OrderPolicy
 {
-    /**
-     * Create a new policy instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public function index(): bool
     {
         return CommonHelper::hasPermission('order-list');
     }
 
-    public function store(): bool
+    public function show(): bool
+    {
+        return CommonHelper::hasPermission('order-show');
+    }
+
+    public function create(): bool
     {
         return CommonHelper::hasPermission('order-create');
+    }
+
+    public function update(): bool
+    {
+        return CommonHelper::hasPermission('order-update');
+    }
+
+    public function destroy(): bool
+    {
+        return CommonHelper::hasPermission('order-delete');
     }
 }

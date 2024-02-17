@@ -8,11 +8,6 @@ use App\Models\Promotion;
 
 class PromotionController extends Controller
 {
-    public function callAction($method, $parameters)
-    {
-        $this->authorize($method);
-    }
-
     /**
      * Display a listing of the resource.
      */

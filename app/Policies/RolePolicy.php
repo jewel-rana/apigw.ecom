@@ -2,15 +2,32 @@
 
 namespace App\Policies;
 
-use App\Models\User;
+use App\Helpers\CommonHelper;
 
 class RolePolicy
 {
-    /**
-     * Create a new policy instance.
-     */
-    public function __construct()
+    public function index(): bool
     {
-        //
+        return CommonHelper::hasPermission('role-list');
+    }
+
+    public function show(): bool
+    {
+        return CommonHelper::hasPermission('role-show');
+    }
+
+    public function create(): bool
+    {
+        return CommonHelper::hasPermission('role-create');
+    }
+
+    public function update(): bool
+    {
+        return CommonHelper::hasPermission('role-update');
+    }
+
+    public function destroy(): bool
+    {
+        return CommonHelper::hasPermission('role-delete');
     }
 }

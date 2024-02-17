@@ -21,13 +21,6 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function callAction($method, $parameters)
-    {
-        if($this->authorize($method, User::class)) {
-            return parent::callAction($method, $parameters);
-        }
-    }
-
     public function index(Request $request)
     {
         $users = User::where('is_system', false)
@@ -60,5 +53,12 @@ class UserController extends Controller
     public function action(UserActionRequest $request, $id)
     {
         return $this->userService->userAction($request, $id);
+    }
+
+    public function callAction($method, $parameters)
+    {
+        if($this->authorize($method, User::class)) {
+            return parent::callAction($method, $parameters);
+        }
     }
 }

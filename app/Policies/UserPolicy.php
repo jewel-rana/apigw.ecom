@@ -6,13 +6,6 @@ use App\Helpers\CommonHelper;
 
 class UserPolicy
 {
-    private bool $authorize;
-
-    public function __construct()
-    {
-        $this->authorize = auth()->check();
-    }
-
     public function index(): bool
     {
         return CommonHelper::hasPermission('user-list');
@@ -20,21 +13,21 @@ class UserPolicy
 
     public function show(): bool
     {
-        return $this->authorize && CommonHelper::hasPermission('user-show');
+        return CommonHelper::hasPermission('user-show');
     }
 
     public function create(): bool
     {
-        return $this->authorize && CommonHelper::hasPermission('user-create');
+        return CommonHelper::hasPermission('user-create');
     }
 
     public function update(): bool
     {
-        return $this->authorize && CommonHelper::hasPermission('user-update');
+        return CommonHelper::hasPermission('user-update');
     }
 
     public function destroy(): bool
     {
-        return $this->authorize && CommonHelper::hasPermission('user-delete');
+        return CommonHelper::hasPermission('user-delete');
     }
 }

@@ -36,7 +36,7 @@ class Handler extends ExceptionHandler
             if ($previous instanceof AuthorizationException) {
                 $response = [
                     'status' => false,
-                    'message' => __('This action is unauthorized!')
+                    'message' => __('You have no permission to access this.')
                 ];
                 throw new HttpResponseException(response()->json($response, 403));
             }

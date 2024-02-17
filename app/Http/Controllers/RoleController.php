@@ -20,11 +20,6 @@ class RoleController extends Controller
         $this->permissionService = $permissionService;
     }
 
-    public function callAction($method, $parameters)
-    {
-        $this->authorize($method);
-    }
-
     public function index(Request $request)
     {
         return response()->success($this->roleService->all($request)
@@ -56,5 +51,12 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         return $this->roleService->delete($role);
+    }
+
+    public function callAction($method, $parameters)
+    {
+        if($this->authorize($method, Role::class)) {
+            return parent::callAction($method, $parameters);
+        }
     }
 }

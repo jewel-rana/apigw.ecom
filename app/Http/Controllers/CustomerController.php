@@ -49,4 +49,11 @@ class CustomerController extends Controller
     {
         return (new CustomerExport($request))->download('customers.xlsx');
     }
+
+    public function callAction($method, $parameters)
+    {
+        if($this->authorize($method, Customer::class)) {
+            return parent::callAction($method, $parameters);
+        }
+    }
 }
