@@ -21,6 +21,7 @@ class DashboardService
         $this->endOfYear = ($this->year == now()->format('Y')) ? now()->endOfDay() : $this->startOfYear->endOfYear();
         $data = $this->getLabels();
         $orders = $this->getYearlyOrders();
+        dd($orders);
         foreach($orders as $order) {
             $data[$order->month][strtolower($order->status)] = (int) $order->total;
             $data[$order->month]['total'] += (int) $order->total;
@@ -45,7 +46,7 @@ class DashboardService
         $max = ($this->year == now()->format('Y')) ? now()->subMonth()->format('m') : 11;
         $data = [];
         for($i = $max; $i >= 0;) {
-            $data[now()->subMonths($i)->format('F-Y')] = [
+            $data[now()->subMonths($i)->format('F')] = [
                 'active' => 0,
                 'pending' => 0,
                 'inactive' => 0,
