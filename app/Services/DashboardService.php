@@ -32,12 +32,12 @@ class DashboardService
     private function getYearlyOrders()
     {
         $key = 'yearly_orders_' . $this->year;
-        return Cache::remember($key, 3600, function() {
+//        return Cache::remember($key, 3600, function() {
             return Order::select(DB::raw("MONTH(created_at) as month, SUM(amount) as total, status"))
                 ->whereBetween('created_at', [$this->startOfYear->toString(), $this->endOfYear->toString()])
                 ->groupBy('month', 'status')
                 ->get();
-        });
+//        });
     }
 
     private function getLabels(): array
