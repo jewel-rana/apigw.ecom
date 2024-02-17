@@ -50,7 +50,7 @@ class CommonHelper
         return app()->environment('local') ? 123456 : mt_rand(111111, 999999);
     }
 
-    public static function batchActionButtons(Batch $batch): string
+    public static function batchActionButtons($batch): string
     {
         $btns = "<a href='" . route('batch.action', [$batch->id, 'action' => 'cancel']) . "' class='btn btn-danger'><i class='fa fa-times'></i> Cancel</a>";
         switch ($batch->status) {
