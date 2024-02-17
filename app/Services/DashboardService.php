@@ -50,6 +50,7 @@ class DashboardService
     private function getYearlyOrders()
     {
         $key = 'yearly_orders_' . $this->year;
+        Cache::forget($key);
         return Cache::remember($key, 3600, function () {
             return Order::select(DB::raw("MONTH(created_at) as month, SUM(amount) as total, status"))
                 ->whereBetween('created_at', [$this->startOfYear, $this->endOfYear])
@@ -61,6 +62,7 @@ class DashboardService
     private function getYearlyCustomers()
     {
         $key = 'yearly_customers_' . $this->year;
+        Cache::forget($key);
         return Cache::remember($key, 3600, function () {
             return Customer::select(DB::raw("MONTH(created_at) as month, COUNT(*) as total, status"))
                 ->whereBetween('created_at', [$this->startOfYear, $this->endOfYear])
