@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\OrderExport;
+use App\Http\Requests\OrderActionRequest;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
@@ -50,12 +51,9 @@ class OrderController extends Controller
         return $this->orderService->update($request->validated(), $id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function action(OrderActionRequest $request, Order $order)
     {
-        //
+        return $this->orderService->action($request, $order);
     }
 
     public function export(Request $request): BinaryFileResponse

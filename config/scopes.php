@@ -20,6 +20,7 @@ return [
         'order-create' => 'Order Create',
         'order-update' => 'Order Update',
         'order-delete' => 'Order Delete',
+        'order-action' => 'Order Action',
         'dashboard-order-graph' => 'Can show order yearly graph',
         'dashboard-customer-graph' => 'Can show customer yearly graph',
         'dashboard-stats' => 'Can show statistics counter'

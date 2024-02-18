@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'order'], function () {
         Route::get('form', [OrderController::class, 'create']);
         Route::get('export', [OrderController::class, 'export']);
+        Route::put('{order}/action', [OrderController::class, 'action']);
     });
     Route::apiResource('order', OrderController::class);
 });

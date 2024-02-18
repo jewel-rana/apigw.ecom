@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
+use App\Http\Requests\OrderActionRequest;
 use App\Models\Order;
 use App\Models\OrderAttribute;
 use App\Models\Promotion;
@@ -76,6 +77,16 @@ class OrderService
             LogHelper::exception($exception, [
                 'keyword' => 'ORDER_UPDATE_EXCEPTION'
             ]);
+            return response()->error(['message' => $exception->getMessage()]);
+        }
+    }
+
+    public function action(OrderActionRequest $request, Order $order)
+    {
+        try {
+            $order->update($request->validated());
+            return response()->success();
+        } catch (\Exception $exception) {
             return response()->error(['message' => $exception->getMessage()]);
         }
     }
