@@ -33,6 +33,6 @@ class OrderPolicy
 
     public function action(): bool
     {
-        return CommonHelper::hasPermission('order-action');
+        return CommonHelper::hasPermission('order-update');
     }
 }
