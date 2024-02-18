@@ -16,7 +16,7 @@ class RolePolicy
         return CommonHelper::hasPermission('role-show');
     }
 
-    public function create(): bool
+    public function store(): bool
     {
         return CommonHelper::hasPermission('role-create');
     }

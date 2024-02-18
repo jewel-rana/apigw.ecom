@@ -18,11 +18,6 @@ class UserPolicy
         return CommonHelper::hasPermission('user-show');
     }
 
-    public function create(): bool
-    {
-        return CommonHelper::hasPermission('user-create');
-    }
-
     public function store(): bool
     {
         return CommonHelper::isHierarchyOk() && CommonHelper::hasPermission('user-create');

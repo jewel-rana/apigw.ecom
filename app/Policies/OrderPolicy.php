@@ -16,7 +16,7 @@ class OrderPolicy
         return CommonHelper::hasPermission('order-show');
     }
 
-    public function create(): bool
+    public function store(): bool
     {
         return CommonHelper::hasPermission('order-create');
     }

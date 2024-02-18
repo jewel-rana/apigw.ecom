@@ -16,9 +16,9 @@ class CustomerPolicy
         return CommonHelper::hasPermission('customer-show');
     }
 
-    public function create(): bool
+    public function store(): bool
     {
-        return CommonHelper::hasPermission('customer-create');
+        return CommonHelper::hasPermission('customer-create') || request()->user()->type == 'customer';
     }
 
     public function update(): bool
