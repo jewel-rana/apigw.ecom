@@ -5,8 +5,11 @@ namespace App\Exceptions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -27,8 +30,18 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
+        $this->stopIgnoring(HttpException::class);
+        $this->renderable(function (NotFoundHttpException $e, Request $request) {
+            if ($request->is('api/*')) {
+                $response = [
+                    'status' => false,
+                    'message' => __('Record not found!')
+                ];
+                throw new HttpResponseException(response()->json($response, 404));
+            }
+        });
+
         $this->reportable(function (Throwable $exception) {
-            //
         });
 
         $this->renderable(function (AccessDeniedHttpException $e, $request) {
