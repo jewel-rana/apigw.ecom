@@ -30,4 +30,9 @@ class OrderPolicy
     {
         return CommonHelper::hasPermission('order-delete');
     }
+
+    public function action(): bool
+    {
+        return CommonHelper::hasPermission('order-action');
+    }
 }
