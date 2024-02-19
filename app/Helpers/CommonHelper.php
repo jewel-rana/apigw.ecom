@@ -96,6 +96,14 @@ class CommonHelper
             $query->where('created_by', '=', $request->input('created_by'));
         }
 
+        if ($request->filled('promotion')) {
+            $query->where('promotion', '=', $request->input('promotion'));
+        }
+
+        if ($request->filled('promotion_objective')) {
+            $query->where('promotion_objective', '=', $request->input('promotion_objective'));
+        }
+
         if ($request->filled('keyword')) {
             $query->where(function ($query) use ($request) {
                 $query->where('name', 'like', "%" . $request->input('keyword') . "%");
