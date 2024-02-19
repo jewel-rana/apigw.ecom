@@ -6,9 +6,11 @@ use App\Exports\OrderExport;
 use App\Http\Requests\OrderActionRequest;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
+use App\Models\Customer;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class OrderController extends Controller
@@ -63,8 +65,10 @@ class OrderController extends Controller
 
     public function callAction($method, $parameters)
     {
-        if($this->authorize($method, Order::class)) {
-            return parent::callAction($method, $parameters);
+        if(Arr::hasAny(['export', 'action'], $method)) {
+            $this->authorize($method, Customer::class);
         }
+
+        return parent::callAction($method, $parameters);
     }
 }

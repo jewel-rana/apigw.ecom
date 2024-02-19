@@ -16,11 +16,13 @@ return [
         'customer-create' => 'Customer Create',
         'customer-update' => 'Customer Update',
         'customer-delete' => 'Customer Delete',
+        'customer-export' => 'Customer Export',
         'order-list' => 'Order list',
         'order-create' => 'Order Create',
         'order-update' => 'Order Update',
         'order-delete' => 'Order Delete',
         'order-action' => 'Order Action',
+        'order-export' => 'Order Export',
         'dashboard-order-graph' => 'Can show order yearly graph',
         'dashboard-customer-graph' => 'Can show customer yearly graph',
         'dashboard-stats' => 'Can show statistics counter'

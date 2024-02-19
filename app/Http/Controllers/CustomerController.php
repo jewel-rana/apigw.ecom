@@ -9,7 +9,10 @@ use App\Models\User;
 use App\Services\CustomerService;
 use Illuminate\Http\Request;
 use App\Http\Requests\CustomerCreateRequest;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class CustomerController extends Controller
 {
@@ -50,10 +53,12 @@ class CustomerController extends Controller
         return (new CustomerExport($request))->download('customers.xlsx');
     }
 
-    public function callAction($method, $parameters)
+    public function callAction($method, $parameters): Response
     {
-        if($this->authorize($method, Customer::class)) {
-            return parent::callAction($method, $parameters);
+        if(Arr::hasAny(['export'], $method)) {
+            $this->authorize($method, Customer::class);
         }
+
+        return parent::callAction($method, $parameters);
     }
 }
