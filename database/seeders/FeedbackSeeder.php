@@ -38,6 +38,6 @@ class FeedbackSeeder extends Seeder
                 'comment' => 'Lorel ipsum site amet'
             ]
         ];
-        Feedback::insertMany($feedbacks);
+        Feedback::insert($feedbacks);
     }
 }

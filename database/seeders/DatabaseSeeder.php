@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PromotionTableSeeder::class);
         $this->call(PromotionObjectiveTableSeeder::class);
         $this->call(PromotionObjectiveParamTableSeeder::class);
+        $this->call(FeedbackSeeder::class);
     }
 }

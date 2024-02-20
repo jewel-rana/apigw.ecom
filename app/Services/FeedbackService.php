@@ -19,9 +19,11 @@ class FeedbackService
 
     public function all()
     {
-        return Cache::rememberForever('feedbacks', function () {
-            return $this->feedbackRepository->all();
-        });
+        return response()->success(
+            Cache::rememberForever('feedbacks', function () {
+                return $this->feedbackRepository->all();
+            })
+        );
     }
 
     public function create(array $data)

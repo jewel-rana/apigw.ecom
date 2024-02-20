@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFeedbackRequest;
 use App\Http\Requests\UpdateFeedbackRequest;
-use App\Models\Customer;
 use App\Models\Feedback;
 use App\Services\FeedbackService;
 use Illuminate\Http\Request;
@@ -42,7 +41,7 @@ class FeedbackController extends Controller
 
     public function callAction($method, $parameters): Response
     {
-        if(Arr::hasAny(['action'], $method)) {
+        if (Arr::hasAny(['action'], $method)) {
             $this->authorize($method, Feedback::class);
         }
         return parent::callAction($method, $parameters);
