@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('designation');
             $table->string('video_link');
-            $table->tinyText('comment')->nullable();
+            $table->tinyText('comments')->nullable();
             $table->timestamps();
         });
     }
