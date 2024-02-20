@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Helpers\CommonHelper;
 use App\Models\Feedback;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -13,7 +14,7 @@ class FeedbackPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return CommonHelper::hasPermission('feedback-list');
     }
 
     /**
@@ -21,7 +22,7 @@ class FeedbackPolicy
      */
     public function view(User $user, Feedback $feedback): bool
     {
-        //
+        return CommonHelper::hasPermission('feedback-show');
     }
 
     /**
@@ -29,7 +30,7 @@ class FeedbackPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return CommonHelper::hasPermission('feedback-create');
     }
 
     /**
@@ -37,7 +38,7 @@ class FeedbackPolicy
      */
     public function update(User $user, Feedback $feedback): bool
     {
-        //
+        return CommonHelper::hasPermission('feedback-update');
     }
 
     /**
@@ -45,7 +46,7 @@ class FeedbackPolicy
      */
     public function delete(User $user, Feedback $feedback): bool
     {
-        //
+        return CommonHelper::hasPermission('feedback-action');
     }
 
     /**
