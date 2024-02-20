@@ -25,6 +25,10 @@ return [
         'order-export' => 'Order Export',
         'dashboard-order-graph' => 'Can show order yearly graph',
         'dashboard-customer-graph' => 'Can show customer yearly graph',
-        'dashboard-stats' => 'Can show statistics counter'
+        'dashboard-stats' => 'Can show statistics counter',
+        'feedback-list' => 'Can see feedback list',
+        'feedback-create' => 'Can create feedback',
+        'feedback-update' => 'Can update feedback',
+        'feedback-action' => 'Can enable/disable feedback',
     ]
 ];

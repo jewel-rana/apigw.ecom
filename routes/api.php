@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -44,6 +45,7 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 
+/* Auth Routes */
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', [DashboardController::class, 'index']);
@@ -55,19 +57,24 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('{id}/action', [UserController::class, 'action']);
     });
 
-    Route::apiResource('role', RoleController::class);
-    Route::apiResource('permission', PermissionController::class);
-    Route::apiResource('user', UserController::class);
-
     Route::group(['prefix' => 'customer'], function () {
         Route::get('export', [CustomerController::class, 'export']);
     });
-    Route::apiResource('customer', CustomerController::class);
 
     Route::group(['prefix' => 'order'], function () {
         Route::get('form', [OrderController::class, 'create']);
         Route::get('export', [OrderController::class, 'export']);
         Route::put('{order}/action', [OrderController::class, 'action']);
     });
+
+    Route::group(['prefix' => 'order'], function () {
+        Route::get('action', [FeedbackController::class, 'action']);
+    });
+
+    Route::apiResource('customer', CustomerController::class);
+    Route::apiResource('role', RoleController::class);
+    Route::apiResource('permission', PermissionController::class);
+    Route::apiResource('user', UserController::class);
     Route::apiResource('order', OrderController::class);
+    Route::apiResource('feedback', FeedbackController::class);
 });
