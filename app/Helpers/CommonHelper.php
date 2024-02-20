@@ -76,18 +76,26 @@ class CommonHelper
 
     public static function filterModel($query, $request)
     {
+        if($request->filled('invoice_no')) {
+            $query->where('id', $request->input('invoice_no'));
+        }
+
         if ($request->filled('from')) {
             $query->where('created_at', '>=', $request->input('from') . ' 00:00:00');
         }
+
         if ($request->filled('to')) {
             $query->where('created_at', '<=', $request->input('to') . ' 23:59:59');
         }
+
         if ($request->filled('email')) {
             $query->where('email', '=', $request->input('email'));
         }
+
         if ($request->filled('mobile')) {
             $query->where('mobile', 'like', "%" . $request->input('mobile') . "%");
         }
+
         if ($request->filled('status') && in_array(strtolower($request->input('status')), ['pending', 'active', 'inactive'])) {
             $query->where('status', '=', ucfirst($request->input('status')));
         }
