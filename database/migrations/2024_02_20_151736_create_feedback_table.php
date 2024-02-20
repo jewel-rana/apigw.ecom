@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('designation');
             $table->string('video_link');
             $table->tinyText('comments')->nullable();
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();
         });
     }

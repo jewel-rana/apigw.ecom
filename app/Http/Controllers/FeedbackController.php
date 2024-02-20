@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FeedbackActionRequest;
 use App\Http\Requests\StoreFeedbackRequest;
 use App\Http\Requests\UpdateFeedbackRequest;
 use App\Models\Feedback;
@@ -34,7 +35,7 @@ class FeedbackController extends Controller
         return $this->feedbackService->update($request->validated(), $feedback);
     }
 
-    public function action(Request $request, Feedback $feedback)
+    public function action(FeedbackActionRequest $request, Feedback $feedback)
     {
         return $this->feedbackService->action($feedback, $request);
     }

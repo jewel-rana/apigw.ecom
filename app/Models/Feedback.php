@@ -12,6 +12,7 @@ class Feedback extends Model
         'moto',
         'name',
         'designation',
+        'video_link',
         'comments',
         'status'
     ];

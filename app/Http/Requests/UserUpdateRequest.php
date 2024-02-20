@@ -12,7 +12,7 @@ class UserUpdateRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return CommonHelper::hasPermission('user-create') && $this->user != auth()->user()->id;
+        return $this->user != auth()->user()->id;
     }
 
     public function rules(): array

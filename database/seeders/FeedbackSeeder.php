@@ -19,7 +19,7 @@ class FeedbackSeeder extends Seeder
                 'name' => 'John Duo',
                 'designation' => 'CO',
                 'video_link' => 'https://www.youtube.com/watch?v=6UZds0GJxKI',
-                'comment' => 'Lorel ipsum site amet'
+                'comments' => 'Lorel ipsum site amet'
             ],
             [
                 'company' => 'XYZ.HUB',
@@ -27,7 +27,7 @@ class FeedbackSeeder extends Seeder
                 'name' => 'John Doe',
                 'designation' => 'CO',
                 'video_link' => 'https://www.youtube.com/watch?v=6UZds0GJxKI',
-                'comment' => 'Lorel ipsum site amet'
+                'comments' => 'Lorel ipsum site amet'
             ],
             [
                 'company' => 'XYZ.ONLINE',
@@ -35,7 +35,7 @@ class FeedbackSeeder extends Seeder
                 'name' => 'John Doa',
                 'designation' => 'CO',
                 'video_link' => 'https://www.youtube.com/watch?v=6UZds0GJxKI',
-                'comment' => 'Lorel ipsum site amet'
+                'comments' => 'Lorel ipsum site amet'
             ]
         ];
         Feedback::insert($feedbacks);

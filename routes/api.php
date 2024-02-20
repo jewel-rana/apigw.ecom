@@ -67,8 +67,8 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::put('{order}/action', [OrderController::class, 'action']);
     });
 
-    Route::group(['prefix' => 'order'], function () {
-        Route::get('action', [FeedbackController::class, 'action']);
+    Route::group(['prefix' => 'feedback'], function () {
+        Route::post('{feedback}/action', [FeedbackController::class, 'action']);
     });
 
     Route::apiResource('customer', CustomerController::class);

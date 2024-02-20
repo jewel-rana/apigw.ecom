@@ -45,6 +45,7 @@ class FeedbackService
             $this->feedbackRepository->create($data);
             return response()->success();
         } catch (\Exception $exception) {
+            dd($exception);
             LogHelper::exception($exception, [
                 'keyword' => 'FEEDBACK_CREATE_EXCEPTION'
             ]);
@@ -55,13 +56,13 @@ class FeedbackService
     public function action(Feedback $feedback, Request $request)
     {
         try {
-            $feedback->update(['status' => $request->input('status')]);
+            $feedback->update($request->validated());
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'FEEDBACK_ACTION_EXCEPTION'
             ]);
-            return response()->error(__('Internal server error!'));
+            return response()->error();
         }
     }
 }

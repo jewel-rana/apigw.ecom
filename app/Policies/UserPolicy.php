@@ -23,7 +23,7 @@ class UserPolicy
         return CommonHelper::isHierarchyOk() && CommonHelper::hasPermission('user-create');
     }
 
-    public function update(Request $request, User $user): bool
+    public function update(): bool
     {
         return CommonHelper::hasPermission('user-update');
     }
