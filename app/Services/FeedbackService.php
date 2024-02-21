@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
+use App\Models\Customer;
 use App\Models\Feedback;
 use App\Repositories\Interfaces\FeedbackRepositoryInterface;
 use Illuminate\Http\Request;
@@ -17,13 +19,12 @@ class FeedbackService
         $this->feedbackRepository = $feedbackRepository;
     }
 
-    public function all()
+    public function all(Request $request)
     {
-        return response()->success(
-            Cache::rememberForever('feedbacks', function () {
-                return $this->feedbackRepository->all();
-            })
-        );
+        $feedbacks = $this->feedbackRepository->getModel()->filter($request)
+            ->latest()
+            ->paginate($request->input('per_page', 10));
+        return response()->success(CommonHelper::parsePaginator($feedbacks));
     }
 
     public function create(array $data)
@@ -45,7 +46,6 @@ class FeedbackService
             $this->feedbackRepository->create($data);
             return response()->success();
         } catch (\Exception $exception) {
-            dd($exception);
             LogHelper::exception($exception, [
                 'keyword' => 'FEEDBACK_CREATE_EXCEPTION'
             ]);

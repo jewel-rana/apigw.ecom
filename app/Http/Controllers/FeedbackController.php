@@ -7,6 +7,7 @@ use App\Http\Requests\StoreFeedbackRequest;
 use App\Http\Requests\UpdateFeedbackRequest;
 use App\Models\Feedback;
 use App\Services\FeedbackService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,9 +20,9 @@ class FeedbackController extends Controller
         $this->feedbackService = $feedbackService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->feedbackService->all();
+        return $this->feedbackService->all($request);
     }
 
     public function store(StoreFeedbackRequest $request)

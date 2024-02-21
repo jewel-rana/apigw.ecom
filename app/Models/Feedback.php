@@ -17,6 +17,7 @@ class Feedback extends Model
         'website',
         'comments',
         'status',
+        'remarks',
         'created_by',
         'updated_by'
     ];
@@ -43,6 +44,26 @@ class Feedback extends Model
     public function scopeFilter($query, $request)
     {
         return CommonHelper::filterModel($query, $request);
+    }
+
+    public function format(): array
+    {
+        return $this->only([
+                'id',
+                'company',
+                'moto',
+                'name',
+                'designation',
+                'comments',
+                'website',
+                'video_link',
+                'remarks',
+                'status'
+            ]) +
+            [
+                'created_by' => $this->createdBy,
+                'updated_by' => $this->updatedBy,
+            ];
     }
 
     public static function boot()
