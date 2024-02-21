@@ -17,9 +17,12 @@ return new class extends Migration
             $table->string('moto')->nullable();
             $table->string('name');
             $table->string('designation');
+            $table->string('website')->nullable();
             $table->string('video_link');
             $table->tinyText('comments')->nullable();
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
+            $table->foreignId('created_by')->constrained('users', 'id');
+            $table->foreignId('updated_by')->nullable()->constrained('users', 'id');
             $table->timestamps();
         });
     }

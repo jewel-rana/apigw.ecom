@@ -14,6 +14,7 @@ class FeedbackSeeder extends Seeder
     {
         $feedbacks = [
             [
+                'created_by' => 1,
                 'company' => 'XYZ.IO',
                 'moto' => 'Lorel ipsum',
                 'name' => 'John Duo',
@@ -22,6 +23,7 @@ class FeedbackSeeder extends Seeder
                 'comments' => 'Lorel ipsum site amet'
             ],
             [
+                'created_by' => 1,
                 'company' => 'XYZ.HUB',
                 'moto' => 'Lorel ipsum',
                 'name' => 'John Doe',
@@ -30,6 +32,7 @@ class FeedbackSeeder extends Seeder
                 'comments' => 'Lorel ipsum site amet'
             ],
             [
+                'created_by' => 1,
                 'company' => 'XYZ.ONLINE',
                 'moto' => 'Lorel ipsum',
                 'name' => 'John Doa',

@@ -44,4 +44,17 @@ class Feedback extends Model
     {
         return CommonHelper::filterModel($query, $request);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (Feedback $feedback) {
+            $feedback->created_by = request()->user()->id;
+        });
+
+        static::updating(function (Feedback $feedback) {
+            $feedback->updated_by = request()->user()->id;
+        });
+    }
 }
