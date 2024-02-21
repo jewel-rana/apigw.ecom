@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Helpers\LogHelper;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
 use Illuminate\Http\Request;
@@ -24,10 +25,11 @@ class RoleService
         });
     }
 
-    public function create($data, $id)
+    public function create($data)
     {
         try {
-            $this->roleRepository->update($data, $id);
+            $role = $this->roleRepository->create($data);
+            $role->syncPermissions($data['permissions']);
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
@@ -40,7 +42,8 @@ class RoleService
     public function update($data, $id)
     {
         try {
-            $this->roleRepository->update($data, $id);
+            $role = $this->roleRepository->find($id);
+            $role->syncPermissions($data['permissions']);
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [

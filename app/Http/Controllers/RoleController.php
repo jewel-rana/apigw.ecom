@@ -45,7 +45,7 @@ class RoleController extends Controller
 
     public function update(RoleUpdateRequest $request, string $id)
     {
-        return $this->roleService->create($request->validated(), $id);
+        return $this->roleService->update($request->validated(), $id);
     }
 
     public function destroy(Role $role)

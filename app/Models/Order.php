@@ -72,8 +72,8 @@ class Order extends Model
     {
         return $this->only(['id', 'invoice_no', 'promotion', 'promotion_objective', 'promotion_period', 'amount', 'location', 'divisions', 'gender', 'min_age', 'max_age', 'status', 'remarks']) +
             [
-                'created_by' => $this->createdBy,
-                'updated_by' => $this->updatedBy,
+                'created_by' => $this->createdBy->only(['id', 'name', 'email']) ?? null,
+                'updated_by' => $this->updatedBy->only(['id', 'name', 'email']) ?? null,
                 'objectives' => $this->objectives->map(function(OrderAttribute $item) {
                     return $item->only(['key', 'value']);
                 })

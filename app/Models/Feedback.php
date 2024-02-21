@@ -61,8 +61,8 @@ class Feedback extends Model
                 'status'
             ]) +
             [
-                'created_by' => $this->createdBy,
-                'updated_by' => $this->updatedBy,
+                'created_by' => $this->createdBy->only(['id', 'name', 'email']) ?? null,
+                'updated_by' => $this->updatedBy->only(['id', 'name', 'email']) ?? null,
             ];
     }
 

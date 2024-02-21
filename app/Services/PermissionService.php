@@ -19,7 +19,7 @@ class PermissionService
     {
         Cache::forget('permissions');
         return Cache::remember('permissions', 36000, function () {
-            return $this->permissionRepository->all();
+            return $this->permissionRepository->getModel()->orderBy('name')->get();
         });
     }
 

@@ -37,17 +37,11 @@ class OrderController extends Controller
         return $this->orderService->create($request->validated());
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(OrderUpdateRequest $request, int $id)
     {
         return $this->orderService->update($request->validated(), $id);
