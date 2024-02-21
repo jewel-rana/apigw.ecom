@@ -112,11 +112,20 @@ class CommonHelper
             $query->where('promotion_objective', '=', $request->input('promotion_objective'));
         }
 
+        if($request->filled('company')) {
+            $query->where('company', $request->input('company'));
+        }
+
+        if($request->filled('designation')) {
+            $query->where('designation', $request->input('designation'));
+        }
+
         if ($request->filled('keyword')) {
             $query->where(function ($query) use ($request) {
                 $query->where('name', 'like', "%" . $request->input('keyword') . "%");
             });
         }
+
         return $query;
     }
 }

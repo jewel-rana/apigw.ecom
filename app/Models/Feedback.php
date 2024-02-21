@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\CommonHelper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Feedback extends Model
 {
@@ -13,8 +14,11 @@ class Feedback extends Model
         'name',
         'designation',
         'video_link',
+        'website',
         'comments',
-        'status'
+        'status',
+        'created_by',
+        'updated_by'
     ];
 
     protected $hidden = [
@@ -25,6 +29,16 @@ class Feedback extends Model
     protected $casts = [
         'created_at' => 'datetime:d/m/Y h:i a'
     ];
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function updatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
 
     public function scopeFilter($query, $request)
     {
