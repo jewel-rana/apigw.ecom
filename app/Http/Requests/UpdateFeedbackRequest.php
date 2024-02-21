@@ -16,9 +16,9 @@ class UpdateFeedbackRequest extends FormRequest
     {
         return [
             'company' => 'required|string',
-            'moto' => 'required|string',
+            'moto' => 'nullable|string',
             'name' => 'required|string',
-            'designation' => 'required|string',
+            'designation' => 'nullable|string',
             'video_link' => 'required|string|url',
             'comments' => 'nullable|string|max:500',
             'remarks' => 'nullable|string',

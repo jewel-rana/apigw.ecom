@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('company');
             $table->string('moto')->nullable();
             $table->string('name');
-            $table->string('designation');
+            $table->string('designation')->nullable();
             $table->string('website')->nullable();
             $table->string('video_link');
             $table->tinyText('comments')->nullable();
