@@ -20,7 +20,9 @@ class UpdateFeedbackRequest extends FormRequest
             'name' => 'required|string',
             'designation' => 'required|string',
             'video_link' => 'required|string|url',
-            'comments' => 'nullable|string|max:500'
+            'comments' => 'nullable|string|max:500',
+            'remarks' => 'nullable|string',
+            'website' => 'nullable|url'
         ];
     }
 }
