@@ -50,12 +50,12 @@ class Order extends Model
 
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id')->select('id', 'name');
     }
 
     public function updatedBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'updated_by', 'id');
+        return $this->belongsTo(User::class, 'updated_by', 'id')->select('id', 'name');
     }
 
     public function objectives(): HasMany
@@ -72,8 +72,8 @@ class Order extends Model
     {
         return $this->only(['id', 'invoice_no', 'promotion', 'promotion_objective', 'promotion_period', 'amount', 'location', 'divisions', 'gender', 'min_age', 'max_age', 'status', 'remarks']) +
             [
-                'created_by' => $this->createdBy->only(['id', 'name', 'email']) ?? null,
-                'updated_by' => $this->updatedBy->only(['id', 'name', 'email']) ?? null,
+                'created_by' => $this->createdBy,
+                'updated_by' => $this->updatedBy,
                 'objectives' => $this->objectives->map(function(OrderAttribute $item) {
                     return $item->only(['key', 'value']);
                 })

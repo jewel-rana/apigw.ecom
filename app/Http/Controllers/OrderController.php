@@ -60,7 +60,7 @@ class OrderController extends Controller
     public function callAction($method, $parameters)
     {
         if(Arr::hasAny(['export', 'action'], $method)) {
-            $this->authorize($method, Customer::class);
+            $this->authorize($method, Order::class);
         }
 
         return parent::callAction($method, $parameters);

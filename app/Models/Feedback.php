@@ -33,12 +33,12 @@ class Feedback extends Model
 
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id')->select('id', 'name', 'email');
     }
 
     public function updatedBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id')->select('id', 'name', 'email');
     }
 
     public function scopeFilter($query, $request)
@@ -61,8 +61,8 @@ class Feedback extends Model
                 'status'
             ]) +
             [
-                'created_by' => $this->createdBy->only(['id', 'name', 'email']) ?? null,
-                'updated_by' => $this->updatedBy->only(['id', 'name', 'email']) ?? null,
+                'created_by' => $this->createdBy,
+                'updated_by' => $this->updatedBy,
             ];
     }
 
