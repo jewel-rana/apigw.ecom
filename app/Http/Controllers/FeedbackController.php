@@ -30,6 +30,11 @@ class FeedbackController extends Controller
         return $this->feedbackService->create($request->validated());
     }
 
+    public function show(Feedback $feedback)
+    {
+        return response()->success($feedback->format());
+    }
+
     public function update(UpdateFeedbackRequest $request, Feedback $feedback)
     {
         return $this->feedbackService->update($request->validated(), $feedback);
