@@ -13,7 +13,7 @@ class RolePolicy
 
     public function show(): bool
     {
-        return CommonHelper::hasPermission('role-show');
+        return CommonHelper::hasPermission('role-list');
     }
 
     public function store(): bool

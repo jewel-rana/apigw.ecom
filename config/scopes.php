@@ -9,6 +9,7 @@ return [
         'user-delete' => 'User Delete',
         'user-action' => 'User Action',
         'role-list' => 'Role list',
+        'role-show' => 'Role show',
         'role-create' => 'Role Create',
         'role-update' => 'Role Update',
         'role-delete' => 'Role Delete',
