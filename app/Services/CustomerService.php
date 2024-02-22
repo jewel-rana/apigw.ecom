@@ -40,10 +40,10 @@ class CustomerService
         }
     }
 
-    public function update($data, $id)
+    public function update($data, Customer $customer)
     {
         try {
-            $this->customerRepository->update(array_filter($data), $id);
+            $this->customerRepository->update(array_filter($data), $customer->id);
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [

@@ -38,9 +38,9 @@ class CustomerController extends Controller
         return response()->success($customer->format());
     }
 
-    public function update(CustomerUpdateRequest $request, string $id)
+    public function update(CustomerUpdateRequest $request, Customer $customer)
     {
-        return $this->customerService->update($request->validated(), $id);
+        return $this->customerService->update($request->validated(), $customer);
     }
 
     public function destroy(User $user)
