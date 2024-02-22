@@ -71,10 +71,10 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('{feedback}/action', [FeedbackController::class, 'action']);
     });
 
-    Route::apiResource('customer', CustomerController::class);
-    Route::apiResource('role', RoleController::class);
-    Route::apiResource('permission', PermissionController::class);
-    Route::apiResource('user', UserController::class);
-    Route::apiResource('order', OrderController::class);
-    Route::apiResource('feedback', FeedbackController::class);
+    Route::apiResource('customer', CustomerController::class)->except(['destroy']);
+    Route::apiResource('role', RoleController::class)->except(['destroy']);
+    Route::apiResource('permission', PermissionController::class)->except(['destroy']);
+    Route::apiResource('user', UserController::class)->except(['destroy']);
+    Route::apiResource('order', OrderController::class)->except(['destroy']);
+    Route::apiResource('feedback', FeedbackController::class)->except(['destroy']);
 });
