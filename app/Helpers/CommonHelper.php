@@ -5,9 +5,21 @@ namespace App\Helpers;
 use App\Models\Order;
 use App\Models\Otp;
 use App\Notifications\OtpNotification;
+use Illuminate\Support\Facades\DB;
 
 class CommonHelper
 {
+    public static function revokeUserToken($userId)
+    {
+        try {
+            DB::table('oauth_access_tokens')
+                ->where('user_id', $userId)
+                ->delete();
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception);
+        }
+    }
+
     public static function isHierarchyOk(): bool
     {
         $userRole = request()->user()->roles->first()->id;

@@ -54,6 +54,9 @@ class UserService
         try {
             $this->userRepository->update(array_filter($data), $user->id);
             $user->syncRoles(Role::find($data['role_id']));
+            if($user->roles->first()->id !== $data['role_id']) {
+                $user->revokeToken();
+            }
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [

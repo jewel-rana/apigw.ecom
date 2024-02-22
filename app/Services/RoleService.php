@@ -44,6 +44,7 @@ class RoleService
         try {
             $role = $this->roleRepository->find($id);
             $role->syncPermissions($data['permissions']);
+            $role->revokeToken();
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [

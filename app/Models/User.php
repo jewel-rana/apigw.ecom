@@ -76,6 +76,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return CommonHelper::filterModel($query, $request);
     }
 
+    public function revokeToken()
+    {
+        CommonHelper::revokeUserToken($this->id);
+    }
+
     public static function boot()
     {
         parent::boot();
