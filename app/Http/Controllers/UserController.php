@@ -40,9 +40,9 @@ class UserController extends Controller
         return response()->success($user->format());
     }
 
-    public function update(UserUpdateRequest $request, string $id)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        return $this->userService->update($request->validated(), $id);
+        return $this->userService->update($request->validated(), $user);
     }
 
     public function destroy(User $user)

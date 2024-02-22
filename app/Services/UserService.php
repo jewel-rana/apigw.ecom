@@ -49,10 +49,10 @@ class UserService
         }
     }
 
-    public function update($data, $id)
+    public function update($data, $user)
     {
         try {
-            $user = $this->userRepository->update(array_filter($data), $id);
+            $this->userRepository->update(array_filter($data), $user->id);
             $user->syncRoles(Role::find($data['role_id']));
             return response()->success();
         } catch (\Exception $exception) {
