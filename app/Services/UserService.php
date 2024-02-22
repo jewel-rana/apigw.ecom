@@ -49,7 +49,7 @@ class UserService
         }
     }
 
-    public function update($data, $user)
+    public function update($data, User $user)
     {
         try {
             $this->userRepository->update(array_filter($data), $user->id);

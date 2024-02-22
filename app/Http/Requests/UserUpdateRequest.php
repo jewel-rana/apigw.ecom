@@ -12,15 +12,15 @@ class UserUpdateRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return $this->user != auth()->user()->id;
+        return $this->user->id != auth()->user()->id;
     }
 
     public function rules(): array
     {
         return [
             'name' => 'required|string',
-            'mobile' => 'required|string|unique:users,mobile,' . $this->user,
-            'email' => 'required|email|unique:users,email,' . $this->user,
+            'mobile' => 'required|string|unique:users,mobile,' . $this->user->id,
+            'email' => 'required|email|unique:users,email,' . $this->user->id,
             'password' => 'nullable|string|min:6|max:18|same:password_confirm',
             'gender' => 'nullable|string|in:male,female',
             'role_id' => 'required|integer|exists:roles,id',

@@ -18,8 +18,8 @@ class CustomerUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'mobile' => 'nullable|string|unique:customers,mobile,' . $this->customer,
-            'email' => 'required|email|unique:customers,email,' . $this->customer,
+            'mobile' => 'nullable|string|unique:customers,mobile,' . $this->customer->id,
+            'email' => 'required|email|unique:customers,email,' . $this->customer->id,
             'password' => 'nullable|string|min:6|max:18|same:password_confirm',
             'gender' => 'nullable|string|in:male,female',
             'address' => 'nullable|string'
