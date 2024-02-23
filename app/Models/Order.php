@@ -39,9 +39,9 @@ class Order extends Model
         'deleted_at'
     ];
 
-//    protected $attributes = [
-//        'divisions' => ''
-//    ];
+    protected $attributes = [
+        'divisions' => []
+    ];
 
     public function customer(): BelongsTo
     {
