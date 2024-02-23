@@ -50,12 +50,12 @@ class Order extends Model
 
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by', 'id')->select('id', 'name');
+        return $this->belongsTo(User::class, 'created_by', 'id')->select('id', 'name', 'email');
     }
 
     public function updatedBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'updated_by', 'id')->select('id', 'name');
+        return $this->belongsTo(User::class, 'updated_by', 'id')->select('id', 'name', 'email');
     }
 
     public function objectives(): HasMany
