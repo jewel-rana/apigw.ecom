@@ -72,6 +72,9 @@ class Customer extends Authenticatable
         static::creating(function(Customer $customer) {
             $customer->email_verified_at = now();
             $customer->status = AuthConstant::STATUS_ACTIVE;
+            if(auth()->user()->type == 'user') {
+
+            }
         });
 
         static::updating(function(Customer $customer) {
