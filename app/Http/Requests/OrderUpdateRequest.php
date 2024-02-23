@@ -29,7 +29,8 @@ class OrderUpdateRequest extends FormRequest
             'promotion_objective' => 'bail|required|string',
             'objectives' => 'bail|nullable|array',
             'promotion_start_date' => 'bail|nullable',
-            'promotion_end_date' => 'bail|nullable'
+            'promotion_end_date' => 'bail|nullable',
+            'remarks' => 'nullable|string'
         ];
     }
 }
