@@ -86,7 +86,7 @@ class Order extends Model
         static::creating(function(Order $order) {
             $order->divisions = json_encode($order->divisions);
             $order->invoice_no = Str::random(16);
-            if(request()->user()->type == 'user') {
+            if(request()->user()->type == 'admin') {
                 $order->created_by = request()->user()->id;
             }
         });
