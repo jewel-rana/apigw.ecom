@@ -92,7 +92,9 @@ class Order extends Model
         });
 
         static::updating(function(Order $order) {
-            $order->updated_by = request()->user_id;
+            if(request()->user()->type == 'admin') {
+                $order->updated_by = request()->user()->id;
+            }
         });
     }
 }
