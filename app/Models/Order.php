@@ -86,13 +86,13 @@ class Order extends Model
         static::creating(function(Order $order) {
             $order->divisions = json_encode($order->divisions);
             $order->invoice_no = Str::random(16);
-            if(auth()->user()->type == 'user') {
-                $order->created_by = auth()->user()->id;
+            if(request()->user()->type == 'user') {
+                $order->created_by = request()->user()->id;
             }
         });
 
         static::updating(function(Order $order) {
-            $order->updated_by = auth()->user_id;
+            $order->updated_by = request()->user_id;
         });
     }
 }
