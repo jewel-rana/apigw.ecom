@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants\AppConstant;
 use App\Helpers\CommonHelper;
 use App\Services\PermissionService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -91,6 +92,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
         static::updating(function (User $user) {
             $user->updated_by =  auth()->user()->id ?? 1;
+        });
+
+        static::updated(function (User $user) {
+            if($user->status != AppConstant::USER_ACTIVE) {
+                CommonHelper::revokeUserToken($user->id);
+            }
         });
     }
 }
