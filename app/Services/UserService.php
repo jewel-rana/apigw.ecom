@@ -84,7 +84,7 @@ class UserService
     {
         try {
             $user = User::where('email', $request->input('email'))->first();
-            Auth::logoutOtherDevices($request->input('password'));
+            CommonHelper::revokeUserToken($user->id);
             return response()->success($user->format() + [
                     'type' => 'user',
                     'token' => $user->createToken('authToken', $user->getPermissions())->accessToken,
