@@ -70,7 +70,7 @@ class Order extends Model
 
     public function format(): array
     {
-        return $this->only(['id', 'invoice_no', 'promotion', 'promotion_objective', 'promotion_period', 'amount', 'location', 'divisions', 'gender', 'min_age', 'max_age', 'status', 'remarks', 'created_at', 'updated_at']) +
+        return $this->only(['id', 'promotion', 'promotion_objective', 'promotion_period', 'amount', 'location', 'divisions', 'gender', 'min_age', 'max_age', 'status', 'remarks', 'created_at', 'updated_at']) +
             [
                 'created_by' => $this->createdBy,
                 'updated_by' => $this->updatedBy,
@@ -86,6 +86,13 @@ class Order extends Model
         static::creating(function(Order $order) {
             $order->divisions = json_encode($order->divisions);
             $order->invoice_no = Str::random(16);
+            if(auth()->user()->type == 'user') {
+                $order->created_by = auth()->user()->id;
+            }
+        });
+
+        static::updating(function(Order $order) {
+            $order->updated_by = auth()->user_id;
         });
     }
 }

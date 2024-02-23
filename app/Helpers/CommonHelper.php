@@ -92,6 +92,10 @@ class CommonHelper
             $query->where('id', $request->input('invoice_no'));
         }
 
+        if($request->filled('id')) {
+            $query->where('id', $request->input('id'));
+        }
+
         if ($request->filled('from')) {
             $query->where('created_at', '>=', $request->input('from') . ' 00:00:00');
         }
