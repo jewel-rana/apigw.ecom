@@ -22,7 +22,9 @@ class CustomerUpdateRequest extends FormRequest
             'email' => 'required|email|unique:customers,email,' . $this->customer->id,
             'password' => 'nullable|string|min:6|max:18|same:password_confirm',
             'gender' => 'nullable|string|in:male,female',
-            'address' => 'nullable|string'
+            'address' => 'nullable|string',
+            'remarks' => 'nullable|string',
+            'status' => 'required|in:Active,Inactive'
         ];
     }
 }
