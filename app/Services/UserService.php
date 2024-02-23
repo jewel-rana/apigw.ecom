@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Notifications\OtpNotification;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
@@ -83,6 +84,7 @@ class UserService
     {
         try {
             $user = User::where('email', $request->input('email'))->first();
+            Auth::logoutOtherDevices($request->input('password'));
             return response()->success($user->format() + [
                     'type' => 'user',
                     'token' => $user->createToken('authToken', $user->getPermissions())->accessToken,
