@@ -68,17 +68,16 @@ class Customer extends Authenticatable
     public static function boot()
     {
         parent::boot();
-
         static::creating(function(Customer $customer) {
             $customer->email_verified_at = now();
             $customer->status = AuthConstant::STATUS_ACTIVE;
-            if(request()->user()->type == 'admin') {
+            if(auth()->check() && request()->user()->type == 'admin') {
                 $customer->created_by = request()->user()->id;
             }
         });
 
         static::updating(function(Customer $customer) {
-            if(request()->user()->type == 'admin') {
+            if(auth()->check() && request()->user()->type == 'admin') {
                 $customer->updated_by = request()->user()->id ?? 1;
             }
         });

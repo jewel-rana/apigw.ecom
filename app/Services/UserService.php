@@ -83,7 +83,6 @@ class UserService
     {
         try {
             $user = User::where('email', $request->input('email'))->first();
-            $user->type = 'user';
             return response()->success($user->format() + [
                     'type' => 'user',
                     'token' => $user->createToken('authToken', $user->getPermissions())->accessToken,

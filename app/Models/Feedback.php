@@ -22,11 +22,6 @@ class Feedback extends Model
         'updated_by'
     ];
 
-    protected $hidden = [
-        'created_at',
-        'updated_at'
-    ];
-
     protected $casts = [
         'created_at' => 'datetime:d/m/Y h:i a'
     ];
@@ -38,7 +33,7 @@ class Feedback extends Model
 
     public function updatedBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by', 'id')->select('id', 'name', 'email');
+        return $this->belongsTo(User::class, 'updated_by', 'id')->select('id', 'name', 'email');
     }
 
     public function scopeFilter($query, $request)
@@ -71,11 +66,11 @@ class Feedback extends Model
         parent::boot();
 
         static::creating(function (Feedback $feedback) {
-            $feedback->created_by = request()->user()->id;
+            $feedback->created_by = auth()->user()->id ?? 1;
         });
 
         static::updating(function (Feedback $feedback) {
-            $feedback->updated_by = request()->user()->id;
+            $feedback->updated_by = auth()->user()->id ?? 1;
         });
     }
 }
