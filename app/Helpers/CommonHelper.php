@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Constants\AuthConstant;
 use App\Models\Order;
 use App\Models\Otp;
 use App\Notifications\OtpNotification;
@@ -31,7 +32,7 @@ class CommonHelper
 
     public static function hasPermission(string $permission): bool
     {
-        return auth()->check() && (auth()->user()->hasRole('admin') || auth()->user()->tokenCan($permission));
+        return auth()->check() && auth()->user()->status == AuthConstant::STATUS_ACTIVE && (auth()->user()->hasRole('admin') || auth()->user()->tokenCan($permission));
     }
 
     public static function parsePaginator($collections = null): array
