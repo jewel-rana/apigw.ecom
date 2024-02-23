@@ -55,8 +55,8 @@ class Feedback extends Model
                 'video_link',
                 'remarks',
                 'status',
-                'created_by',
-                'updated_by'
+                'created_at',
+                'updated_at'
             ]) +
             [
                 'created_by' => $this->createdBy,
