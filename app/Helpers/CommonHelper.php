@@ -28,9 +28,10 @@ class CommonHelper
             default => request()->input('role_id') > 2
         };
     }
+
     public static function hasPermission(string $permission): bool
     {
-        return auth()->check() && (auth()->user()->tokenCan($permission));
+        return auth()->check() && (auth()->user()->hasRole('admin') || auth()->user()->tokenCan($permission));
     }
 
     public static function parsePaginator($collections = null): array

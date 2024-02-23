@@ -10,7 +10,6 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -24,8 +23,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::where('is_system', false)
-                ->filter($request)
-            ->orderBy('created_at', $request->order ??'DESC')
+            ->filter($request)
+            ->orderBy('created_at', $request->order ?? 'DESC')
             ->paginate($request->input('per_page', 10));
         return response()->success(CommonHelper::parsePaginator($users));
     }
@@ -57,8 +56,9 @@ class UserController extends Controller
 
     public function callAction($method, $parameters)
     {
-        if($this->authorize($method, User::class)) {
-            return parent::callAction($method, $parameters);
+        if (!in_array($method, ['action'])) {
+            $this->authorize($method, User::class);
         }
+        return parent::callAction($method, $parameters);
     }
 }

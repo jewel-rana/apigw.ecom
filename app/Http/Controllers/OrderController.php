@@ -12,6 +12,7 @@ use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends Controller
 {
@@ -59,7 +60,7 @@ class OrderController extends Controller
 
     public function callAction($method, $parameters)
     {
-        if(Arr::hasAny(['export', 'action'], $method)) {
+        if(!in_array($method, ['export', 'action'])) {
             $this->authorize($method, Order::class);
         }
 

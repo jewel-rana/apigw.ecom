@@ -9,7 +9,7 @@ class OrderActionRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return CommonHelper::hasPermission('order-action');
+        return CommonHelper::hasPermission('order-update');
     }
 
     public function rules(): array

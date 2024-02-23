@@ -47,7 +47,7 @@ class FeedbackController extends Controller
 
     public function callAction($method, $parameters): Response
     {
-        if (Arr::hasAny(['action'], $method)) {
+        if (!in_array($method, ['action'])) {
             $this->authorize($method, Feedback::class);
         }
         return parent::callAction($method, $parameters);

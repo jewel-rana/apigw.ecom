@@ -12,7 +12,7 @@ class UserActionRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return CommonHelper::hasPermission('user-action');
+        return CommonHelper::hasPermission('user-update');
     }
 
     public function rules(): array
