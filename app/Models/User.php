@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use App\Constants\AppConstant;
+use App\Constants\AuthConstant;
 use App\Helpers\CommonHelper;
 use App\Services\PermissionService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -95,7 +93,7 @@ class User extends Authenticatable implements MustVerifyEmail
         });
 
         static::updated(function (User $user) {
-            if($user->status != AppConstant::USER_ACTIVE) {
+            if($user->status != AuthConstant::STATUS_ACTIVE) {
                 CommonHelper::revokeUserToken($user->id);
             }
         });
