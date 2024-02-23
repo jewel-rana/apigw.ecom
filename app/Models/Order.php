@@ -31,17 +31,17 @@ class Order extends Model
         'remarks'
     ];
 
-    protected $casts = [
-        'divisions' => 'array'
-    ];
+//    protected $casts = [
+//        'divisions' => 'json'
+//    ];
 
     protected $hidden = [
         'deleted_at'
     ];
 
-    protected $attributes = [
-        'divisions' => []
-    ];
+//    protected $attributes = [
+//        'divisions' => []
+//    ];
 
     public function customer(): BelongsTo
     {
@@ -70,8 +70,9 @@ class Order extends Model
 
     public function format(): array
     {
-        return $this->only(['id', 'promotion', 'promotion_objective', 'promotion_period', 'amount', 'location', 'divisions', 'gender', 'min_age', 'max_age', 'status', 'remarks', 'created_at', 'updated_at']) +
+        return $this->only(['id', 'promotion', 'promotion_objective', 'promotion_period', 'amount', 'location', 'gender', 'min_age', 'max_age', 'status', 'remarks', 'created_at', 'updated_at']) +
             [
+                'divisions' => json_decode($this->divisions),
                 'created_by' => $this->createdBy,
                 'updated_by' => $this->updatedBy,
                 'objectives' => $this->objectives->map(function(OrderAttribute $item) {
