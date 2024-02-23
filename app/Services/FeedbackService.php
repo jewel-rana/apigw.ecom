@@ -40,10 +40,10 @@ class FeedbackService
         }
     }
 
-    public function update(array $data)
+    public function update(array $data, Feedback $feedback)
     {
         try {
-            $this->feedbackRepository->create($data);
+            $this->feedbackRepository->update($data, $feedback->id);
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [

@@ -71,7 +71,7 @@ class DashboardService
         });
     }
 
-    private function getLabels(): array
+    private function getLabels(array $values = ['pending', 'active', 'inactive']): array
     {
         $max = ($this->year == now()->format('Y')) ? now()->subMonth()->format('m') : 11;
         $data = [];
@@ -80,8 +80,7 @@ class DashboardService
                 'active' => 0,
                 'pending' => 0,
                 'inactive' => 0,
-                'completed' => 0,
-                'cancelled' => 0,
+                'publish' => 0,
                 'refunded' => 0,
                 'total' => 0
             ];

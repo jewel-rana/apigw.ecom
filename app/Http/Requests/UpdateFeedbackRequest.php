@@ -22,7 +22,8 @@ class UpdateFeedbackRequest extends FormRequest
             'video_link' => 'required|string|url',
             'comments' => 'nullable|string|max:500',
             'remarks' => 'nullable|string',
-            'website' => 'nullable|url'
+            'website' => 'nullable|url',
+            'status' => 'required|in:Active,Inactive'
         ];
     }
 }
