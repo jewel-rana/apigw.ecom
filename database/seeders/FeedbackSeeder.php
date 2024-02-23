@@ -41,6 +41,8 @@ class FeedbackSeeder extends Seeder
                 'comments' => 'Lorel ipsum site amet'
             ]
         ];
-        Feedback::insert($feedbacks);
+        foreach($feedbacks as $feedback) {
+            Feedback::create($feedback);
+        }
     }
 }

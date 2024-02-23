@@ -32,7 +32,7 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'divisions' => 'array'
+        'divisions' => 'json:array'
     ];
 
     protected $hidden = [

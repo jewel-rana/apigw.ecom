@@ -12,7 +12,7 @@ class RoleUpdateRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return CommonHelper::hasPermission('role-update');
+        return CommonHelper::hasPermission('role-update') && $this->role != 1;
     }
 
     public function rules(): array
