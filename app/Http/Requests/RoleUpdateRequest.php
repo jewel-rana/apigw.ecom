@@ -14,7 +14,7 @@ class RoleUpdateRequest extends FormRequest
     {
         return CommonHelper::hasPermission('role-update') &&
             $this->role != 1 &&
-            $this->role != auth()->user()->roles->first()->id;
+            $this->role != auth()->user()->roles->first()->id ?? 1;
     }
 
     public function rules(): array
