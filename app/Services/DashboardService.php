@@ -94,11 +94,14 @@ class DashboardService
     public function getOrderStats(Request $request): array
     {
         return Cache::remember('order_stats', 30 * 60, function () {
-            $array = ['active' => 0, 'inactive' => 0, 'pending' => 0, 'completed' => 0, 'cancelled' => 0, 'hold' => 0];
+            $array = ['publish' => 0, 'refunded' => 0, 'pending' => 0, 'complete' => 0];
             Order::select(DB::raw('count(*) as total, status'))->groupBy('status')
                 ->get()
                 ->each(function ($order, $key) use (&$array) {
-                    $array[strtolower($order->status)] = $order->total;
+                    $status = strtolower($order->status);
+                    if(array_key_exists($status, $array)) {
+                        $array[$status] = $order->total;
+                    }
                 });
             return $array;
         });

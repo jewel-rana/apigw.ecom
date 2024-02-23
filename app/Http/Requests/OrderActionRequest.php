@@ -15,7 +15,7 @@ class OrderActionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required|in:Active,Inactive,Cancelled,Completed,Pending'
+            'status' => 'required|in:Publish,Refunded,Complete,Pending'
         ];
     }
 }
