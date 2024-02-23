@@ -19,7 +19,7 @@ class FeedbackPolicy
         return CommonHelper::hasPermission('feedback-show');
     }
 
-    public function create(): bool
+    public function store(): bool
     {
         return CommonHelper::hasPermission('feedback-create');
     }
