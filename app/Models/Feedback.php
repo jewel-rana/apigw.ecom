@@ -23,7 +23,8 @@ class Feedback extends Model
     ];
 
     protected $casts = [
-        'created_at' => 'datetime:d/m/Y h:i a'
+        'created_at' => 'datetime:d/m/Y h:i a',
+        'updated_at' => 'datetime:d/m/Y h:i a'
     ];
 
     public function createdBy(): BelongsTo
@@ -53,7 +54,9 @@ class Feedback extends Model
                 'website',
                 'video_link',
                 'remarks',
-                'status'
+                'status',
+                'created_by',
+                'updated_by'
             ]) +
             [
                 'created_by' => $this->createdBy,
