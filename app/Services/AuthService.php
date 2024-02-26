@@ -110,8 +110,8 @@ class AuthService
     public function forgot(ForgotPasswordRequest $request)
     {
         try {
-            $otp = CommonHelper::createOtp(['email' => $request->input('email')]);
-            Customer::where(['email' => $request->input('email'), 'type' => 'login'])->first()
+            $otp = CommonHelper::createOtp(['email' => $request->input('email'), 'type' => 'customer.forgot']);
+            Customer::where(['email' => $request->input('email')])->first()
                 ->notify(new OtpNotification($otp));
             return response()->success([
                 'reference' => $otp->reference
@@ -120,14 +120,14 @@ class AuthService
             LogHelper::exception($exception, [
                 'keyword' => 'FORGOT_PASSWORD_EXCEPTION'
             ]);
-            return response()->error('Internal error!');
+            return response()->error(null, 'Internal error!');
         }
     }
 
     public function resetPassword(ResetPasswordRequest $request)
     {
         try {
-            $otp = Otp::where('reference', $request->input('reference'))->first();
+            $otp = Otp::where(['reference' => $request->input('reference'), 'type' => 'customer.forgot'])->first();
             if(!$otp || now()->addMinutes(5)->lt($otp->created_at)) {
                 return response()->error('Sorry! otp does not match or expired');
             }
