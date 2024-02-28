@@ -14,7 +14,7 @@ class OtpVerifyRequest extends FormRequest
     {
         return [
             'reference' => ['required', 'string', new OtpValidateRule('verify')],
-            'otp' => 'required|integer|exact:6'
+            'otp' => 'required|string|min:6|max:6'
         ];
     }
 

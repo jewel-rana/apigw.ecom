@@ -8,7 +8,7 @@ use Ramsey\Uuid\UuidInterface;
 
 class Otp extends Model
 {
-    protected $fillable = ['type', 'email', 'code', 'reference'];
+    protected $fillable = ['type', 'email', 'code', 'reference', 'status'];
 
 
     public static function boot()

@@ -19,7 +19,6 @@ class ResetPasswordRequest extends FormRequest
     {
         return [
             'reference' => ['required', 'uuid', 'exists:otps,reference', new OtpValidateRule('passed')],
-            'otp' => 'required|numeric',
             'password' => 'required|string|min:6|max:18|same:password_confirm'
         ];
     }

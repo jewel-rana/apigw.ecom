@@ -20,22 +20,27 @@ class OtpValidateRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         try {
-            $otp = Otp::where('reference', request()->input('reference'))->first();
+            $otp = Otp::where('reference', request()->input('reference'))->latest()->first();
 
             if(!$otp) {
                 $fail(__('Invalid token'));
             }
 
-            if($otp->created_at->lte(now()->subMinutes(5))) {
+            if($otp->updated_at->lte(now()->subMinutes(5))) {
                 $fail(__('Token expired!'));
+                $otp->delete();
             }
 
-            if($otp->code != request()->input('otp')) {
-                $fail('otp', __('Your OTP does not match'));
+            if($this->type == 'verify') {
+                if ($otp->code != request()->input('otp')) {
+                    $fail('otp', __('Your OTP does not match'));
+                }
             }
 
-            if($this->type == 'passed' && $otp->status != AuthConstant::OTP_VERIFIED) {
-                $fail('otp', __('You have not passed the OTP validation'));
+            if($this->type == 'passed') {
+                if ($otp->status != AuthConstant::OTP_VERIFIED) {
+                    $fail('otp', __('You have not passed the OTP validation'));
+                }
             }
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [

@@ -121,7 +121,7 @@ class UserService
     public function forgot(UserForgotPasswordRequest $request)
     {
         try {
-            $otp = CommonHelper::createOtp(['email' => $request->input('email'), 'type' => 'user.login']);
+            $otp = CommonHelper::createOtp(['email' => $request->input('email'), 'type' => 'user.forgot']);
             User::where('email', $request->input('email'))->first()
                 ->notify(new OtpNotification($otp));
             return response()->success([
