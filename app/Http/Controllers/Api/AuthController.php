@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\LoginVerifyRequest;
+use App\Http\Requests\OtpVerifyRequest;
 use App\Services\AuthService;
 
 class AuthController extends Controller
@@ -21,7 +21,7 @@ class AuthController extends Controller
         return $this->authService->login($request);
     }
 
-    public function verify(LoginVerifyRequest $request)
+    public function verify(OtpVerifyRequest $request)
     {
         return $this->authService->verify($request);
     }

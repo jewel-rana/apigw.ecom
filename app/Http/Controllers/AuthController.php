@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\LoginVerifyRequest;
+use App\Http\Requests\OtpVerifyRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Services\AuthService;
@@ -25,7 +25,7 @@ class AuthController extends Controller
         return $this->authService->login($request);
     }
 
-    public function verify(LoginVerifyRequest $request)
+    public function verify(OtpVerifyRequest $request)
     {
         return $this->authService->verify($request);
     }

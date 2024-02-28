@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Constants\AuthConstant;
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
 use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\OtpVerifyRequest;
 use App\Http\Requests\UserForgotPasswordRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserResetPasswordRequest;
@@ -133,13 +135,30 @@ class UserService
         }
     }
 
+    public function verify(OtpVerifyRequest $request)
+    {
+        try {
+            $otp = Otp::where('type', AuthConstant::USER_FORGOT_OTP_TYPE)
+                ->where('reference', $request->input('reference'))
+                ->first();
+            $otp->update(['status' => AuthConstant::OTP_VERIFIED]);
+            return response()->success(
+                [
+                    'reference' => $otp->reference
+                ]
+            );
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'VENDOR_LOGIN_VERIFY_EXCEPTION'
+            ]);
+            return response()->error(['message' => $exception->getMessage()]);
+        }
+    }
+
     public function resetPassword(UserResetPasswordRequest $request)
     {
         try {
-            $otp = Otp::where(['reference' => $request->input('reference'), 'type' => 'user.login'])->first();
-            if(!$otp || now()->addMinutes(5)->lt($otp->created_at)) {
-                return response()->error('Sorry! otp does not match or expired');
-            }
+            $otp = Otp::where(['reference' => $request->input('reference'), 'type' => AuthConstant::USER_FORGOT_OTP_TYPE])->first();
 
             $this->userRepository->getModel()
                 ->where('email', $request->input('email'))

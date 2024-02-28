@@ -34,6 +34,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::group(['prefix' => 'user'], function () {
         Route::post('login', [AuthUserController::class, 'login']);
         Route::post('forgot', [AuthUserController::class, 'forgot']);
+        Route::post('verify', [AuthUserController::class, 'verify']);
         Route::post('reset-password', [AuthUserController::class, 'resetPassword']);
         Route::post('change-password', [AuthUserController::class, 'changePassword'])
             ->middleware('auth:api');

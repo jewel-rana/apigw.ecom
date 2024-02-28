@@ -8,7 +8,7 @@ use App\Helpers\LogHelper;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\LoginVerifyRequest;
+use App\Http\Requests\OtpVerifyRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Models\Customer;
@@ -39,29 +39,6 @@ class AuthService
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'VENDOR_LOGIN_EXCEPTION'
-            ]);
-            return response()->error(['message' => $exception->getMessage()]);
-        }
-    }
-
-    public function verify(LoginVerifyRequest $request)
-    {
-        try {
-            $otp = Otp::where('type', AuthConstant::LOGIN_OTP_TYPE)
-                ->where('reference', $request->input('reference'))
-                ->first();
-            if (!$otp || $otp->code != $request->input('otp')) {
-                throw ValidationException::withMessages(['otp' => __('OTP does not match')]);
-            }
-            $vendor = User::where('email', $otp->email)->first();
-            return response()->success($vendor->format() +
-                [
-                    'token' => $vendor->createToken(AuthConstant::TOKEN_NAME)->accessToken
-                ]
-            );
-        } catch (\Exception $exception) {
-            LogHelper::exception($exception, [
-                'keyword' => 'VENDOR_LOGIN_VERIFY_EXCEPTION'
             ]);
             return response()->error(['message' => $exception->getMessage()]);
         }
@@ -124,18 +101,32 @@ class AuthService
         }
     }
 
+    public function verify(OtpVerifyRequest $request)
+    {
+        try {
+            $otp = Otp::where('type', AuthConstant::CUSTOMER_FORGOT_OTP_TYPE)
+                ->where('reference', $request->input('reference'))
+                ->first();
+            $otp->update(['status' => AuthConstant::OTP_VERIFIED]);
+            return response()->success(
+                [
+                    'reference' => $otp->reference
+                ]
+            );
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'VENDOR_LOGIN_VERIFY_EXCEPTION'
+            ]);
+            return response()->error(['message' => $exception->getMessage()]);
+        }
+    }
+
     public function resetPassword(ResetPasswordRequest $request)
     {
         try {
-            $otp = Otp::where(['reference' => $request->input('reference'), 'type' => 'customer.forgot'])->first();
-            if(!$otp || now()->addMinutes(5)->lt($otp->created_at)) {
-                return response()->error('Sorry! otp does not match or expired');
-            }
-
             $this->customerRepository->getModel()
                 ->where('email', $request->input('email'))
                 ->update(['password' => Hash::make($request->input('password'))]);
-            $otp->delete();
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [

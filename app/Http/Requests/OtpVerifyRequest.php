@@ -2,17 +2,19 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\OtpValidateRule;
 use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginVerifyRequest extends FormRequest
+class OtpVerifyRequest extends FormRequest
 {
     use FormValidationResponseTrait;
 
     public function rules(): array
     {
         return [
-            'reference' => ['required', 'string']
+            'reference' => ['required', 'string', new OtpValidateRule('verify')],
+            'otp' => 'required|integer|exact:6'
         ];
     }
 
