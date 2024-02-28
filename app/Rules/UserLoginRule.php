@@ -28,7 +28,7 @@ class UserLoginRule implements ValidationRule
                 }
 
                 if (!Hash::check(request()->input('password'), $user->password)) {
-                    $fail(__('password', 'Password does not match'));
+                    $fail('password', __('Password does not match'));
                 }
             }
         } catch (\Exception $exception) {
