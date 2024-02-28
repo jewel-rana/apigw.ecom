@@ -55,6 +55,7 @@ class CommonHelper
         return Otp::updateOrCreate($data,
             [
                 'code' => self::generateOtp(),
+                'status' => 0
             ]
         );
     }
