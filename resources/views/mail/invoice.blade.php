@@ -17,11 +17,11 @@
     <!-- End Common CSS -->
 </head>
 <body>
-<table width="100%" cellpadding="0" cellspacing="0" border="0" class="backgroundTable main-temp" style="background-color: #d5d5d5;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" class="backgroundTable main-temp" style="background-color: #eeeded;">
     <tbody>
     <tr>
         <td>
-            <table width="600" align="center" cellpadding="15" cellspacing="0" border="0" class="devicewidth" style="background-color: #eeeded;">
+            <table width="600" align="center" cellpadding="15" cellspacing="0" border="0" class="devicewidth" style="background-color: #fef5f5;">
                 <tbody>
                 <!-- Start header Section -->
                 <tr>
