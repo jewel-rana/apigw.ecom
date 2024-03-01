@@ -30,7 +30,7 @@
                             <tbody>
                             <tr>
                                 <td style="padding-bottom: 10px;">
-                                    <a href="https://prokash.io"><img src="/images/logo.svg" alt="PapaChina" style="max-height: 60px;width: auto;" /></a>
+                                    <a href="https://prokash.io"><img src="{{ asset('/images/logo.svg') }}" alt="PapaChina" style="max-height: 60px;width: auto;" /></a>
                                 </td>
                             </tr>
                             <!-- <tr>
