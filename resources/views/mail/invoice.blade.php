@@ -30,7 +30,7 @@
                             <tbody>
                             <tr>
                                 <td style="padding-bottom: 10px;">
-                                    <a href="https://prokash.io"><img src="{{ asset('/images/logo.svg') }}" alt="PapaChina" style="max-height: 60px;width: auto;" /></a>
+                                    <a href="https://prokash.io"><img src="{{ asset('/images/logo.svg') }}" alt="Prokash.io" style="max-height: 60px;width: auto;" /></a>
                                 </td>
                             </tr>
                             <!-- <tr>
@@ -109,7 +109,7 @@
                             <tbody>
                             <tr>
                                 <td rowspan="4" style="padding-right: 10px; padding-bottom: 10px;">
-                                    <img style="height: 80px;" src="{{ $promotion_logo }}" alt="Product Image" />
+                                    <img style="height: 80px;" src="{{ $promotion_logo }}" alt="{{ $order->promotion }}" />
                                 </td>
                                 <td colspan="2" style="font-size: 14px; font-weight: bold; color: #666666; padding-bottom: 5px;">
                                     {{ $order->promotion }}
