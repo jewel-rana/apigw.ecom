@@ -66,7 +66,7 @@
                             <tbody>
                             <tr>
                                 <td style="width: 100%; font-size: 16px; font-weight: bold; color: #666666; padding-bottom: 5px;">
-                                    Billing address
+                                    Customer Info
                                 </td>
                             </tr>
                             <tr>
