@@ -25,7 +25,7 @@
                 <tbody>
                 <!-- Start header Section -->
                 <tr>
-                    <td style="padding-top: 30px; background-color: #f1eaff;">
+                    <td style="padding-top: 30px; background-color: #f4f4f4;">
                         <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee; text-align: center;">
                             <tbody>
                             <tr>
@@ -189,7 +189,7 @@
 
                 <!-- Start payment method Section -->
                 <tr>
-                    <td style="padding: 20px; background-color: #f1eaff;">
+                    <td style="padding: 20px; background-color: #f4f4f4;">
                         <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner">
                             <tbody>
                             <tr>
