@@ -21,7 +21,7 @@
     <tbody>
     <tr>
         <td>
-            <table width="600" align="center" cellpadding="15" cellspacing="0" border="0" class="devicewidth" style="background-color: #fef5f5;">
+            <table width="600" align="center" cellpadding="15" cellspacing="0" border="0" class="devicewidth" style="background-color: #fff;">
                 <tbody>
                 <!-- Start header Section -->
                 <tr>
