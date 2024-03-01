@@ -151,34 +151,10 @@
                             <tr>
                                 <td rowspan="5" style="width: 55%;"></td>
                                 <td style="font-size: 14px; line-height: 18px; color: #666666;">
-                                    Sub-Total:
+                                    Total:
                                 </td>
                                 <td style="font-size: 14px; line-height: 18px; color: #666666; width: 130px; text-align: right;">
                                     {{ $order->amount }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 10px; border-bottom: 1px solid #eeeeee;">
-                                    Shipping Fee:
-                                </td>
-                                <td style="font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 10px; border-bottom: 1px solid #eeeeee; text-align: right;">
-                                    0
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="font-size: 14px; font-weight: bold; line-height: 18px; color: #666666; padding-top: 10px;">
-                                    Order Total
-                                </td>
-                                <td style="font-size: 14px; font-weight: bold; line-height: 18px; color: #666666; padding-top: 10px; text-align: right;">
-                                    {{ $order->amount }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="font-size: 14px; font-weight: bold; line-height: 18px; color: #666666;">
-                                    Payment Term:
-                                </td>
-                                <td style="font-size: 14px; font-weight: bold; line-height: 18px; color: #666666; text-align: right;">
-                                    100%
                                 </td>
                             </tr>
                             </tbody>
