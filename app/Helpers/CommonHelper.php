@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class CommonHelper
 {
+    public static function getPromotionLogo($promotion = 'facebook'): string
+    {
+        return 'images/' . strtolower($promotion) . '.png';
+    }
+
     public static function revokeUserToken($userId)
     {
         try {
