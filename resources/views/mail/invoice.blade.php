@@ -210,7 +210,7 @@
                                     Amount: {{ $order->amount }}
                                 </td>
                                 <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
-                                    Status: {{ $order->payment->status ?? $order->status }}
+                                    Status: {{ $order->payment->status ?? 'Pending' }}
                                 </td>
                             </tr>
                             <tr>
