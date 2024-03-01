@@ -30,24 +30,24 @@
                             <tbody>
                             <tr>
                                 <td style="padding-bottom: 10px;">
-                                    <a href="https://prokash.io"><img src="{{ asset('/images/logo.svg') }}" alt="Prokash.io" style="max-height: 60px;width: auto;" /></a>
-                                </td>
-                            </tr>
-                            <!-- <tr>
-                                <td style="font-size: 14px; line-height: 18px; color: #666666;">
-                                    3828 Mall Road
+                                    <a href="https://prokash.io"><img src="{{ asset('/images/logo.png') }}" alt="Prokash.io" style="max-height: 60px;width: auto;" /></a>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="font-size: 14px; line-height: 18px; color: #666666;">
-                                    Los Angeles, California, 90017
+                                    Street Address
                                 </td>
                             </tr>
                             <tr>
                                 <td style="font-size: 14px; line-height: 18px; color: #666666;">
-                                    Phone: 310-807-6672 | Email: info@example.com
+                                    City, Country
                                 </td>
-                            </tr> -->
+                            </tr>
+                            <tr>
+                                <td style="font-size: 14px; line-height: 18px; color: #666666;">
+                                    Phone: XXXXXXXXXXX | Email: info@prokash.io
+                                </td>
+                            </tr>
                             <tr>
                                 <td style="font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 25px;">
                                     <strong>Invoice No.:</strong> #{{ $order->id }} | <strong>Date:</strong> {{ $order->created_at->format('d-M-Y') }}
@@ -65,35 +65,23 @@
                         <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #bbbbbb;">
                             <tbody>
                             <tr>
-                                <td style="width: 55%; font-size: 16px; font-weight: bold; color: #666666; padding-bottom: 5px;">
-                                    YOU
-                                </td>
-                                <td style="width: 45%; font-size: 16px; font-weight: bold; color: #666666; padding-bottom: 5px;">
-                                    WE
+                                <td style="width: 100%; font-size: 16px; font-weight: bold; color: #666666; padding-bottom: 5px;">
+                                    Billing address
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
                                     {{ $order->customer->name }}
                                 </td>
-                                <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
-                                    Prokash.io
-                                </td>
                             </tr>
                             <tr>
                                 <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
-                                    H# **, R# **, Avenue# *, Mirpur DOHS
-                                </td>
-                                <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
-                                    H# **, R# **, Avenue# *, Mirpur DOHS
+                                    {{ $order->customer->email }}
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 10px;">
-                                    Dhaka - 1216
-                                </td>
-                                <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 10px;">
-                                    Dhaka - 1216
+                                    {{ $order->customer->mobile }}
                                 </td>
                             </tr>
                             </tbody>
@@ -134,7 +122,7 @@
                                     AGE: {{ $order->min_age }} - {{ $order->max_age }}
                                 </td>
                                 <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right; padding-bottom: 10px;">
-                                    <b style="color: #666666;">BDT. {{ $order->amount }}</b> Total
+                                    <b style="color: #666666;">BDT. {{ $order->amount }}</b>
                                 </td>
                             </tr>
                             </tbody>
