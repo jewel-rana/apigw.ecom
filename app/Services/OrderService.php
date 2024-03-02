@@ -8,6 +8,7 @@ use App\Http\Requests\OrderActionRequest;
 use App\Models\Order;
 use App\Models\OrderAttribute;
 use App\Models\Promotion;
+use App\Notifications\OrderUpdateNotification;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -85,6 +86,7 @@ class OrderService
     {
         try {
             $order->update($request->validated());
+            $order->customer->notify(new OrderUpdateNotification($order));
             return response()->success();
         } catch (\Exception $exception) {
             return response()->error(['message' => $exception->getMessage()]);

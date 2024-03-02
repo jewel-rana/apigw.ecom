@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OrderCreateNotification extends Notification implements ShouldQueue
+class OrderUpdateNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -28,8 +28,8 @@ class OrderCreateNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Order Invoice')
-            ->view('mail.order.invoice', [
+            ->subject('Order Status')
+            ->view('mail.order.update', [
                 'order' => $this->order,
                 'promotion_logo' => CommonHelper::getPromotionLogo($this->order->promotion)
             ]);
