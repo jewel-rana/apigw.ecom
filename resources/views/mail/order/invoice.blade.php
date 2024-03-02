@@ -114,7 +114,7 @@
                 <!-- Start calculation Section -->
                 <tr>
                     <td style="padding-top: 0;">
-                        <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #bbbbbb; margin-top: -5px;">
+                        <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="margin-top: -5px;">
                             <tbody>
                             <tr>
                                 <td rowspan="5" style="width: 55%;"></td>

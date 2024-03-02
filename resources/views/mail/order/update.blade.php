@@ -57,7 +57,7 @@
                 <!-- Start product Section -->
                 <tr>
                     <td style="padding-top: 0;">
-                        <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee;">
+                        <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner">
                             <tbody>
                             <tr>
                                 <td style="font-size: 14px; font-weight: bold; color: #666666; padding-bottom: 5px; word-wrap: break-word;">
