@@ -17,16 +17,16 @@
     <!-- End Common CSS -->
 </head>
 <body>
-<table width="100%" cellpadding="0" cellspacing="0" border="0" class="backgroundTable main-temp" style="background-color: #eeeded;">
+<table width="auto" cellpadding="0" cellspacing="0" border="0" class="backgroundTable main-temp" style="background-color: #eeeded;">
     <tbody>
     <tr>
         <td>
-            <table width="600" align="center" cellpadding="15" cellspacing="0" border="0" class="devicewidth" style="background-color: #fff;">
+            <table width="auto" align="center" cellpadding="15" cellspacing="0" border="0" class="devicewidth" style="background-color: #fff;">
                 <tbody>
                 <!-- Start header Section -->
                 <tr>
                     <td style="padding-top: 30px; background-color: #f4f4f4;">
-                        <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee; text-align: center;">
+                        <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee; text-align: center;">
                             <tbody>
                             <tr>
                                 <td style="padding-bottom: 10px;">
@@ -57,17 +57,14 @@
                 <!-- Start product Section -->
                 <tr>
                     <td style="padding-top: 0;">
-                        <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee;">
+                        <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee;">
                             <tbody>
                             <tr>
-                                <td rowspan="4" style="padding-right: 10px; padding-bottom: 10px;">
-                                    <img style="height: 80px;" src="{{ $promotion_logo }}" alt="{{ $order->promotion }}" />
-                                </td>
-                                <td style="font-size: 14px; font-weight: bold; color: #666666; padding-bottom: 5px;">
+                                <td style="font-size: 14px; font-weight: bold; color: #666666; padding-bottom: 5px; word-wrap: break-word;">
                                     {{ $order->promotion }}, {{ $order->promotion_period }} days, {{ $order->promotion_objective }}
                                 </td>
                                 <td>
-                                    <button style="padding: 5px 15px;background: #8dabae; color: #fff; border: 1px solid #949090;">{{ strtoupper($order->status) }}</button>
+                                    <button style="padding: 5px 15px; margin-left: 10px; background: #8dabae; color: #fff; border: 1px solid #949090;">{{ strtoupper($order->status) }}</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -79,7 +76,7 @@
                 <!-- Start payment method Section -->
                 <tr>
                     <td style="padding: 20px; background-color: #f4f4f4;">
-                        <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner">
+                        <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner">
                             <tbody>
                             <tr>
                                 <td colspan="2" style="width: 100%; text-align: center; font-style: italic; font-size: 13px; font-weight: 600; color: #666666; padding: 15px 0; border-top: 1px solid #eeeeee;">

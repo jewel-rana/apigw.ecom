@@ -17,16 +17,16 @@
     <!-- End Common CSS -->
 </head>
 <body>
-<table width="100%" cellpadding="0" cellspacing="0" border="0" class="backgroundTable main-temp" style="background-color: #eeeded;">
+<table width="auto" cellpadding="0" cellspacing="0" border="0" class="backgroundTable main-temp" style="background-color: #eeeded;">
     <tbody>
     <tr>
         <td>
-            <table width="600" align="center" cellpadding="15" cellspacing="0" border="0" class="devicewidth" style="background-color: #fff;">
+            <table width="auto" align="center" cellpadding="15" cellspacing="0" border="0" class="devicewidth" style="background-color: #fff;">
                 <tbody>
                 <!-- Start header Section -->
                 <tr>
                     <td style="padding-top: 30px; background-color: #f4f4f4;">
-                        <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee; text-align: center;">
+                        <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee; text-align: center;">
                             <tbody>
                             <tr>
                                 <td style="padding-bottom: 10px;">
@@ -62,7 +62,7 @@
                 <!-- Start address Section -->
                 <tr>
                     <td style="padding-top: 20px;">
-                        <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #bbbbbb;">
+                        <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #bbbbbb;">
                             <tbody>
                             <tr>
                                 <td style="width: 100%; font-size: 16px; font-weight: bold; color: #666666; padding-bottom: 5px;">
@@ -93,7 +93,7 @@
                 <!-- Start product Section -->
                 <tr>
                     <td style="padding-top: 0;">
-                        <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee;">
+                        <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee;">
                             <tbody>
                             <tr>
                                 <td rowspan="4" style="padding-right: 10px; padding-bottom: 10px;">
@@ -134,7 +134,7 @@
                 <!-- Start calculation Section -->
                 <tr>
                     <td style="padding-top: 0;">
-                        <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #bbbbbb; margin-top: -5px;">
+                        <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #bbbbbb; margin-top: -5px;">
                             <tbody>
                             <tr>
                                 <td rowspan="5" style="width: 55%;"></td>
@@ -154,7 +154,7 @@
                 <!-- Start payment method Section -->
                 <tr>
                     <td style="padding: 20px; background-color: #f4f4f4;">
-                        <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner">
+                        <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner">
                             <tbody>
                             <tr>
                                 <td colspan="2" style="font-size: 16px; font-weight: bold; color: #666666; padding-bottom: 5px;">
