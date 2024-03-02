@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\RecaptchaValidateRule;
 use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -21,7 +22,8 @@ class RegisterRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'mobile' => 'required|string|unique:users,mobile',
             'password' => 'required|string|min:8|max:32|same:password_confirm',
-            'gender' => 'nullable|in:male,female'
+            'gender' => 'nullable|in:male,female',
+            'recaptcha_token' => ['required', 'string', new RecaptchaValidateRule()]
         ];
     }
 }
