@@ -96,30 +96,10 @@
                         <table width="auto" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee;">
                             <tbody>
                             <tr>
-                                <td rowspan="4" style="padding-right: 10px; padding-bottom: 10px;">
-                                    <img style="height: 80px;" src="{{ $promotion_logo }}" alt="{{ $order->promotion }}" />
-                                </td>
-                                <td colspan="2" style="font-size: 14px; font-weight: bold; color: #666666; padding-bottom: 5px;">
-                                    {{ $order->promotion }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="font-size: 14px; line-height: 18px; color: #757575; width: 440px;">
-                                    Period: {{ $order->promotion_period }} days
-                                </td>
-                                <td style="width: 130px;"></td>
-                            </tr>
-                            <tr>
-                                <td style="font-size: 14px; line-height: 18px; color: #757575;">
-                                    Objective: {{ $order->promotion_objective }}
-                                </td>
-                                <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right;">
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="font-size: 14px; line-height: 18px; color: #757575; padding-bottom: 10px;">
-                                    AGE: {{ $order->min_age }} - {{ $order->max_age }}
+                                <td style="font-size: 14px; font-weight: bold; color: #666666; padding-bottom: 5px;">
+                                    {{ $order->promotion }},
+                                    {{ $order->promotion_period }} days,
+                                    {{ $order->promotion_objective }}
                                 </td>
                                 <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right; padding-bottom: 10px;">
                                     <b style="color: #666666;">BDT. {{ $order->amount }}</b>
