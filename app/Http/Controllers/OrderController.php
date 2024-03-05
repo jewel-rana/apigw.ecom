@@ -38,9 +38,9 @@ class OrderController extends Controller
         return $this->orderService->create($request->validated());
     }
 
-    public function show(string $id)
+    public function show(Order $order)
     {
-        //
+        return response()->success($order->format());
     }
 
     public function update(OrderUpdateRequest $request, int $id)
