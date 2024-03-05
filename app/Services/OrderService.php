@@ -57,9 +57,12 @@ class OrderService
     public function getOrders(Request $request)
     {
         try {
-            $orders = Order::filter($request)
-                ->latest()
-                ->paginate(CommonHelper::perPage($request));
+            $query = Order::filter($request)
+                ->latest();
+            if($request->user()->type != 'admin') {
+                $query->where('customer_id', $request->user()->id);
+            }
+            $orders = $query->paginate(CommonHelper::perPage($request));
             return response()->success(CommonHelper::parsePaginator($orders));
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
