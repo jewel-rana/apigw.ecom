@@ -6,10 +6,16 @@ use App\Constants\AuthConstant;
 use App\Models\Order;
 use App\Models\Otp;
 use App\Notifications\OtpNotification;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CommonHelper
 {
+    public static function perPage(Request $request)
+    {
+        return (!$request->has('per_age') || $request->input('per_page', 10) > 50) ? 10 : $request->input('per_page');
+    }
+
     public static function getPromotionLogo($promotion = 'facebook'): string
     {
         return asset('images/' . strtolower($promotion) . '.png');

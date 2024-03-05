@@ -23,7 +23,7 @@ class FeedbackService
     {
         $feedbacks = $this->feedbackRepository->getModel()->filter($request)
             ->latest()
-            ->paginate($request->input('per_page', 10));
+            ->paginate(CommonHelper::perPage($request));
         return response()->success(CommonHelper::parsePaginator($feedbacks));
     }
 

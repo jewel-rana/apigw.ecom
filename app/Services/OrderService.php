@@ -59,7 +59,7 @@ class OrderService
         try {
             $orders = Order::filter($request)
                 ->latest()
-                ->paginate($request->integer('per_page', 10));
+                ->paginate(CommonHelper::perPage($request));
             return response()->success(CommonHelper::parsePaginator($orders));
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
