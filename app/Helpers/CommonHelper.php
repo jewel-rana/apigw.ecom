@@ -110,6 +110,10 @@ class CommonHelper
             $query->where('id', $request->input('id'));
         }
 
+        if($request->filled('customer_id')) {
+            $query->where('customer_id', $request->input('customer_id'));
+        }
+
         if ($request->filled('from')) {
             $query->where('created_at', '>=', $request->input('from') . ' 00:00:00');
         }
