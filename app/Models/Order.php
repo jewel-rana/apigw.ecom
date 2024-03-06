@@ -28,7 +28,8 @@ class Order extends Model
         'status',
         'created_by',
         'updated_by',
-        'remarks'
+        'remarks',
+        'note'
     ];
 
 //    protected $casts = [
@@ -70,7 +71,7 @@ class Order extends Model
 
     public function format(): array
     {
-        return $this->only(['id', 'promotion', 'promotion_objective', 'promotion_period', 'amount', 'location', 'gender', 'min_age', 'max_age', 'status', 'remarks', 'created_at', 'updated_at']) +
+        return $this->only(['id', 'promotion', 'promotion_objective', 'promotion_period', 'amount', 'location', 'gender', 'min_age', 'max_age', 'status', 'remarks', 'note', 'created_at', 'updated_at']) +
             [
                 'divisions' => json_decode($this->divisions),
                 'created_by' => $this->createdBy,

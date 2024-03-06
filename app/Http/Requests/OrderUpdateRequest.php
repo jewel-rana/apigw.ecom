@@ -30,7 +30,8 @@ class OrderUpdateRequest extends FormRequest
             'objectives' => 'bail|nullable|array',
             'promotion_start_date' => 'bail|nullable',
             'promotion_end_date' => 'bail|nullable',
-            'remarks' => 'nullable|string'
+            'remarks' => 'nullable|string',
+            'note' => 'nullable|string'
         ];
     }
 }
