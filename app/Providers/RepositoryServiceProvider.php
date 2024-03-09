@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Repositories\BaseRepository;
+use App\Repositories\ComplainRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\FeedbackRepository;
 use App\Repositories\Interfaces\BaseRepositoryInterface;
+use App\Repositories\Interfaces\ComplainRepositoryInterface;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Interfaces\FeedbackRepositoryInterface;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
@@ -37,6 +39,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(FeedbackRepositoryInterface::class, FeedbackRepository::class);
         $this->app->bind(PermissionRepositoryInterface::class, PermissionRepository::class);
+        $this->app->bind(ComplainRepositoryInterface::class, ComplainRepository::class);
     }
 
     /**

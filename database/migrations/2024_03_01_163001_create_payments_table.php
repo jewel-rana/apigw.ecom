@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('customer_id')->constrained();
+            $table->foreignId('order_id')->constrained();
+            $table->float('amount')->default(0);
+            $table->string('gateway_trx_id')->nullable();
+            $table->enum('status', ['Pending', 'Success', 'Failed', 'Cancelled', 'Refunded'])
+                ->default('Pending')->index();
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthUserController;
+use App\Http\Controllers\ComplainController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FeedbackController;
@@ -78,4 +79,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('user', UserController::class)->except(['destroy']);
     Route::apiResource('order', OrderController::class)->except(['destroy']);
     Route::apiResource('feedback', FeedbackController::class)->except(['destroy']);
+    Route::apiResource('complain', ComplainController::class)->except(['destroy']);
 });
