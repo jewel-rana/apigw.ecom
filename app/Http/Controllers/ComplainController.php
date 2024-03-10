@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FeedbackActionRequest;
+use App\Http\Requests\StoreComplainRequest;
 use App\Http\Requests\StoreFeedbackRequest;
+use App\Http\Requests\UpdateComplainRequest;
 use App\Http\Requests\UpdateFeedbackRequest;
 use App\Models\Complain;
 use App\Services\ComplainService;
@@ -24,7 +26,7 @@ class ComplainController extends Controller
         return $this->complainService->all($request);
     }
 
-    public function store(StoreFeedbackRequest $request)
+    public function store(StoreComplainRequest $request)
     {
         return $this->complainService->create($request->validated());
     }
@@ -34,7 +36,7 @@ class ComplainController extends Controller
         return response()->success($feedback->format());
     }
 
-    public function update(UpdateFeedbackRequest $request, Complain $complain)
+    public function update(UpdateComplainRequest $request, Complain $complain)
     {
         return $this->complainService->update($request->validated(), $complain);
     }

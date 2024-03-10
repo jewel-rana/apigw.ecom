@@ -23,6 +23,9 @@ return [
         'dashboard-stats' => 'Can show statistics counter',
         'feedback-list' => 'Can see feedback list',
         'feedback-create' => 'Can create feedback',
-        'feedback-update' => 'Can update feedback'
+        'feedback-update' => 'Can update feedback',
+        'complain-list' => 'Can see complain list',
+        'complain-create' => 'Can create complain',
+        'complain-update' => 'Can update complain',
     ]
 ];
