@@ -88,7 +88,7 @@ class PaymentService
     {
         try {
             $payment = $this->paymentRepository->getModel()
-                ->where('gateway_trx_id', $request->input('gateway_payment_id'))
+                ->where('gateway_trx_id', $request->input('gateway_trx_id'))
                 ->first();
             if (!$payment) {
                 throw new \Exception('Invalid payment');

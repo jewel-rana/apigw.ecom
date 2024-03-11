@@ -17,7 +17,7 @@ class PaymentVerifyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'gateway_payment_id' => 'required|string'
+            'gateway_trx_id' => 'required|string'
         ];
     }
 }
