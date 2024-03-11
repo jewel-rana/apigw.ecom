@@ -45,7 +45,7 @@ class OrderService
                     $order->objectives()->save(new OrderAttribute(['key' => $key, 'value' => $value]));
                 }
             }
-            return response()->success();
+            return response()->success($order->format());
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'ORDER_CREATE_EXCEPTION'
