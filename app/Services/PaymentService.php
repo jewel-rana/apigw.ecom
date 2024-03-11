@@ -63,12 +63,16 @@ class PaymentService
 
             $gatewayResponse = app(GatewayService::class)->execute($gateway, $payment);
 
-            if (is_object($gatewayResponse) && $gatewayResponse->paymentID) {
+            if (is_object($gatewayResponse) && isset($gatewayResponse->paymentID)) {
                 $payment->update(['gateway_response' => (array) $gatewayResponse]);
                 if ($gatewayResponse->transactionStatus == AppConstant::BKASH_COMPLETED) {
                     $payment->update(['status' => AppConstant::PAYMENT_SUCCESS]);
                     return response()->success(['order_id' => $payment->order_id]);
                 } else {
+                    $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
+                }
+            } else {
+                if(isset($gatewayResponse->statusCode) && $gatewayResponse->statusCode != 2062) {
                     $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
                 }
             }
