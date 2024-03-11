@@ -52,7 +52,7 @@ class Order extends Model
 
     public function payment(): HasOne
     {
-        return $this->hasOne(Payment::class)->latest()->select('id', 'status', 'gateway_trx_id');
+        return $this->hasOne(Payment::class)->latest()->select('id', 'status', 'payment_method', 'gateway_trx_id');
     }
 
     public function createdBy(): BelongsTo

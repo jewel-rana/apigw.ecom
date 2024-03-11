@@ -27,6 +27,11 @@ class GatewayService
         return $gateway->verify($payment);
     }
 
+    public function refund(GatewayInterface $gateway, $payment)
+    {
+        return $gateway->refund($payment);
+    }
+
     public function intend(GatewayInterface $gateway)
     {
         // TODO: Implement intend() method.

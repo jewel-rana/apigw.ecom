@@ -58,8 +58,7 @@ class Bkash extends Builder implements GatewayInterface, BkashInterface
         $response = $this->__setHeader([
             'Content-Type:application/json',
             'Authorization:' . $this->getToken($payment->order),
-            'X-APP-Key:' . $this->credentials['client_id'],
-            'X-AMZ-DATE:' . now()->format('Y-m-d')
+            'X-APP-Key:' . $this->credentials['client_id']
         ])
             ->__setBody(json_encode([
                 'mode' => '0011',
@@ -83,7 +82,7 @@ class Bkash extends Builder implements GatewayInterface, BkashInterface
 
     public function execute(Payment $payment)
     {
-        return $this->__setUrl('/tokenized/checkout/execute')
+        return $this->__setUrl('tokenized/checkout/execute')
             ->__setHeader([
                 'Content-Type:application/json',
                 'authorization:' . $this->getToken($payment->order),
@@ -95,7 +94,7 @@ class Bkash extends Builder implements GatewayInterface, BkashInterface
 
     public function verify(Payment $payment)
     {
-        return $this->__setUrl('/tokenized/checkout/payment/status')
+        return $this->__setUrl('tokenized/checkout/payment/status')
             ->__setHeader([
                 'Content-Type:application/json',
                 'authorization:' . $this->getToken($payment->order),
@@ -107,13 +106,16 @@ class Bkash extends Builder implements GatewayInterface, BkashInterface
 
     public function refund(Payment $payment)
     {
-        return $this->__setUrl('/tokenized/checkout/payment/status')
+        return $this->__setUrl('tokenized/checkout/payment/refund')
             ->__setHeader([
                 'Content-Type:application/json',
                 'authorization:' . $this->getToken($payment->order),
-                'x-app-key:' . getOption('Bkash_app_id')
+                'x-app-key:' . $this->credentials['client_id']
             ])
-            ->__setBody(json_encode(['paymentID' => $payment->gateway_trx_id]))
+            ->__setBody(json_encode([
+                'paymentID' => $payment->gateway_trx_id,
+                'trxID' => $payment->order_id
+            ]))
             ->_call();
     }
 

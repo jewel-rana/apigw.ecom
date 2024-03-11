@@ -9,4 +9,5 @@ class AppConstant
     const BKASH_COMPLETED = 'Completed';
     const BKASH_INITIATED = 'Initiated';
     const PAYMENT_FAILED = 'Failed';
+    const PAYMENT_REFUNDED = 'Refunded';
 }

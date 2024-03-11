@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'payment'], function() {
         Route::post('verify', [PaymentController::class, 'verify']);
         Route::post('execute', [PaymentController::class, 'execute']);
+        Route::post('refund', [PaymentController::class, 'refund']);
     });
 
     Route::apiResource('customer', CustomerController::class)->except(['destroy']);

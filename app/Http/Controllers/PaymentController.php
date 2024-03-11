@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PaymentCreateRequest;
+use App\Http\Requests\PaymentRefundRequest;
 use App\Http\Requests\PaymentVerifyRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Models\Payment;
@@ -45,5 +46,10 @@ class PaymentController extends Controller
     public function verify(PaymentVerifyRequest $request)
     {
         return $this->paymentService->verify($request);
+    }
+
+    public function refund(PaymentRefundRequest $request)
+    {
+        return $this->paymentService->refund($request);
     }
 }
