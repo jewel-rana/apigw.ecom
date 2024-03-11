@@ -11,11 +11,13 @@ use App\Repositories\Interfaces\ComplainRepositoryInterface;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Interfaces\FeedbackRepositoryInterface;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
+use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Repositories\Interfaces\PermissionRepositoryInterface;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
 use App\Repositories\Interfaces\TransactionRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\OrderRepository;
+use App\Repositories\PaymentRepository;
 use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\TransactionRepository;
@@ -40,6 +42,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(FeedbackRepositoryInterface::class, FeedbackRepository::class);
         $this->app->bind(PermissionRepositoryInterface::class, PermissionRepository::class);
         $this->app->bind(ComplainRepositoryInterface::class, ComplainRepository::class);
+        $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class);
     }
 
     /**

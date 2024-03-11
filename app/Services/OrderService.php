@@ -95,4 +95,9 @@ class OrderService
             return response()->error(['message' => $exception->getMessage()]);
         }
     }
+
+    public function getOrder(int $id)
+    {
+        return $this->orderRepository->show($id);
+    }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePaymentRequest extends FormRequest
+class PaymentCreateRequest extends FormRequest
 {
     use FormValidationResponseTrait;
 
@@ -17,7 +17,8 @@ class UpdatePaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'order_id' => 'required|integer|exists:orders,id'
+            'order_id' => 'required|integer|exists:orders,id',
+            'payment_method' => 'required|string|in:bkash'
         ];
     }
 }

@@ -2,10 +2,34 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payment extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'customer_id',
+        'order_id',
+        'amount',
+        'payment_method',
+        'gateway_trx_id',
+        'gateway_response',
+        'status'
+    ];
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (Payment $payment) {
+            $order = Order::find($payment->order_id);
+            $payment['customer_id'] = $order->customer_id;
+            $payment['amount'] = $order->amount;
+        });
+    }
 }
