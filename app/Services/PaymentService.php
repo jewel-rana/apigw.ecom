@@ -46,14 +46,15 @@ class PaymentService
     {
         try {
             $payment = $this->paymentRepository->getModel()
-                ->where('gateway_trx_id', $request->input('gateway_payment_id'))
+                ->where('gateway_trx_id', $request->input('gateway_trx_id'))
                 ->first();
+
             if (!$payment) {
-                throw new \Exception('Invalid payment');
+                return response()->error(['message' => __('Invalid payment')]);
             }
 
             if ($payment->status == AppConstant::PAYMENT_SUCCESS) {
-                throw new \Exception('Your payment already successful', 422);
+                return response()->error(['message' => __('Your payment already successful')]);
             }
 
             $gateway = match (strtolower($payment->payment_method)) {
@@ -90,14 +91,14 @@ class PaymentService
             $payment = $this->paymentRepository->getModel()
                 ->where('gateway_trx_id', $request->input('gateway_trx_id'))
                 ->first();
+
             if (!$payment) {
-                throw new \Exception('Invalid payment');
+                return response()->error(['message' => __('Invalid payment')]);
             }
 
             if ($payment->status == AppConstant::PAYMENT_SUCCESS) {
-                throw new \Exception('Your payment already successful', 422);
+                return response()->error(['message' => __('Your payment already successful')]);
             }
-
             $gateway = match (strtolower($payment->payment_method)) {
                 'nagad' => new Nagad(),
                 'bkash' => new Bkash()
