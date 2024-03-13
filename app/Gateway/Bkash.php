@@ -63,7 +63,7 @@ class Bkash extends Builder implements GatewayInterface, BkashInterface
             ->__setBody(json_encode([
                 'mode' => '0011',
                 'payerReference' => $payment->order_id, // pass oderId or anything
-                'callbackURL' => url('checkout/callback'),
+                'callbackURL' => $this->credentials['callback_url'],
                 'amount' => $payment->amount,
                 'currency' => 'BDT',
                 'intent' => 'sale',
