@@ -41,7 +41,7 @@ class Bkash extends Builder implements GatewayInterface, BkashInterface
             if (!is_object($response) || !$response->id_token) {
                 $data['message'] = 'Token error';
             } else {
-                Cache::put('bkash.token', $response->id_token, 300);
+                Cache::put('bkash.token', $response->id_token, $response->expires_in ?? 300);
                 $data['status'] = true;
                 $data['token'] = $response->id_token;
             }
@@ -114,7 +114,10 @@ class Bkash extends Builder implements GatewayInterface, BkashInterface
             ])
             ->__setBody(json_encode([
                 'paymentID' => $payment->gateway_payment_id,
-                'trxID' => $payment->gateway_trx_id
+                'trxID' => $payment->gateway_trx_id,
+                'amount' => $payment->amount,
+                'sku' => $payment->order_id,
+                'reason' => 'No service'
             ]))
             ->_call();
     }

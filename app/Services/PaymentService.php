@@ -9,7 +9,6 @@ use App\Helpers\LogHelper;
 use App\Http\Requests\PaymentCreateRequest;
 use App\Http\Requests\PaymentRefundRequest;
 use App\Http\Requests\PaymentVerifyRequest;
-use App\Models\Order;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
 
 class PaymentService
@@ -72,7 +71,7 @@ class PaymentService
                     $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
                 }
             } else {
-                if(isset($gatewayResponse->statusCode) && $gatewayResponse->statusCode != 2062) {
+                if (isset($gatewayResponse->statusCode) && $gatewayResponse->statusCode != 2062) {
                     $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
                 }
             }
@@ -88,7 +87,7 @@ class PaymentService
     {
         try {
             $payment = $this->paymentRepository->getModel()
-                ->where('gateway_trx_id', $request->input('gateway_trx_id'))
+                ->where('gateway_payment_id', $request->input('gateway_payment_id'))
                 ->first();
 
             if (!$payment) {
@@ -141,15 +140,9 @@ class PaymentService
 
             $gatewayResponse = app(GatewayService::class)->refund($gateway, $payment);
 
-            dd($gatewayResponse);
-
-            if (is_object($gatewayResponse) && $gatewayResponse->paymentID) {
-                if ($gatewayResponse->transactionStatus == AppConstant::BKASH_COMPLETED) {
-                    $payment->update(['status' => AppConstant::PAYMENT_REFUNDED]);
-                    return response()->success(['order_id' => $payment->order_id]);
-                } else {
-                    $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
-                }
+            if (is_object($gatewayResponse) && $gatewayResponse->refundTrxID) {
+                $payment->update(['status' => AppConstant::PAYMENT_REFUNDED]);
+                return response()->success(['order_id' => $payment->order_id]);
             }
 
             return response()->error();
