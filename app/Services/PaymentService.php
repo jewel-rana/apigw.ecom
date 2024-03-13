@@ -78,6 +78,8 @@ class PaymentService
                 }
             }
 
+            dd($gatewayResponse);
+
             return response()->error();
         } catch (\Exception $exception) {
             LogHelper::exception($exception);
