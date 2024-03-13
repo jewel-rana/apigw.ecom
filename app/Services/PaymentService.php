@@ -82,6 +82,7 @@ class PaymentService
 
             return response()->error();
         } catch (\Exception $exception) {
+            dd($exception);
             LogHelper::exception($exception);
             return response()->error();
         }
