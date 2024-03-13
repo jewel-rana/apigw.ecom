@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained();
             $table->float('amount')->default(0);
             $table->string('payment_method')->default('bkash');
-            $table->string('gateway_trx_id')->nullable();
+            $table->string('gateway_trx_id')->nullable()->index();
             $table->json('gateway_response')->nullable();
             $table->enum('status', ['Pending', 'Success', 'Failed', 'Cancelled', 'Refunded'])
                 ->default('Pending')->index();

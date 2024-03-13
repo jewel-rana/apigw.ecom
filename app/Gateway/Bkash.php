@@ -75,7 +75,7 @@ class Bkash extends Builder implements GatewayInterface, BkashInterface
         if (is_object($response) && $response->paymentID && $response->bkashURL) {
             $data['status'] = true;
             $data['redirectUrl'] = $response->bkashURL;
-            $data['gateway_trx_id'] = $response->paymentID;
+            $data['gateway_payment_id'] = $response->paymentID;
         }
         return $data;
     }
@@ -88,7 +88,7 @@ class Bkash extends Builder implements GatewayInterface, BkashInterface
                 'authorization:' . $this->getToken($payment->order),
                 'x-app-key:' . $this->credentials['client_id']
             ])
-            ->__setBody(json_encode(['paymentID' => $payment->gateway_trx_id]))
+            ->__setBody(json_encode(['paymentID' => $payment->gateway_payment_id]))
             ->_call();
     }
 
@@ -100,7 +100,7 @@ class Bkash extends Builder implements GatewayInterface, BkashInterface
                 'authorization:' . $this->getToken($payment->order),
                 'x-app-key:' . $this->credentials['client_id']
             ])
-            ->__setBody(json_encode(['paymentID' => $payment->gateway_trx_id]))
+            ->__setBody(json_encode(['paymentID' => $payment->gateway_payment_id]))
             ->_call();
     }
 
@@ -113,8 +113,8 @@ class Bkash extends Builder implements GatewayInterface, BkashInterface
                 'x-app-key:' . $this->credentials['client_id']
             ])
             ->__setBody(json_encode([
-                'paymentID' => $payment->gateway_trx_id,
-                'trxID' => $payment->order_id
+                'paymentID' => $payment->gateway_payment_id,
+                'trxID' => $payment->gateway_trx_id
             ]))
             ->_call();
     }

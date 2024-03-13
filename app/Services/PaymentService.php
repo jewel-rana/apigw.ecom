@@ -31,7 +31,7 @@ class PaymentService
             };
             $gatewayResponse = app(GatewayService::class)->create($gateway, $payment);
             if ($gatewayResponse['status']) {
-                $payment->update(['gateway_trx_id' => $gatewayResponse['gateway_trx_id']]);
+                $payment->update(['gateway_payment_id' => $gatewayResponse['gateway_payment_id']]);
                 return response()->success([
                     'payment_url' => $gatewayResponse['redirectUrl']
                 ]);
@@ -46,7 +46,7 @@ class PaymentService
     {
         try {
             $payment = $this->paymentRepository->getModel()
-                ->where('gateway_trx_id', $request->input('gateway_trx_id'))
+                ->where('gateway_payment_id', $request->input('gateway_payment_id'))
                 ->first();
 
             if (!$payment) {
@@ -63,11 +63,10 @@ class PaymentService
             };
 
             $gatewayResponse = app(GatewayService::class)->execute($gateway, $payment);
-
             if (is_object($gatewayResponse) && isset($gatewayResponse->paymentID)) {
-                $payment->update(['gateway_response' => (array) $gatewayResponse]);
+                $payment->update(['gateway_response' => $gatewayResponse]);
                 if ($gatewayResponse->transactionStatus == AppConstant::BKASH_COMPLETED) {
-                    $payment->update(['status' => AppConstant::PAYMENT_SUCCESS]);
+                    $payment->update(['status' => AppConstant::PAYMENT_SUCCESS, 'gateway_trx_id' => $gatewayResponse->trxID]);
                     return response()->success(['order_id' => $payment->order_id]);
                 } else {
                     $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
