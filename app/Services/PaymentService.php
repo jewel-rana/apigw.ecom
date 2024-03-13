@@ -63,7 +63,7 @@ class PaymentService
 
             $gatewayResponse = app(GatewayService::class)->execute($gateway, $payment);
             if (is_object($gatewayResponse) && isset($gatewayResponse->paymentID)) {
-                $payment->update(['gateway_response' => $gatewayResponse]);
+                $payment->update(['gateway_response' => (array) $gatewayResponse]);
                 if ($gatewayResponse->transactionStatus == AppConstant::BKASH_COMPLETED) {
                     $payment->update(['status' => AppConstant::PAYMENT_SUCCESS, 'gateway_trx_id' => $gatewayResponse->trxID]);
                     return response()->success(['order_id' => $payment->order_id]);
