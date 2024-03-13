@@ -69,14 +69,16 @@ class PaymentService
                     return response()->success(['order_id' => $payment->order_id]);
                 } else {
                     $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
+                    $payment->order->update(['status' => AppConstant::ORDER_INACTIVE]);
                 }
             } else {
                 if (isset($gatewayResponse->statusCode) && $gatewayResponse->statusCode != 2062) {
                     $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
+                    $payment->order->update(['status' => AppConstant::ORDER_INACTIVE]);
                 }
             }
 
-            return response()->error(['message' => $gatewayResponse->statusMessage]);
+            return response()->error(['message' => $gatewayResponse->statusMessage], 422);
         } catch (\Exception $exception) {
             LogHelper::exception($exception);
             return response()->error();

@@ -10,4 +10,5 @@ class AppConstant
     const BKASH_INITIATED = 'Initiated';
     const PAYMENT_FAILED = 'Failed';
     const PAYMENT_REFUNDED = 'Refunded';
+    const ORDER_INACTIVE = 'Inactive';
 }
