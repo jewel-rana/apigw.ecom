@@ -73,6 +73,8 @@ class PaymentService
             } else {
                 if (isset($gatewayResponse->statusCode) && $gatewayResponse->statusCode != 2062) {
                     $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
+                } else {
+                    return response(['message' => $gatewayResponse->message]);
                 }
             }
 
@@ -147,7 +149,6 @@ class PaymentService
 
             return response()->error();
         } catch (\Exception $exception) {
-            dd($exception);
             LogHelper::exception($exception);
             return response()->error();
         }
