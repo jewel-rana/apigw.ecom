@@ -16,6 +16,7 @@ return [
         'customer-export' => 'Customer Export',
         'order-list' => 'Order list',
         'order-create' => 'Order Create',
+        'order-show' => 'Order Show',
         'order-update' => 'Order Update',
         'order-export' => 'Order Export',
         'dashboard-order-graph' => 'Can show order yearly graph',
