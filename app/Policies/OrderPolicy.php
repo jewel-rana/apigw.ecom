@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Helpers\CommonHelper;
-use Illuminate\Support\Facades\Auth;
 
 class OrderPolicy
 {
