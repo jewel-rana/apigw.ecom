@@ -8,7 +8,7 @@ class OrderPolicy
 {
     public function index(): bool
     {
-        return CommonHelper::hasPermission('order-list') || auth()->user()->type != 'admin';
+        return CommonHelper::hasPermission('order-list') || auth()->user()->type == 'customer';
     }
 
     public function show(): bool
