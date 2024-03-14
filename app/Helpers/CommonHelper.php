@@ -43,7 +43,7 @@ class CommonHelper
 
     public static function hasPermission(string $permission): bool
     {
-        return auth()->check() && auth()->user()->status == AuthConstant::STATUS_ACTIVE && (auth()->user()->hasRole('admin') || auth()->user()->tokenCan($permission));
+        return request()->user()->status == AuthConstant::STATUS_ACTIVE && (request()->user()->hasRole('admin') || request()->user()->tokenCan($permission));
     }
 
     public static function parsePaginator($collections = null): array
