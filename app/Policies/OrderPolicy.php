@@ -13,12 +13,12 @@ class OrderPolicy
 
     public function show(): bool
     {
-        return CommonHelper::hasPermission('order-show');
+        return CommonHelper::hasPermission('order-show') || auth()->user()->type == 'customer';
     }
 
     public function store(): bool
     {
-        return CommonHelper::hasPermission('order-create');
+        return CommonHelper::hasPermission('order-create') || auth()->user()->type == 'customer';
     }
 
     public function update(): bool
