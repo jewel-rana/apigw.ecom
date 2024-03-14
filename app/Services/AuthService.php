@@ -33,7 +33,7 @@ class AuthService
         try {
             $customer = Customer::where('email', $request->input('email'))->first();
             return response()->success($customer->format() + [
-                    'token' => $customer->createToken('authToken')->accessToken,
+                    'token' => $customer->createToken('authToken', ['order-list', 'order-create'])->accessToken,
                     'type' => 'customer'
                 ]);
         } catch (\Exception $exception) {
