@@ -15,6 +15,11 @@ class Customer extends Authenticatable
 {
     use HasRoles, HasApiTokens, HasFactory, Notifiable;
 
+    protected function getDefaultGuardName(): string
+    {
+        return 'customers';
+    }
+
     protected $fillable = [
         'gender',
         'created_by',

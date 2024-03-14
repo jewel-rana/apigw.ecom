@@ -9,17 +9,17 @@ class OrderPolicy
 {
     public function index(): bool
     {
-        return CommonHelper::hasPermission('order-list') || Auth::guard('customers')->user();
+        return CommonHelper::hasPermission('order-list') || request()->user()->type == 'customer';
     }
 
     public function show(): bool
     {
-        return CommonHelper::hasPermission('order-show') || Auth::guard('customers')->user();
+        return CommonHelper::hasPermission('order-show') || request()->user()->type == 'customer';
     }
 
     public function store(): bool
     {
-        return CommonHelper::hasPermission('order-create') || Auth::guard('customers')->user();
+        return CommonHelper::hasPermission('order-create') || request()->user()->type == 'customer';
     }
 
     public function update(): bool

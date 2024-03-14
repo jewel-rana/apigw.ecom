@@ -100,12 +100,12 @@ class Order extends Model
         static::creating(function(Order $order) {
             $order->divisions = json_encode($order->divisions);
             $order->invoice_no = Str::random(16);
-            if(Auth::guard('api')->user()->type == 'admin') {
+            if(Auth::user()->type == 'admin') {
                 $order->created_by = request()->user()->id;
             }
 
-            if($user = Auth::guard('customers')->user()) {
-                $order->customer_id = $user->id ?? request()->input('customer_id');
+            if(request()->user()->type == 'customer') {
+                $order->customer_id = request()->user()->id ?? request()->input('customer_id');
             }
         });
 

@@ -39,17 +39,17 @@ Route::group(['prefix' => 'auth'], function () {
         Route::post('verify', [AuthUserController::class, 'verify']);
         Route::post('reset-password', [AuthUserController::class, 'resetPassword']);
         Route::post('change-password', [AuthUserController::class, 'changePassword'])
-            ->middleware('auth:api');
+            ->middleware(['auth:api', 'auth:customers']);
     });
 
-    Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['middleware' => ['auth:api', 'auth:customers']], function () {
         Route::get('logout', [AuthController::class, 'logout'])
             ->middleware('auth:api');
     });
 });
 
 /* Auth Routes */
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => ['auth:api', 'auth:customers']], function () {
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', [DashboardController::class, 'index']);
         Route::get('orders', [DashboardController::class, 'orderGraphs']);
