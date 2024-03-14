@@ -31,25 +31,26 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('forgot', [AuthController::class, 'forgot']);
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
     Route::post('change-password', [AuthController::class, 'changePassword'])
-        ->middleware('auth:api');
+        ->middleware('auth:customer');
+    Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:customer');
 
     Route::group(['prefix' => 'user'], function () {
         Route::post('login', [AuthUserController::class, 'login']);
         Route::post('forgot', [AuthUserController::class, 'forgot']);
         Route::post('verify', [AuthUserController::class, 'verify']);
         Route::post('reset-password', [AuthUserController::class, 'resetPassword']);
-        Route::post('change-password', [AuthUserController::class, 'changePassword'])
-            ->middleware(['auth:api', 'auth:customers']);
-    });
-
-    Route::group(['middleware' => ['auth:api', 'auth:customers']], function () {
-        Route::get('logout', [AuthController::class, 'logout'])
-            ->middleware('auth:api');
+        Route::post('change-password', [AuthUserController::class, 'changePassword'])->middleware('auth:api');
+        Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:api');
     });
 });
 
 /* Auth Routes */
-Route::group(['middleware' => ['auth:api', 'auth:customers']], function () {
+
+Route::group(['prefix' => 'customer', 'middleware' => 'auth:customer'], function () {
+    Route::apiResource('order', OrderController::class)->only(['index', 'show', 'store'])->names('customer.order');
+});
+
+Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', [DashboardController::class, 'index']);
         Route::get('orders', [DashboardController::class, 'orderGraphs']);
