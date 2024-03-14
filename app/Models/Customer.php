@@ -17,7 +17,7 @@ class Customer extends Authenticatable
 
     protected function getDefaultGuardName(): string
     {
-        return 'customers';
+        return 'customer';
     }
 
     protected $fillable = [
