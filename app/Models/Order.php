@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class Order extends Model
@@ -72,6 +73,9 @@ class Order extends Model
 
     public function scopeFilter($query, Request $request)
     {
+        if($user = Auth::guard('customers')->user()) {
+            $query->where('customer_id', $user->id);
+        }
         return CommonHelper::filterModel($query, $request);
     }
 
@@ -85,6 +89,7 @@ class Order extends Model
                 'objectives' => $this->objectives->map(function(OrderAttribute $item) {
                     return $item->only(['key', 'value']);
                 }),
+                'customer' => $this->customer->only(['id', 'name', 'email', 'mobile']),
                 'payment' => $this->payment
             ];
     }
@@ -95,8 +100,12 @@ class Order extends Model
         static::creating(function(Order $order) {
             $order->divisions = json_encode($order->divisions);
             $order->invoice_no = Str::random(16);
-            if(request()->user()->type == 'admin') {
+            if(Auth::guard('api')->user()->type == 'admin') {
                 $order->created_by = request()->user()->id;
+            }
+
+            if($user = Auth::guard('customers')->user()) {
+                $order->customer_id = $user->id ?? request()->input('customer_id');
             }
         });
 
