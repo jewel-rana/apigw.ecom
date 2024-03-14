@@ -73,8 +73,8 @@ class Order extends Model
 
     public function scopeFilter($query, Request $request)
     {
-        if($user = Auth::guard('customers')->user()) {
-            $query->where('customer_id', $user->id);
+        if(request()->user()->type == 'customer') {
+            $query->where('customer_id', request()->user()->id);
         }
         return CommonHelper::filterModel($query, $request);
     }
