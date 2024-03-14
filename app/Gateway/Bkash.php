@@ -12,7 +12,8 @@ class Bkash extends Builder implements GatewayInterface, BkashInterface
     private array $credentials;
     public function __construct()
     {
-        $this->credentials = config('gateway.bkash');
+        $credentials = config('gateway.bkash');
+        $this->credentials = ($credentials['sandbox_enabled']) ? $credentials['sandbox'] : $credentials['production'];
         $this->baseUrl = $this->credentials['base_url'];
     }
 
