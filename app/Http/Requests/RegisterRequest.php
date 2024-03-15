@@ -19,8 +19,8 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'mobile' => 'required|string|unique:users,mobile',
+            'email' => 'required|email|unique:customers,email',
+            'mobile' => 'required|string|unique:customers,mobile',
             'password' => 'required|string|min:8|max:32|same:password_confirm',
             'gender' => 'nullable|in:male,female',
             'recaptcha_token' => ['required', 'string', new RecaptchaValidateRule()]
