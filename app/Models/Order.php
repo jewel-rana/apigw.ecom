@@ -48,7 +48,7 @@ class Order extends Model
 
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customer::class)->select('id', 'name', 'email');
+        return $this->belongsTo(Customer::class)->select('id', 'name', 'email', 'mobile');
     }
 
     public function payment(): HasOne
