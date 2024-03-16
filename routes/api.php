@@ -45,9 +45,15 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 /* Auth Routes */
-
 Route::group(['prefix' => 'customer', 'middleware' => 'auth:customer'], function () {
+    Route::group(['prefix' => 'payment'], function() {
+        Route::post('verify', [PaymentController::class, 'verify']);
+        Route::post('execute', [PaymentController::class, 'execute']);
+        Route::post('refund', [PaymentController::class, 'refund']);
+    });
+
     Route::apiResource('order', OrderController::class)->only(['index', 'show', 'store'])->names('customer.order');
+    Route::apiResource('payment', PaymentController::class)->except(['destroy']);
 });
 
 Route::group(['middleware' => 'auth:api'], function () {
@@ -77,7 +83,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'payment'], function() {
         Route::post('verify', [PaymentController::class, 'verify']);
-        Route::post('execute', [PaymentController::class, 'execute']);
         Route::post('refund', [PaymentController::class, 'refund']);
     });
 
@@ -88,5 +93,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('order', OrderController::class)->except(['destroy']);
     Route::apiResource('feedback', FeedbackController::class)->except(['destroy']);
     Route::apiResource('complain', ComplainController::class)->except(['destroy']);
-    Route::apiResource('payment', PaymentController::class)->except(['destroy']);
+    Route::apiResource('payment', PaymentController::class)->only(['index', 'show']);
 });

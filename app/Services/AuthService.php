@@ -33,7 +33,7 @@ class AuthService
         try {
             $customer = Customer::where('email', $request->input('email'))->first();
             return response()->success($customer->format() + [
-                    'token' => $customer->createToken('authToken', ['order-list', 'order-create', 'order-show'])->accessToken,
+                    'token' => $customer->createToken('authToken', Customer::scopes)->accessToken,
                     'type' => 'customer'
                 ]);
         } catch (\Exception $exception) {
@@ -64,7 +64,7 @@ class AuthService
         try {
             $customer = $this->customerRepository->create($request->validated());
             return response()->success($customer->format() + [
-                    'token' => $customer->createToken($customer->name, ['order-list', 'order-create', 'order-show'])->accessToken
+                    'token' => $customer->createToken($customer->name, Customer::scopes)->accessToken
                 ]);
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [

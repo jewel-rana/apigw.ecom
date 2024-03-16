@@ -28,5 +28,9 @@ return [
         'complain-list' => 'Can see complain list',
         'complain-create' => 'Can create complain',
         'complain-update' => 'Can update complain',
+        'payment-list' => 'Order list',
+        'payment-create' => 'Order Create',
+        'payment-show' => 'Order Show',
+        'payment-update' => 'Order Update',
     ]
 ];

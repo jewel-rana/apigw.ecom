@@ -15,6 +15,14 @@ class Customer extends Authenticatable
 {
     use HasRoles, HasApiTokens, HasFactory, Notifiable;
 
+    const scopes = [
+        'order-list',
+        'order-create',
+        'order-show',
+        'payment-list',
+        'payment-create'
+    ];
+
     protected function getDefaultGuardName(): string
     {
         return 'customer';
