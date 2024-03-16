@@ -15,11 +15,10 @@ class UpdateComplainRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'order_id' => 'required|integer|exists:orders,id',
-            'title' => 'required|string',
+            'title' => 'nullable|string',
             'description' => 'required|string',
             'remarks' => 'nullable|string',
-            'status' => 'required|in:Pending,Open,Resolved,Cancelled'
+            'status' => 'required|in:Pending,Open,Solved,Cancelled'
         ];
     }
 }
