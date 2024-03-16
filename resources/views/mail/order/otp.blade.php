@@ -86,7 +86,7 @@
     <table style="margin-bottom: 32px;">
         <tbody>
         <tr>
-            @for($i =  0; $i < 6; $i++)
+            @for($i =  0; $i <= 6; $i++)
             <td>
                 <div style="
               border-radius: 5px;
