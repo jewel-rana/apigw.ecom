@@ -17,11 +17,8 @@ class DashboardService
 
     public function getYearlyOrderGraph(Request $request): array
     {
-        $this->year = $request->input('year', now()->format('Y'));
-        $this->startOfYear = Carbon::createFromFormat('Y-m-d', date($this->year . '-m-d'))->startOfYear();
-        $this->endOfYear = ($this->year == now()->format('Y')) ? now()->endOfDay() : $this->startOfYear->endOfYear();
-        $data = $this->makeForMonthly(12);
-        $orders = $this->getMonthlyOrders();
+        $data = $this->makeForMonthly($request->input('month', 12));
+        $orders = $this->getMonthlyOrders($request->input('month', 12));
         foreach ($orders as $order) {
             $data[$order->month][strtolower($order->status)] = (int)$order->total;
             $data[$order->month]['total'] += (int) $order->total;
@@ -32,15 +29,11 @@ class DashboardService
 
     public function getYearlyCustomerGraph(Request $request): array
     {
-        $this->year = $request->input('year', now()->format('Y'));
-        $this->startOfYear = Carbon::createFromFormat('Y-m-d', date($this->year . '-m-d'))->startOfYear();
-        $this->endOfYear = ($this->year == now()->format('Y')) ? now()->endOfDay() : $this->startOfYear->endOfYear();
-        $data = $this->getLabels();
-        $customers = $this->getYearlyCustomers();
+        $data = $this->makeForMonthly($request->input('month', 12));
+        $customers = $this->getMonthlyCustomers($request->input('month', 12));
         foreach ($customers as $customer) {
-            $month = date('F', strtotime('Y-' . $customer->month . '-d'));
-            $data[$month][strtolower($customer->status)] = (int)$customer->total;
-            $data[$month]['total'] += (int)$customer->total;
+            $data[$customer->month][strtolower($customer->status)] = (int)$customer->total;
+            $data[$customer->month]['total'] += (int)$customer->total;
         }
 
         return $data;
@@ -58,7 +51,7 @@ class DashboardService
         });
     }
 
-    private function getMonthlyOrders($months = 12)
+    private function getMonthlyOrders($months = 6)
     {
         $key = 'monthly_orders_' . $months;
         Cache::forget($key);
@@ -77,6 +70,18 @@ class DashboardService
         return Cache::remember($key, 3600, function () {
             return Customer::select(DB::raw("MONTH(created_at) as month, COUNT(*) as total, status"))
                 ->whereBetween('created_at', [$this->startOfYear, $this->endOfYear])
+                ->groupBy('month', 'status')
+                ->get();
+        });
+    }
+
+    private function getMonthlyCustomers($months = 6)
+    {
+        $key = 'monthly_customers_' . $months;
+        Cache::forget($key);
+        return Cache::remember($key, 3600, function () use($months) {
+            return Customer::select(DB::raw("DATE_FORMAT(created_at, '%M-%Y') as month, COUNT(*) as total, status"))
+                ->whereBetween('created_at', [now()->subMonths($months - 1)->startOfMonth(), now()->endOfDay()])
                 ->groupBy('month', 'status')
                 ->get();
         });
