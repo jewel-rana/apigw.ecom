@@ -64,7 +64,7 @@ class AuthService
         try {
             $customer = $this->customerRepository->create($request->validated());
             return response()->success($customer->format() + [
-                    'token' => $customer->createToken($customer->name)->accessToken
+                    'token' => $customer->createToken($customer->name, ['order-list', 'order-create', 'order-show'])->accessToken
                 ]);
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
