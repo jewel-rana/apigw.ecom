@@ -29,7 +29,7 @@ class OrderCreateNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Order Invoice')
-            ->view('mail.order.invoice', [
+            ->view('mail.order.order', [
                 'order' => $this->order,
                 'promotion_logo' => CommonHelper::getPromotionLogo($this->order->promotion)
             ]);

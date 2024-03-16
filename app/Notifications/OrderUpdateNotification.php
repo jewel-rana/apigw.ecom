@@ -29,7 +29,7 @@ class OrderUpdateNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Order Status')
-            ->view('mail.order.update', [
+            ->view('mail.order.order', [
                 'order' => $this->order,
                 'promotion_logo' => CommonHelper::getPromotionLogo($this->order->promotion)
             ]);

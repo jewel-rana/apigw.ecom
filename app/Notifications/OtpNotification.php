@@ -27,9 +27,11 @@ class OtpNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->greeting("Dear $notifiable->name")
-            ->line("Your forgot password OTP is {$this->otp->code}")
-            ->line('Thank you for using our application!');
+            ->subject('Forgot password OTP')
+            ->view('mail.order.otp', [
+                'name' => $notifiable->name,
+                'otp' => str_split($this->otp->code)
+            ]);
     }
 
     public function toArray(object $notifiable): array
