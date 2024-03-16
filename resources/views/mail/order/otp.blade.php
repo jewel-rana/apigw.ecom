@@ -86,9 +86,9 @@
     <table style="margin-bottom: 32px;">
         <tbody>
         <tr>
+            @for($i =  0; $i < 5; $i++)
             <td>
-                <div
-                    style="
+                <div style="
               border-radius: 5px;
               background: rgba(137, 44, 220, 0.05);
               font-family: 'Roboto', sans-serif;
@@ -97,92 +97,9 @@
               color: #10241b;
               padding:8px 15px;
               margin-right: 4px;
-            "
-                >
-                    5
-                </div>
+            ">{{ $otp[$i] }}</div>
             </td>
-            <td>
-                <div
-                    style="
-              border-radius: 5px;
-              background: rgba(137, 44, 220, 0.05);
-              font-family: 'Roboto', sans-serif;
-              font-size: 18px;
-              font-weight: 600;
-              color: #10241b;
-              padding:8px 15px;
-              margin-right: 4px;
-            "
-                >
-                    7
-                </div>
-            </td>
-            <td>
-                <div
-                    style="
-              border-radius: 5px;
-              background: rgba(137, 44, 220, 0.05);
-              font-family: 'Roboto', sans-serif;
-              font-size: 18px;
-              font-weight: 600;
-              color: #10241b;
-              padding:8px 15px;
-              margin-right: 4px;
-            "
-                >
-                    2
-                </div>
-            </td>
-
-            <td>
-                <div
-                    style="
-              border-radius: 5px;
-              background: rgba(137, 44, 220, 0.05);
-              font-family: 'Roboto', sans-serif;
-              font-size: 18px;
-              font-weight: 600;
-              color: #10241b;
-              padding:8px 15px;
-              margin-right: 4px;
-            "
-                >
-                    0
-                </div>
-            </td>
-            <td>
-                <div
-                    style="
-              border-radius: 5px;
-              background: rgba(137, 44, 220, 0.05);
-              font-family: 'Roboto', sans-serif;
-              font-size: 18px;
-              font-weight: 600;
-              color: #10241b;
-              padding:8px 15px;
-              margin-right: 4px;
-            "
-                >
-                    0
-                </div>
-            </td>
-            <td>
-                <div
-                    style="
-              border-radius: 5px;
-              background: rgba(137, 44, 220, 0.05);
-              font-family: 'Roboto', sans-serif;
-              font-size: 18px;
-              font-weight: 600;
-              color: #10241b;
-              padding:8px 15px;
-              margin-right: 4px;
-            "
-                >
-                    0
-                </div>
-            </td>
+            @endfor
         </tr>
         </tbody>
     </table>
