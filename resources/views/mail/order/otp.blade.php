@@ -86,7 +86,7 @@
     <table style="margin-bottom: 32px;">
         <tbody>
         <tr>
-            @for($i =  0; $i <= 6; $i++)
+            @foreach($otp as $key => $value)
             <td>
                 <div style="
               border-radius: 5px;
@@ -97,9 +97,9 @@
               color: #10241b;
               padding:8px 15px;
               margin-right: 4px;
-            ">{{ $otp[$i] }}</div>
+            ">{{ $value }}</div>
             </td>
-            @endfor
+            @endforeach
         </tr>
         </tbody>
     </table>
