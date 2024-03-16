@@ -10,6 +10,7 @@ class Complain extends Model
 {
     protected $fillable = [
         'customer_id',
+        'order_id',
         'title',
         'description',
         'remarks',
@@ -21,6 +22,11 @@ class Complain extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
     }
 
     public function createdBy(): BelongsTo
@@ -50,6 +56,7 @@ class Complain extends Model
                 'updated_at'
             ]) +
             [
+                'order' => $this->order->format(),
                 'customer' => $this->customer,
                 'created_by' => $this->createdBy,
                 'updated_by' => $this->updatedBy
@@ -62,6 +69,7 @@ class Complain extends Model
 
         static::creating(function (Complain $complain) {
             $complain->created_by = auth()->user()->id ?? 1;
+            $complain->customer_id = Order::find($complain->order_id)->customer_id;
         });
 
         static::updating(function (Complain $complain) {

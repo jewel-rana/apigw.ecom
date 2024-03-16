@@ -15,7 +15,7 @@ class UpdateComplainRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_id' => 'required|integer|exists:customers,id',
+            'order_id' => 'required|integer|exists:orders,id',
             'title' => 'required|string',
             'description' => 'required|string',
             'remarks' => 'nullable|string',
