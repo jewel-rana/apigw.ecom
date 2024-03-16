@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('complains', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('customer_id')->constrained();
+            $table->foreignId('order_id')->constrained();
             $table->string('title');
             $table->text('description');
             $table->string('remarks')->nullable();
