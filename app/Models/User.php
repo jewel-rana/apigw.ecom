@@ -17,11 +17,6 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasRoles, HasApiTokens, HasFactory, Notifiable;
 
-    protected function getDefaultGuardName(): string
-    {
-        return 'api';
-    }
-
     protected $fillable = [
         'name',
         'mobile',
