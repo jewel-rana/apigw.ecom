@@ -20,12 +20,11 @@ class DashboardService
         $this->year = $request->input('year', now()->format('Y'));
         $this->startOfYear = Carbon::createFromFormat('Y-m-d', date($this->year . '-m-d'))->startOfYear();
         $this->endOfYear = ($this->year == now()->format('Y')) ? now()->endOfDay() : $this->startOfYear->endOfYear();
-        $data = $this->getLabels();
-        $orders = $this->getYearlyOrders();
+        $data = $this->makeForMonthly(12);
+        $orders = $this->getMonthlyOrders();
         foreach ($orders as $order) {
-            $month = date('F', strtotime('Y-' . $order->month . '-d'));
-            $data[$month][strtolower($order->status)] = (int)$order->total;
-            $data[$month]['total'] += (int)$order->total;
+            $data[$order->month][strtolower($order->status)] = (int)$order->total;
+            $data[$order->month]['total'] += (int) $order->total;
         }
 
         return $data;
@@ -54,6 +53,18 @@ class DashboardService
         return Cache::remember($key, 3600, function () {
             return Order::select(DB::raw("MONTH(created_at) as month, SUM(amount) as total, status"))
                 ->whereBetween('created_at', [$this->startOfYear, $this->endOfYear])
+                ->groupBy('month', 'status')
+                ->get();
+        });
+    }
+
+    private function getMonthlyOrders($months = 12)
+    {
+        $key = 'monthly_orders_' . $months;
+        Cache::forget($key);
+        return Cache::remember($key, 3600, function () use($months) {
+            return Order::select(DB::raw("DATE_FORMAT(created_at, '%M-%Y') as month, SUM(amount) as total, status"))
+                ->whereBetween('created_at', [now()->subMonths($months - 1)->startOfMonth(), now()->endOfDay()])
                 ->groupBy('month', 'status')
                 ->get();
         });
@@ -118,5 +129,42 @@ class DashboardService
 
             return $array;
         });
+    }
+
+
+    private function makeForMonthly($months = 6): array
+    {
+        $data = [];
+        for($i = $months - 1; $i >= 0;) {
+            $data[now()->subMonths($i)->format('F-Y')] = [
+                'active' => 0,
+                'pending' => 0,
+                'inactive' => 0,
+                'publish' => 0,
+                'refunded' => 0,
+                'total' => 0
+            ];
+            $i--;
+        }
+
+        return $data;
+    }
+
+    private function makeForDaily($days = 10): array
+    {
+        $data = [];
+        for($i = $days - 1; $i > 0;) {
+            $data[now()->subDays($i)->format('Y-m-d')] = [
+                'active' => 0,
+                'pending' => 0,
+                'inactive' => 0,
+                'publish' => 0,
+                'refunded' => 0,
+                'total' => 0
+            ];
+            $i--;
+        }
+
+        return $data;
     }
 }
