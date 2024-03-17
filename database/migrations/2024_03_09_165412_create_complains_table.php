@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('remarks')->nullable();
-            $table->enum('status', ['Pending', 'Open', 'Resolved', 'Cancelled'])->default('Pending');
+            $table->string('status')->default('Pending')->index();
             $table->foreignId('created_by')->constrained('users', 'id');
             $table->foreignId('updated_by')->nullable()->constrained('users', 'id');
             $table->timestamps();
