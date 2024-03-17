@@ -79,6 +79,11 @@ class Order extends Model
         return CommonHelper::filterModel($query, $request);
     }
 
+    public function getColorAttribute()
+    {
+        return config('colors.order')[strtolower($this->status)] ?? "gray";
+    }
+
     public function format(): array
     {
         return $this->only(['id', 'promotion', 'promotion_objective', 'promotion_period', 'amount', 'location', 'gender', 'min_age', 'max_age', 'status', 'remarks', 'note', 'created_at', 'updated_at']) +

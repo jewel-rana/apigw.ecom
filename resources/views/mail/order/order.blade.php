@@ -142,7 +142,7 @@
         margin: 0px;
       ">Order Status: <span style="
         font-weight: 400;
-        background: #FFC700;
+        background: {{ $color }};
         padding: 2px 10px ;
         border-radius: 8px;
         color: #fff;
