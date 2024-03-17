@@ -16,7 +16,7 @@ class StoreComplainRequest extends FormRequest
     {
         return [
             'order_id' => 'required|integer|exists:orders,id',
-            'title' => 'required|string',
+            'title' => 'nullable|string',
             'description' => 'required|string',
             'remarks' => 'nullable|string',
             'status' => 'nullable|in:Pending,Open,Resolved,Cancelled'
