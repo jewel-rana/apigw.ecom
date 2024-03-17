@@ -16,7 +16,8 @@
 <body
     style="
       margin: 0;
-      padding-top:20px
+      padding-top:20px;
+      background: #f4f4f4;
     "
 >
 
