@@ -110,6 +110,10 @@ class CommonHelper
             $query->where('id', $request->input('id'));
         }
 
+        if($request->filled('order_id')) {
+            $query->where('order_id', $request->input('order_id'));
+        }
+
         if($request->filled('customer_id')) {
             $query->where('customer_id', $request->input('customer_id'));
         }
