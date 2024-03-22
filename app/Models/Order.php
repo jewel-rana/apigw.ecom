@@ -115,7 +115,7 @@ class Order extends Model
         });
 
         static::updating(function(Order $order) {
-            if(request()->user()->type == 'admin') {
+            if(\request()->user() && request()->user()->type == 'admin') {
                 $order->updated_by = request()->user()->id;
             }
         });
