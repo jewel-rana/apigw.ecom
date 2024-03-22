@@ -25,16 +25,5 @@ class UserTableSeeder extends Seeder
             'type' => AuthConstant::TYPE_ADMIN
         ]);
         $user->assignRole('admin');
-
-        $user = User::create([
-            'name' => 'Admin',
-            'mobile' => '+8801911785316',
-            'email' => 'jewel@newroztech.com',
-            'password' => bcrypt('123456789'),
-            'email_verified_at' => now(),
-            'status' => 1,
-            'type' => AuthConstant::TYPE_ADMIN
-        ]);
-        $user->assignRole('admin');
     }
 }
