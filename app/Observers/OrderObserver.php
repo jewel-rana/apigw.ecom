@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Order;
 use App\Notifications\OrderCreateNotification;
+use App\Notifications\OrderUpdateNotification;
 
 class OrderObserver
 {
@@ -14,7 +15,7 @@ class OrderObserver
 
     public function updated(Order $order)
     {
-
+        $order->customer->notify(new OrderUpdateNotification($order));
     }
 
     public function deleted(Order $order)
