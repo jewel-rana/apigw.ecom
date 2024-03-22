@@ -42,8 +42,7 @@ class DashboardService
     private function getYearlyOrders()
     {
         $key = 'yearly_orders_' . $this->year;
-        Cache::forget($key);
-        return Cache::remember($key, 3600, function () {
+        return Cache::remember($key, 500, function () {
             return Order::select(DB::raw("MONTH(created_at) as month, SUM(amount) as total, status"))
                 ->whereBetween('created_at', [$this->startOfYear, $this->endOfYear])
                 ->groupBy('month', 'status')
@@ -54,8 +53,7 @@ class DashboardService
     private function getMonthlyOrders($months = 6)
     {
         $key = 'monthly_orders_' . $months;
-        Cache::forget($key);
-        return Cache::remember($key, 3600, function () use($months) {
+        return Cache::remember($key, 500, function () use($months) {
             return Order::select(DB::raw("DATE_FORMAT(created_at, '%M-%Y') as month, SUM(amount) as total, status"))
                 ->whereBetween('created_at', [now()->subMonths($months - 1)->startOfMonth(), now()->endOfDay()])
                 ->groupBy('month', 'status')
@@ -66,8 +64,7 @@ class DashboardService
     private function getYearlyCustomers()
     {
         $key = 'yearly_customers_' . $this->year;
-        Cache::forget($key);
-        return Cache::remember($key, 3600, function () {
+        return Cache::remember($key, 500, function () {
             return Customer::select(DB::raw("MONTH(created_at) as month, COUNT(*) as total, status"))
                 ->whereBetween('created_at', [$this->startOfYear, $this->endOfYear])
                 ->groupBy('month', 'status')
@@ -78,8 +75,7 @@ class DashboardService
     private function getMonthlyCustomers($months = 6)
     {
         $key = 'monthly_customers_' . $months;
-        Cache::forget($key);
-        return Cache::remember($key, 3600, function () use($months) {
+        return Cache::remember($key, 300, function () use($months) {
             return Customer::select(DB::raw("DATE_FORMAT(created_at, '%M-%Y') as month, COUNT(*) as total, status"))
                 ->whereBetween('created_at', [now()->subMonths($months - 1)->startOfMonth(), now()->endOfDay()])
                 ->groupBy('month', 'status')
@@ -108,7 +104,7 @@ class DashboardService
 
     public function getOrderStats(Request $request): array
     {
-        return Cache::remember('order_stats', 30 * 60, function () {
+        return Cache::remember('order_stats', 5 * 60, function () {
             $array = ['publish' => 0, 'refunded' => 0, 'pending' => 0, 'complete' => 0];
             Order::select(DB::raw('count(*) as total, status'))->groupBy('status')
                 ->get()
