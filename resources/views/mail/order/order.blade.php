@@ -10,7 +10,7 @@
         rel="stylesheet"
     />
 
-    <title>Order {{ $order->status }}</title>
+    <title>Order {{ $order->status == \App\Constants\AppConstant::ORDER_ACTIVE ? 'In-Review' : $order->status }}</title>
 
 </head>
 <body style="
@@ -147,7 +147,7 @@
         padding: 2px 10px ;
         border-radius: 8px;
         color: #fff;
-      ">{{ $order->status }}</span></p>
+      ">{{ $order->status == \App\Constants\AppConstant::ORDER_ACTIVE ? 'In-Review' : $order->status }}</span></p>
             </td>
         </tr>
         </tbody>
