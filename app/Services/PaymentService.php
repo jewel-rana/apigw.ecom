@@ -66,6 +66,9 @@ class PaymentService
                 $payment->update(['gateway_response' => (array) $gatewayResponse]);
                 if ($gatewayResponse->transactionStatus == AppConstant::BKASH_COMPLETED) {
                     $payment->update(['status' => AppConstant::PAYMENT_SUCCESS, 'gateway_trx_id' => $gatewayResponse->trxID]);
+                    if(in_array($payment->order->status, ['Pending', 'Inactive', 'Failed'])) {
+                        $payment->order->update(['status' => AppConstant::ORDER_ACTIVE]);
+                    }
                     return response()->success(['order_id' => $payment->order_id]);
                 } else {
                     $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
@@ -109,6 +112,9 @@ class PaymentService
             if (is_object($gatewayResponse) && $gatewayResponse->paymentID) {
                 if ($gatewayResponse->transactionStatus == AppConstant::BKASH_COMPLETED) {
                     $payment->update(['status' => AppConstant::PAYMENT_SUCCESS]);
+                    if(in_array($payment->order->status, ['Pending', 'Inactive', 'Failed'])) {
+                        $payment->order->update(['status' => AppConstant::ORDER_ACTIVE]);
+                    }
                     return response()->success(['order_id' => $payment->order_id]);
                 } else {
                     $payment->update(['status' => AppConstant::PAYMENT_FAILED]);

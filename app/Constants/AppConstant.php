@@ -11,4 +11,5 @@ class AppConstant
     const PAYMENT_FAILED = 'Failed';
     const PAYMENT_REFUNDED = 'Refunded';
     const ORDER_INACTIVE = 'Inactive';
+    const ORDER_ACTIVE = 'Active';
 }

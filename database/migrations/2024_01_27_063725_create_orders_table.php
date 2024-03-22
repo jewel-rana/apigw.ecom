@@ -28,7 +28,7 @@ return new class extends Migration {
             $table->integer('max_age')->default(65);
             $table->enum('status',
                 [
-                    'Pending', 'Publish', 'Complete', 'Refunded', 'Hold', 'Active', 'Inactive'
+                    'Pending', 'Publish', 'Complete', 'Refunded', 'Hold', 'Active', 'Inactive', 'Failed'
                 ])
                 ->default('Pending')->index();
             $table->text('remarks')->nullable();
