@@ -89,7 +89,7 @@ class OrderService
     {
         try {
             $order->update($request->validated());
-            $order->customer->notify(new OrderUpdateNotification($order));
+//            $order->customer->notify(new OrderUpdateNotification($order));
             return response()->success();
         } catch (\Exception $exception) {
             return response()->error(['message' => $exception->getMessage()]);
