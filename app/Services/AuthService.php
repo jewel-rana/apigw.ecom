@@ -139,7 +139,7 @@ class AuthService
     public function changePassword(ChangePasswordRequest $request)
     {
         try {
-            $request->user()->update(['password' => Hash::make($request->input('password'))]);
+            Customer::find($request->user()->id)->update(['password' => Hash::make($request->input('password'))]);
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
