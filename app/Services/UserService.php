@@ -10,6 +10,7 @@ use App\Http\Requests\OtpVerifyRequest;
 use App\Http\Requests\UserForgotPasswordRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserResetPasswordRequest;
+use App\Models\Customer;
 use App\Models\Otp;
 use App\Models\Role;
 use App\Models\User;
@@ -176,7 +177,7 @@ class UserService
     public function changePassword(ChangePasswordRequest $request)
     {
         try {
-            $request->user()->update(['password' => Hash::make($request->input('password'))]);
+            User::find($request->user()->id)->update(['password' => Hash::make($request->input('password'))]);
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
