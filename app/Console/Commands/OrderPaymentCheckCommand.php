@@ -27,7 +27,7 @@ class OrderPaymentCheckCommand extends Command
      */
     public function handle()
     {
-        Order::where('created_at', '<=', now()->subHour())
+        Order::where('created_at', '<=', now()->subMinutes(5))
             ->where('status', AppConstant::ORDER_PENDING)
             ->get()
             ->each(function (Order $order) {

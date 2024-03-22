@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
     {
          $schedule->command('order:check-payment')
              ->withoutOverlapping(10)
-             ->hourly();
+             ->everyFiveMinutes();
     }
 
     /**
