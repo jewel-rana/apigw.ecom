@@ -31,6 +31,7 @@ class OrderPaymentCheckCommand extends Command
             ->where('status', AppConstant::ORDER_PENDING)
             ->get()
             ->each(function (Order $order) {
+                $this->info("Order Checking command running");
                 if(!$order->payment || $order->payment->status != AppConstant::PAYMENT_SUCCESS) {
                     $order->update(['status' => AppConstant::ORDER_INACTIVE, 'remarks' => 'Payment failed']);
                 }
