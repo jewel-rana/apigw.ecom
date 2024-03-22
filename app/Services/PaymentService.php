@@ -72,12 +72,12 @@ class PaymentService
                     return response()->success(['order_id' => $payment->order_id]);
                 } else {
                     $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
-                    $payment->order->update(['status' => AppConstant::ORDER_INACTIVE]);
+                    $payment->order->update(['status' => AppConstant::ORDER_FAILED]);
                 }
             } else {
                 if (isset($gatewayResponse->statusCode) && $gatewayResponse->statusCode != 2062) {
                     $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
-                    $payment->order->update(['status' => AppConstant::ORDER_INACTIVE]);
+                    $payment->order->update(['status' => AppConstant::ORDER_FAILED]);
                 }
             }
 
@@ -118,6 +118,7 @@ class PaymentService
                     return response()->success(['order_id' => $payment->order_id]);
                 } else {
                     $payment->update(['status' => AppConstant::PAYMENT_FAILED]);
+                    $payment->order->update(['status' => AppConstant::ORDER_FAILED]);
                 }
             }
 

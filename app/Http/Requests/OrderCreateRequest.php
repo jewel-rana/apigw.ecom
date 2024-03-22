@@ -22,7 +22,7 @@ class OrderCreateRequest extends FormRequest
             'max_age' => 'bail|required|integer|min:13|max:90',
             'location' => 'bail|nullable|in:All,all,divisions',
             'divisions' => 'bail|required|array',
-            'amount' => 'bail|required|integer|min:1|max:100000',
+            'amount' => 'bail|required|integer|min:1000|max:100000',
             'promotion_period' => 'bail|required|integer|min:1|max:90',
             'promotion' => ['bail', 'required', 'string'],
             'promotion_objective' => 'bail|required|string',
