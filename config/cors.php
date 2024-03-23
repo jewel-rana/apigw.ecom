@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*.prokash.io', 'porkash.io', 'kdc.prokash.io'],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
