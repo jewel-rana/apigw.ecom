@@ -17,6 +17,7 @@ use App\Models\User;
 use App\Notifications\OtpNotification;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -61,6 +62,7 @@ class UserService
             if($user->roles->first()->id !== $data['role_id']) {
                 $user->revokeToken();
             }
+            $user->update(['updated_by' => \request()->user()->id, 'updated_at' => Carbon::now()]);
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
