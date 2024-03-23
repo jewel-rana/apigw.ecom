@@ -15,11 +15,11 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'api/auth/login'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'api/auth/login', 'api/auth/register'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('CORS_ALLOWED_ORIGINS', '*')],
+    'allowed_origins' => ['*.prokash.io', 'porkash.io', 'kdc.prokash.io'],
 
     'allowed_origins_patterns' => [],
 
