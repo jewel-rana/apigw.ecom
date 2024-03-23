@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'captcha_enabled' => env('GOOGLE_RECAPTCHA_ENABLED', true),
     'permissions' => [
         'user-list' => 'User list',
         'user-create' => 'User Create',
