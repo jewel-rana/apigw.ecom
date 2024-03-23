@@ -13,7 +13,7 @@ class RecaptchaValidateRule implements ValidationRule
         try {
             if(config('scopes.captcha_enabled')) {
                 $response = Http::get("https://www.google.com/recaptcha/api/siteverify", [
-                    'secret' => env('GOOGLE_RECAPTCHA_SECRET'),
+                    'secret' => config('google.secret'),
                     'response' => $value
                 ]);
 
