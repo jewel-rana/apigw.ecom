@@ -134,7 +134,7 @@ class CommonHelper
             $query->where('mobile', 'like', "%" . $request->input('mobile') . "%");
         }
 
-        if ($request->filled('status') && in_array(strtolower($request->input('status')), ['pending', 'active', 'inactive', 'publish', 'refunded'])) {
+        if ($request->filled('status') && in_array(strtolower($request->input('status')), ['pending', 'active', 'inactive', 'publish', 'failed', 'complete', 'refunded'])) {
             $query->where('status', '=', ucfirst($request->input('status')));
         }
 
