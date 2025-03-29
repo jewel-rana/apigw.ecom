@@ -20,7 +20,7 @@ jobs:
           port: ${{ secrets.PORT }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            cd /var/web/html_new/dev-admin
+            cd /var/www/html/apigw.prokash.io
             sudo chown -Rf nginx:kartat /var/www/html/apigw.prokash.io
             sudo chmod -Rf 770 /var/www/html/apigw.prokash.io
             sudo ./script/deploy_script.sh
