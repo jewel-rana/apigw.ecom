@@ -15,7 +15,6 @@ php artisan view:clear
 php artisan cache:clear
 php artisan config:clear
 php artisan optimize:clear
-php artisan queue:restart
 
 sudo chown -Rf nginx:nginx .
 sudo chmod -Rf 770 .
