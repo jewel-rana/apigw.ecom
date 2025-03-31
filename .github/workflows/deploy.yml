@@ -21,6 +21,6 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             cd /var/www/html/apigw.prokash.io
-            sudo chown -Rf nginx:nginx /var/www/html/apigw.prokash.io
-            sudo chmod -Rf 770 /var/www/html/apigw.prokash.io
-            sudo ./script/deploy.sh
+            chown -Rf nginx:nginx /var/www/html/apigw.prokash.io
+            chmod -Rf 770 /var/www/html/apigw.prokash.io
+            ./script/deploy.sh

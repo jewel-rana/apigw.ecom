@@ -7,7 +7,7 @@ pushd /var/www/html/apigw.prokash.io
 
 git checkout .
 git pull origin master
-composer install
+/usr/local/bin/composer install
 php artisan migrate
 php artisan module:migrate
 
