@@ -23,4 +23,4 @@ jobs:
             cd /var/www/html/apigw.prokash.io
             sudo chown -Rf nginx:kartat /var/www/html/apigw.prokash.io
             sudo chmod -Rf 770 /var/www/html/apigw.prokash.io
-            sudo ./script/deploy_script.sh
+            sudo ./script/deploy.sh
