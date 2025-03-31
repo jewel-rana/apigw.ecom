@@ -8,8 +8,6 @@ pushd /var/www/html/apigw.prokash.io
 git checkout .
 git pull origin master
 /usr/local/bin/composer install
-yes | php artisan migrate
-
 sudo chmod -R 777 storage
 sudo chmod -R 777 bootstrap/cache
 php artisan route:clear
