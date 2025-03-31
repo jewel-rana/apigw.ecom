@@ -17,7 +17,6 @@ php artisan config:clear
 php artisan optimize:clear
 php artisan queue:restart
 
-popd
 sudo chown -Rf nginx:nginx /var/www/html/apigw.prokash.io
 sudo chmod -Rf 770 /var/www/html/apigw.prokash.io
 sudo chmod -Rf 777 /var/wwww/html/apigw.prokash.io/storage
