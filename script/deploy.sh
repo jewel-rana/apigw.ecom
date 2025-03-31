@@ -17,11 +17,11 @@ php artisan config:clear
 php artisan optimize:clear
 php artisan queue:restart
 
-sudo chown -Rf nginx:nginx /var/www/html/apigw.prokash.io
-sudo chmod -Rf 770 /var/www/html/apigw.prokash.io
-sudo chmod -Rf 777 /var/wwww/html/apigw.prokash.io/storage
-sudo chmod 660 /var/www/html/apigw.prokash.io/storage/oauth-p*
-sudo chmod -Rf 777 /var/www/html/apigw.prokash.io/bootstrap/cache
+sudo chown -Rf nginx:nginx .
+sudo chmod -Rf 770 .
+sudo chmod -Rf 777 storage
+sudo chmod 660 storage/oauth-p*
+sudo chmod -Rf 777 bootstrap/cache
 
 #sudo systemctl reload php-fpm
 #sudo nginx -s reload
