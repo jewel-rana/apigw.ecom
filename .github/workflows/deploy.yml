@@ -1,26 +1,26 @@
-name: Unified CI/CD Pipeline
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  deploy-to-production-server:
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    steps:
-      ## Step 1
-      - uses: actions/checkout@v3
-      ## Step 2
-      - name: Deploy to Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          password: ${{ secrets.PASSWORD }}
-          script: |
-            cd /var/www/html/apigw.prokash.io
-            chown -Rf nginx:nginx /var/www/html/apigw.prokash.io
-            chmod -Rf 770 /var/www/html/apigw.prokash.io
-            ./script/deploy.sh
+#name: Unified CI/CD Pipeline
+#on:
+#  push:
+#    branches:
+#      - master
+#
+#jobs:
+#  deploy-to-production-server:
+#    if: github.ref == 'refs/heads/master'
+#    runs-on: ubuntu-latest
+#    steps:
+#      ## Step 1
+#      - uses: actions/checkout@v3
+#      ## Step 2
+#      - name: Deploy to Server
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.REMOTE_HOST }}
+#          username: ${{ secrets.USERNAME }}
+#          port: ${{ secrets.PORT }}
+#          password: ${{ secrets.PASSWORD }}
+#          script: |
+#            cd /var/www/html/apigw.prokash.io
+#            chown -Rf nginx:nginx /var/www/html/apigw.prokash.io
+#            chmod -Rf 770 /var/www/html/apigw.prokash.io
+#            ./script/deploy.sh
