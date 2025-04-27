@@ -1,0 +1,21 @@
+{
+    "Blog": true,
+    "Activity": true,
+    "Category": true,
+    "CMS": true,
+    "Dashboard": true,
+    "Gateway": true,
+    "Media": true,
+    "Menu": true,
+    "Metis": true,
+    "Newsletter": true,
+    "Order": true,
+    "Page": true,
+    "Payment": true,
+    "Purchase": true,
+    "Report": true,
+    "Setting": true,
+    "Auth": true,
+    "Customer": true,
+    "Provider": true
+}

@@ -1,0 +1,13 @@
+{
+    "name": "Metis",
+    "alias": "metis",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Metis\\Providers\\MetisServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

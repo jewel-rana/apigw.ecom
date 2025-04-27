@@ -20,8 +20,6 @@ return new class extends Migration
             $table->string('mobile')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('status', ['Active', 'Inactive'])
-                ->default('Active')->index();
             $table->boolean('is_system')->default(false);
             $table->enum('type', ['customer', 'admin'])->default('customer');
             $table->rememberToken();

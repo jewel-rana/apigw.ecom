@@ -1,0 +1,101 @@
+body {
+    font-size: 16px;
+}
+.navbar-inverse {
+    background-color: #fffdfd;
+    border: 1px #333 inset;
+}
+#menu, #menu ul, #menu li, #menu a {
+    color: #0f0e0e;
+}
+#menu > li > a {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+#top .navbar {
+    border-top: 0;
+}
+#menu .nav-divider {
+    background: rgba(213, 209, 209, 0.2);
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #060606;
+}
+.user-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 150%;
+    border: 5px solid #d5d5d5;
+}
+#menu > li ul a.active {
+    background: #d7d7d7;
+    border-left: 5px solid #222297;
+}
+
+
+/* TAB */
+.menuTab .nav-tabs{
+    border:0;
+}
+.menuTab .nav-tabs li{
+    background: #fff;
+}
+.menuTab .nav-tabs li a{
+    background:#7C8EB3;
+    padding: 8px 25px;
+    border: 2px solid #d4d2d2;
+    color:#fff;
+    font-weight: bold;
+    margin: 2px;
+    text-transform: uppercase;
+    border-radius: inherit;
+}
+.menuTab .nav-tabs li.active, .menuTab .nav-tabs li.active:hover, .menuTab .nav-tabs li.active a, .menuTab .nav-tabs li:hover a, .menuTab .nav-tabs li:focus a{
+    background: #fff;
+    color:#333;
+}
+.menuTab .tab-content{
+    background: #fff;
+    padding:25px 15px;
+    border: 1px solid #f2f2f2;
+    height: auto;
+    min-height: 298px;
+}
+
+/*
+* Datatable styling
+*/
+div.dt-button-collection.dropdown-menu .dt-button {
+    min-height: 25px;
+    border-top: 1px solid #e3dddd;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    float: left;
+    margin-right: 15px;
+    border: 1px solid #e6cfcf;
+    padding: 8px 15px;
+    background: floralwhite;
+}
+div.dataTables_wrapper div.dataTables_length {
+    float: left;
+}
+div.dataTables_wrapper div.dataTables_length label {
+    background: #f0f3f6;
+    border: 1px solid #e4ece9;
+    padding: 0px 0 0 15px;
+    margin-right: 20px;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    float: right;
+}
+div.dataTables_wrapper div.dataTables_paginate .pagination {
+    margin-top: 3px;
+}
+.dataTable th:last-child, .dataTable .table-actions {
+    width: 150px;
+}
+
+.dataTable th:nth-child(0), .dataTable .table-ids {
+    width: 60px;
+}

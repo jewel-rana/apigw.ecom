@@ -1,0 +1,332 @@
+@extends('metis::layouts.master')
+
+@section('header')
+@endsection
+
+@section('content')
+    <div id="content">
+        <div class="outer">
+            <div class="inner bg-light lter">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="box">
+                            <header>
+                                <div class="icons"><i class="fa fa-table"></i></div>
+                                <h5>{{ $title ?? 'Purchase Order Edit' }}</h5>
+                                <div class="toolbar">
+                                    <nav style="padding: 8px;">
+                                        <a href="{{ route('purchase.index') }}" class="btn btn-success btn-sm">
+                                            <i class="fa fa-plus-circle"></i> Back
+                                        </a>
+                                    </nav>
+                                </div>
+                                <!-- /.toolbar -->
+                            </header>
+                            <div id="collapse4" class="body">
+                                <form id="purchaseForm">
+                                    <div class="row">
+                                        <div class="col-lg-7">
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+
+                                            <div class="form-group @error('provider_id') has-error @enderror">
+                                                <label for="provider">Supplier (*)</label>
+                                                <select name="provider_id" class="form-control" id="provider">
+                                                    @foreach($suppliers as $supplier)
+                                                        <option value="{{ $supplier->id }}" {{ $purchase->provider_id == $supplier->id ? 'selected' : '' }} >{{ $purchase->provider->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('provider_id')
+                                                <div class="help-block with-errors text-danger"><i
+                                                        class="fa fa-times"></i> {{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group @error('currency') has-error @enderror">
+                                                <label for="currency">Currency (*)</label><br>
+                                                <select name="currency" class="form-control" id="currency" onchange="fetchBundlePrice(this)">
+                                                    @foreach($currencies as $currency)
+                                                        <option value="{{ $currency['key'] }}"
+                                                                @if($purchase->currency == $currency['key']) selected @endif>{{ $currency['value'] }}
+                                                            ({{ $currency['symbol'] }})
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('currency')
+                                                <div class="help-block with-errors text-danger"><i
+                                                        class="fa fa-times"></i> {{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group @error('exchange_rate') has-error @enderror">
+                                                <label for="exchangeRate">Exchange Rate</label>
+                                                <input type="text" class="form-control" name="exchange_rate" value="{{ $purchase->exchange_rate }}" id="exchangeRate">
+                                                @error('exchange_rate')
+                                                <div class="help-block with-errors text-danger"><i
+                                                        class="fa fa-times"></i> {{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group @error('status') has-error @enderror">
+                                                <label for="status">Status (*)</label>
+                                                <select name="status" class="form-control" required>
+                                                    @foreach($statuses as $status)
+                                                        <option value="{{ $status }}"
+                                                                @if($purchase->status == $status) selected @endif>{{ $status }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('status')
+                                                <div class="help-block with-errors text-danger"><i
+                                                        class="fa fa-times"></i> {{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12">
+                                            <h4 style="margin-top: 25px;">Purchase Items</h4>
+                                            <table class="table table-responsive table-striped" id="dynamicTable">
+                                                <tbody>
+                                                @foreach($purchase->items as $item)
+                                                    <tr>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <label for="operator">Operator (*)</label>
+                                                                <input type="hidden" name="item[id][]" value="{{ $item->id }}">
+                                                                <select name="item[operator_id][]" class="form-control" id="operator{{ $loop->index + 1 }}" onchange="fetchBundles(this, {{ $loop->index + 1 }})">
+                                                                    <option value="">Select Operator</option>
+                                                                    @foreach($operators as $operator)
+                                                                        <option value="{{ $operator->id }}" {{ $operator->id == $item->operator_id ? 'selected' : '' }}>{{ $operator->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <label for="bundle">Bundle</label><br>
+                                                                <select name="item[bundle_id][]" class="form-control" id="bundle{{ $loop->index + 1 }}" onchange="fetchBundlePrice(this, {{ $loop->index + 1 }})">
+                                                                    <option value="{{ $item->bundle_id }}">{{ $item->bundle->name }}</option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <label for="unitPrice">Unit Price (*)</label>
+                                                                <input type="text" class="form-control" name="item[unit_price][]" value="{{ $item->unit_price }}" id="unitPrice{{ $loop->index + 1 }}" onchange="calculateAmount({{ $loop->index + 1 }})">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <label for="quantity">Quantity (*)</label>
+                                                                <input type="number" class="form-control" min="1" name="item[quantity][]" value="{{ $item->quantity }}" id="quantity{{ $loop->index + 1 }}" onchange="calculateAmount({{ $loop->index + 1 }})">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <label for="amount">Amount (*)</label>
+                                                                <input type="text" value="{{ $item->amount }}" class="form-control" name="item[amount][]" id="amount{{ $loop->index + 1 }}">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" onclick="removeRow(this)" class="btn btn-sm btn-danger" style="margin-top: 25px;"><i class="fa fa-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <td colspan="3">
+                                                        Total
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" readonly class="form-control" name="quantity" id="totalQuantity" value="{{ $purchase->quantity }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" readonly class="form-control" name="amount" id="totalAmount" value="{{ $purchase->amount }}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <button type="button" class="btn btn-info" onclick="addNewRow()"><i class="fa fa-plus"></i> Add More</button>
+                                                    </td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary">UPDATE</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <!--End Datatables-->
+            </div>
+            <!-- /.inner -->
+        </div>
+        <!-- /.outer -->
+    </div>
+    <!-- /#content -->
+@endsection
+
+@section('footer')
+    <script>
+        function addNewRow() {
+            let index = document.querySelectorAll("#dynamicTable tbody tr").length + 1;
+            var newRow = document.createElement("tr");
+
+            newRow.innerHTML = `
+                <td>
+                    <div class="form-group">
+                        <label for="operator">Operator (*)</label>
+                        <select name="item[operator_id][]" class="form-control" id="operator${index}" onchange="fetchBundles(this, ${index})">
+                            <option value="">Select Operator</option>
+@foreach($operators as $operator)
+            <option value="{{ $operator->id }}">{{ $operator->name }}</option>
+@endforeach
+            </select>
+        </div>
+    </td>
+    <td>
+        <div class="form-group">
+            <label for="bundle">Bundle</label><br>
+            <select name="item[bundle_id][]" class="form-control" id="bundle${index}" onchange="fetchBundlePrice(this, ${index})">
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <label for="unitPrice">Unit Price (*)</label>
+                        <input type="text" class="form-control" name="item[unit_price][]" id="unitPrice${index}" onchange="calculateAmount(${index})">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <label for="quantity">Quantity (*)</label>
+                        <input type="number" class="form-control" min="1" name="item[quantity][]" id="quantity${index}" onchange="calculateAmount(${index})">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <label for="amount">Amount (*)</label>
+                        <input type="text" class="form-control" name="item[amount][]" id="amount${index}">
+                    </div>
+                </td>
+                <td>
+                    <button type="button" onclick="removeRow(this)" class="btn btn-sm btn-danger" style="margin-top: 25px;"><i class="fa fa-trash"></i></button>
+                </td>
+            `;
+
+            document.querySelector("#dynamicTable tbody").appendChild(newRow);
+        }
+
+        function calculateTotals() {
+            let quantities = document.getElementsByName('item[quantity][]');
+            let amounts = document.getElementsByName('item[amount][]');
+            let totalQuantity = 0;
+            let totalAmount = 0;
+            for (let i = 0; i < quantities.length; i++) {
+                if (quantities[i].value) {
+                    totalQuantity += parseInt(quantities[i].value);
+                }
+                if (amounts[i].value) {
+                    totalAmount += parseFloat(amounts[i].value);
+                }
+            }
+            document.getElementById('totalQuantity').value = totalQuantity;
+            document.getElementById('totalAmount').value = totalAmount.toFixed(2);
+        }
+
+        function removeRow(button) {
+            var row = button.closest("tr");
+            document.querySelector("#dynamicTable tbody").removeChild(row);
+            calculateTotals();
+        }
+
+        function fetchBundles(selectElement, index) {
+            $("#bundle"+index).select2({
+                allowClear: true,
+                width: "element",
+                placeholder: "Select bundle",
+                delay: 250,
+                ajax: {
+                    url: '{{ route('bundle.suggestion') }}',
+                    dataType: 'json',
+                    data: function (params) {
+                        let query = {
+                            term: params.term,
+                            operator_id: $('#operator'+index).val()
+                        }
+                        return query;
+                    },
+                    results: function (data, page) {
+                        return {results: data.data};
+                    }
+                }
+            })
+        }
+
+        function fetchBundlePrice(selectElement, index){
+            const bundleId = selectElement.value;
+            const unitPrice = document.getElementById(`unitPrice${index}`);
+            if (bundleId) {
+                fetch(`/dashboard/bundle/info/${bundleId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        unitPrice.value = data['buying_price'];
+                    })
+                    .catch(error => console.error('Error fetching bundles:', error));
+            } else {
+                // Clear options if no operator is selected
+                unitPrice.value  = '';
+            }
+        }
+
+        function calculateAmount(index) {
+            const quantity = document.getElementById(`quantity${index}`).value;
+            const unitPrice = document.getElementById(`unitPrice${index}`).value;
+            const amountField = document.getElementById(`amount${index}`);
+
+            const amount = quantity * unitPrice;
+            amountField.value = amount.toFixed(2);
+            calculateTotals();
+        }
+
+        $(document).ready(function() {
+            $('#purchaseForm').on('submit', function(e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: '{{ route('purchase.update',$purchase) }}',
+                    type: 'PUT',
+                    data: $(this).serialize(),
+                    dataType: "json",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        defaultToast(true,response.message)
+                        window.location.href = '/dashboard/purchase'
+                    },
+                    error: function(xhr) {
+                        defaultToast(false,xhr.responseJSON.message)
+                    }
+                });
+            });
+        });
+    </script>
+@endsection
+

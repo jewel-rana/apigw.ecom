@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('refunds', function (Blueprint $table) {
+            if(!Schema::hasColumn('refunds', 'gateway_refund_id')) {
+                $table->string('gateway_refund_id')->after('gateway_id')->nullable()->index();
+            }
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('refunds', function (Blueprint $table) {
+            if(Schema::hasColumn('refunds', 'gateway_refund_id')) {
+                $table->dropColumn('gateway_refund_id');
+            }
+        });
+    }
+};
