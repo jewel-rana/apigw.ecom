@@ -17,14 +17,17 @@ class CustomerLoginRule implements ValidationRule
 
             if(is_null($customer)) {
                 $fail('email', __( 'No account associate with this email'));
+                return;
             } else {
 
-                if ($customer->status != AuthConstant::STATUS_ACTIVE) {
+                if (strtolower($customer->status) != 'active') {
                     $fail(__('Your account is ' . $customer->status));
+                    return;
                 }
 
                 if (!Hash::check(request()->input('password'), $customer->password)) {
                     $fail('password', __('Password does not match'));
+                    return;
                 }
             }
         } catch (\Exception $exception) {

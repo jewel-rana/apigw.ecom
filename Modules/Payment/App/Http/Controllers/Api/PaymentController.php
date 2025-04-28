@@ -22,6 +22,11 @@ class PaymentController extends Controller
         $this->paymentService = $paymentService;
     }
 
+    public function index()
+    {
+        //
+    }
+
     public function store(CreatePaymentRequest $request)
     {
         return $this->paymentService->create($request);

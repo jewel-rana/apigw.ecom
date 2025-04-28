@@ -2,10 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthUserController;
-use App\Http\Controllers\ComplainController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PermissionController;
@@ -77,10 +75,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::put('{order}/action', [OrderController::class, 'action']);
     });
 
-    Route::group(['prefix' => 'feedback'], function () {
-        Route::post('{feedback}/action', [FeedbackController::class, 'action']);
-    });
-
     Route::group(['prefix' => 'payment'], function() {
         Route::post('verify', [PaymentController::class, 'verify'])->name('payment.verify');
         Route::post('refund', [PaymentController::class, 'refund'])->name('payment.refund');
@@ -91,7 +85,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('permission', PermissionController::class)->except(['destroy']);
     Route::apiResource('user', UserController::class)->except(['destroy']);
     Route::apiResource('order', OrderController::class)->except(['destroy']);
-    Route::apiResource('feedback', FeedbackController::class)->except(['destroy']);
-    Route::apiResource('complain', ComplainController::class)->except(['destroy']);
     Route::apiResource('payment', PaymentController::class)->only(['index', 'show']);
 });

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('refund_id')->constrained();
             $table->foreignId('order_id')->constrained();
             $table->foreignId('order_item_id')->constrained();
-            $table->foreignId('operator_id')->constrained();
-            $table->foreignId('bundle_id')->nullable()->constrained();
+            $table->foreignId('product_id')->constrained();
+            $table->foreignId('product_variant_id')->nullable()->constrained();
             $table->integer('qty')->default(1);
             $table->float('amount');
             $table->timestamps();

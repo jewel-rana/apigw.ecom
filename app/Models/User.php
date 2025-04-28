@@ -54,15 +54,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(User::class, 'updated_by', 'id')->select('id', 'name', 'email');
     }
 
-    public function format(): array
+    public function scopeFilter($query, $request)
     {
-        return $this->only(['id', 'name', 'mobile', 'email', 'status', 'remarks', 'created_at', 'updated_at']) +
-            [
-                'type' => 'user',
-                'role' => $this->roles->first()->only(['id', 'name']),
-                'created_by' => $this->createdBy,
-                'updated_by' => $this->updatedBy
-            ];
+        return CommonHelper::filterModel($query, $request);
+    }
+
+    public function revokeToken(): void
+    {
+        CommonHelper::revokeUserToken($this->id);
+    }
+
+    public function getNiceStatusAttribute($value): string
+    {
+        return $value == 1 ? 'Active' : 'Inactive';
     }
 
     public function getPermissions(): array
@@ -72,14 +76,15 @@ class User extends Authenticatable implements MustVerifyEmail
             $this->getAllPermissions()->pluck('name')->toArray();
     }
 
-    public function scopeFilter($query, $request)
+    public function format(): array
     {
-        return CommonHelper::filterModel($query, $request);
-    }
-
-    public function revokeToken()
-    {
-        CommonHelper::revokeUserToken($this->id);
+        return $this->only(['id', 'name', 'mobile', 'email', 'status', 'remarks', 'created_at', 'updated_at']) +
+            [
+                'type' => 'user',
+                'role' => $this->roles->first()->only(['id', 'name']),
+                'created_by' => $this->createdBy,
+                'updated_by' => $this->updatedBy
+            ];
     }
 
     public static function boot()

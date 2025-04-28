@@ -41,9 +41,14 @@ class CommonHelper
         };
     }
 
-    public static function hasPermission(string $permission): bool
+    public static function hasPermission($permissions): bool
     {
-        return request()->user()->status == AuthConstant::STATUS_ACTIVE && (request()->user()->hasRole('admin') || request()->user()->tokenCan($permission));
+        if(is_array($permissions)) {
+            $user = request()->user();
+            return $user->hasRole('admin') || $user->canAny($permissions);
+        }
+
+        return request()->user()->status == AuthConstant::STATUS_ACTIVE && (request()->user()->hasRole('admin') || request()->user()->tokenCan($permissions));
     }
 
     public static function parsePaginator($collections = null): array

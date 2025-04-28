@@ -20,6 +20,7 @@ class SystemAdminSeeder extends Seeder
         $user = User::create([
             'name' => 'System Admin',
             'email' => 'system@admin.com',
+            'mobile' => '01988754854',
             'password' => Hash::make(Str::random(18)),
             'email_verified_at' => now(),
             'status' => AuthConstant::USER_ACTIVE,

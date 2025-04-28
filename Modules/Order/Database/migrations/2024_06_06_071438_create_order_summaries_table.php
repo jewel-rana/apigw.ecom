@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('order_summaries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_type_id')->constrained();
-            $table->foreignId('operator_id')->constrained();
-            $table->foreignId('bundle_id')->nullable()->constrained();
+            $table->foreignId('product_id')->constrained();
+            $table->foreignId('product_variant_id')->nullable()->constrained();
             $table->date('selling_date')->index();
             $table->bigInteger('success_items')->default(0);
             $table->bigInteger('failed_items')->default(0);

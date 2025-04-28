@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            if(!Schema::hasColumn('orders', 'country_id')) {
-                $table->foreignId('country_id')->nullable()->constrained();
-            }
-
-            if(!Schema::hasColumn('orders', 'city_id')) {
-                $table->foreignId('city_id')->nullable()->constrained();
-            }
+//            if(!Schema::hasColumn('orders', 'country_id')) {
+//                $table->foreignId('country_id')->nullable()->constrained();
+//            }
+//
+//            if(!Schema::hasColumn('orders', 'city_id')) {
+//                $table->foreignId('city_id')->nullable()->constrained();
+//            }
 
             if(!Schema::hasColumn('orders', 'code')) {
                 $table->string('code', 15)->nullable();

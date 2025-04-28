@@ -13,7 +13,13 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['bail', 'required', 'email', 'exists:customers,email', new CustomerLoginRule()],
+            'email' => [
+                'bail',
+                'required',
+                'email',
+                'exists:customers,email',
+                new CustomerLoginRule()
+            ],
             'password' => ['bail', 'required', 'string']
         ];
     }

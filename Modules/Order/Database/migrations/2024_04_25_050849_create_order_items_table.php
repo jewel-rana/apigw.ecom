@@ -4,15 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('order_items', function (Blueprint $table) {
-            if(!Schema::hasTable('order_items')) {
+        if (!Schema::hasTable('order_items')) {
+            Schema::create('order_items', function (Blueprint $table) {
                 $table->id()->startingValue('10000001');
                 $table->foreignId('order_id')->constrained();
                 $table->foreignId('operator_id')->constrained();
@@ -28,8 +27,8 @@ return new class extends Migration
                 $table->json('data')->nullable();
                 $table->timestamps();
                 $table->index('created_at');
-            }
-        });
+            });
+        }
     }
 
     /**

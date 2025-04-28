@@ -14,6 +14,6 @@ class AuthConstant
     const TYPE_CUSTOMER = 'customer';
     const TYPE_ADMIN = 'admin';
     const DEFAULT_PROMOTION_PERIOD = 5;
-    const STATUS_ACTIVE = 'Active';
+    const STATUS_ACTIVE = 1;
     const OTP_VERIFIED = 1;
 }

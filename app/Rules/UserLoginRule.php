@@ -20,7 +20,7 @@ class UserLoginRule implements ValidationRule
             } else {
 
                 if ($user->status != AuthConstant::STATUS_ACTIVE) {
-                    $fail(__('Your account is ' . $user->status));
+                    $fail(__('Your account is ' . $user->nice_status));
                 }
 
                 if (is_null($user->email_verified_at)) {

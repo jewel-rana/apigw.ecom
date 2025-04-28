@@ -18,7 +18,8 @@ class CustomerTableSeeder extends Seeder
             'email' => 'jewelrana.dev@gmail.com',
             'password' => bcrypt('123456789'),
             'email_verified_at' => now(),
-            'status' => AuthConstant::STATUS_ACTIVE
+            'status' => AuthConstant::STATUS_ACTIVE,
+            'gender' => 'male'
         ]);
     }
 }

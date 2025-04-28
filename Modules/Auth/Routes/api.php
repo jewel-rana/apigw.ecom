@@ -17,7 +17,7 @@ use Modules\Auth\Http\Controllers\Api\RegisterController;
 |
 */
 
-Route::group(['prefix' => 'auth'], function () {
+Route::group(['prefix' => 'v2/auth'], function () {
     Route::group(['middleware' => 'guest'], function() {
         Route::post('register', [RegisterController::class, 'register'])->name('api.auth.register');
         Route::post('login', [AuthController::class, 'login'])->name('api.auth.login');

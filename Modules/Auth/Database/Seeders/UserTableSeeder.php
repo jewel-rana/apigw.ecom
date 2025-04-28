@@ -20,6 +20,7 @@ class UserTableSeeder extends Seeder
         $user = User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
+            'mobile' => '01844584584',
             'password' => Hash::make('123456789'),
             'email_verified_at' => now(),
             'status' => AppConstant::USER_ACTIVE
