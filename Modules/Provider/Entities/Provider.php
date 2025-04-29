@@ -3,6 +3,7 @@
 namespace Modules\Provider\Entities;
 
 use App\Helpers\CommonHelper;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +15,7 @@ use Modules\Operator\Entities\Operator;
 class Provider extends Model
 {
     use ActivityTrait;
-    protected $fillable = ['name', 'email', 'password', 'status', 'gateway_ids'];
+    protected $fillable = ['user_id', 'name', 'email', 'password', 'status', 'updated_by'];
 
     protected $hidden = [
         'password',
@@ -22,13 +23,6 @@ class Provider extends Model
         'deleted_at'
     ];
 
-    protected $casts = [
-        'gateway_ids' => 'array'
-    ];
-
-    protected $attributes = [
-        'gateway_ids' => null
-    ];
     protected $logAttributes = ['name', 'email', 'password', 'status'];
     protected $logOnlyDirty = true;
 
@@ -68,6 +62,16 @@ class Provider extends Model
         return $this->hasMany(ProviderStatement::class, 'id', 'provider_id');
     }
 
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id')->select('id', 'name', 'email', 'mobile')->withTrashed();
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by', 'id')->select('id', 'name', 'email', 'mobile')->withTrashed();
+    }
+
     public function getCreatedAtAttribute($datetime): string
     {
         return CommonHelper::parseLocalTimeZone($datetime);
@@ -97,5 +101,19 @@ class Provider extends Model
         }
 
         return $query;
+    }
+
+    public function format(): array
+    {
+        return $this->toArray();
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($provider) {
+            $provider->updated_by = auth()->id();
+        });
     }
 }

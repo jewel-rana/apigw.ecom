@@ -35,30 +35,14 @@ class ProviderService
         return $this->providerRepository->show($id);
     }
 
-    public function create(array $data): RedirectResponse
+    public function create(array $data)
     {
-        try {
-            $this->providerRepository->create($data);
-            return redirect()->route('provider.index')->with(['message' => 'Provider successfully created']);
-        } catch (\Exception $exception) {
-            LogHelper::exception($exception, [
-                'keyword' => LogConstant::EXCEPTION_GENERAL
-            ]);
-            return redirect()->back()->withInput($data)->withErrors(['message' => $exception->getMessage()]);
-        }
+        return $this->providerRepository->create($data);
     }
 
-    public function update(array $data, $id): RedirectResponse
+    public function update(array $data, $id)
     {
-        try {
-            $this->providerRepository->update($data, $id);
-            return redirect()->route('provider.index')->with(['message' => 'Provider successfully updated']);
-        } catch (\Exception $exception) {
-            LogHelper::exception($exception, [
-                'keyword' => LogConstant::EXCEPTION_GENERAL
-            ]);
-            return redirect()->back()->withInput($data)->withErrors(['message' => $exception->getMessage()]);
-        }
+        return $this->providerRepository->update($data, $id);
     }
 
     public function getDataTable($request): JsonResponse

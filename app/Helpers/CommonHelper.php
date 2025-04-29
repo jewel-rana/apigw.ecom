@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Otp;
 use App\Notifications\OtpNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class CommonHelper
@@ -49,6 +50,11 @@ class CommonHelper
         }
 
         return request()->user()->status == AuthConstant::STATUS_ACTIVE && (request()->user()->hasRole('admin') || request()->user()->tokenCan($permissions));
+    }
+
+    public static function parseLocalTimeZone($datetime, $tz = '+03:00'): string
+    {
+        return Carbon::parse($datetime)->setTimezone(auth()->user()->timezone ?? $tz)->format('d/m/Y h:i a');
     }
 
     public static function parsePaginator($collections = null): array

@@ -3,12 +3,15 @@
 namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -31,6 +34,46 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->stopIgnoring(HttpException::class);
+        // Handle Unauthenticated Exception
+        $this->renderable(function (AuthenticationException $e, $request) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthenticated.',
+            ], 401);
+        });
+
+        // Handle Model Not Found Exception
+        $this->renderable(function (ModelNotFoundException $e, $request) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Model not found.',
+            ], 404);
+        });
+
+        // Handle Route Not Found Exception
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Resource Not found!',
+            ], 404);
+        });
+
+        // Handle Route Not Found Exception
+        $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
+            return response()->json([
+                'status' => false,
+                'message' => "The {$request->method()} method is not allowed for this route.",
+            ], 404);
+        });
+
+        // Fallback for all other exceptions
+        $this->renderable(function (Throwable $e, $request) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Server error.',
+            ], $e->getCode() ?: 500);
+        });
+
         $this->renderable(function (NotFoundHttpException $e, Request $request) {
             if ($request->is('api/*')) {
                 $response = [

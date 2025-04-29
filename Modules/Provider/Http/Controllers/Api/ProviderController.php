@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Provider\Http\Controllers;
+namespace Modules\Provider\Http\Controllers\Api;
 
 use App\Constants\LogConstant;
+use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Provider\Entities\Provider;
@@ -28,50 +28,42 @@ class ProviderController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->ajax() || $request->wantsJson()) {
-            return $this->providerService->getDataTable($request);
-        }
-        return view('provider::index');
+        $providers = Provider::with(['createdBy', 'updatedBy'])
+            ->filter($request)
+            ->orderBy('created_at', $request->order ?? 'DESC')
+            ->paginate($request->input('per_page', 10));
+        return response()->success(CommonHelper::parsePaginator($providers));
     }
 
-    public function create()
-    {
-        return view('provider::create');
-    }
-
-    public function store(ProviderCreateRequest $request): RedirectResponse
+    public function store(ProviderCreateRequest $request)
     {
         try {
             $this->providerService->create($request->validated());
-            return redirect()->route('provider.index')->with(['message' => 'Provider successfully created']);
+            return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => LogConstant::EXCEPTION_GENERAL
             ]);
-            return redirect()->back()->withInput($data)->withErrors(['message' => $exception->getMessage()]);
+
+            return response()->error($exception->getMessage());
         }
     }
 
     public function show(Provider $provider)
     {
-        return view('provider::show', compact('provider'));
+        return response()->success($provider->format());
     }
 
-    public function edit(Provider $provider)
-    {
-        return view('provider::edit', compact('provider'));
-    }
-
-    public function update(ProviderUpdateRequest $request, $id): RedirectResponse
+    public function update(ProviderUpdateRequest $request, $id)
     {
         try {
             $this->providerService->update($request->validated(), $id);
-            return redirect()->route('provider.index')->with(['message' => 'Provider successfully updated']);
+            return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => LogConstant::EXCEPTION_GENERAL
             ]);
-            return redirect()->back()->withInput($data)->withErrors(['message' => $exception->getMessage()]);
+            return response()->error();
         }
     }
 

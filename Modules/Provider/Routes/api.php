@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Modules\Provider\Http\Controllers\ProviderController;
+use Modules\Provider\Http\Controllers\Api\ProviderController;
 
 /*
 |--------------------------------------------------------------------------

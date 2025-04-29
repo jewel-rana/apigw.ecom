@@ -15,12 +15,13 @@ class CreateProvidersTable extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->float('balance', 12, 2)->default(0);
             $table->tinyInteger('status')->default(1);
-            $table->json('gateway_ids')->nullable();
+            $table->foreignId('updated_by')->nullable()->constrained('users', 'id');
             $table->timestampsTz();
             $table->softDeletesTz();
         });
