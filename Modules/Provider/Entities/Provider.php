@@ -23,8 +23,8 @@ class Provider extends Model
         'deleted_at'
     ];
 
-    protected $logAttributes = ['name', 'email', 'password', 'status'];
-    protected $logOnlyDirty = true;
+    protected array $logAttributes = ['name', 'email', 'password', 'status'];
+    protected bool $logOnlyDirty = true;
 
     public function getDescriptionForEvent(string $eventName): string
     {
@@ -111,6 +111,10 @@ class Provider extends Model
     public static function boot()
     {
         parent::boot();
+
+        static::creating(function ($provider) {
+            $provider->user_id = auth()->id();
+        });
 
         static::updating(function ($provider) {
             $provider->updated_by = auth()->id();
