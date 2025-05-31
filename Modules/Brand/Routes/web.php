@@ -11,6 +11,3 @@
 |
 */
 
-Route::prefix('brand')->group(function() {
-    Route::get('/', 'BrandController@index');
-});

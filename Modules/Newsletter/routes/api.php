@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Newsletter\App\Http\Controllers\NewsletterController;
 use Modules\Newsletter\App\Http\Controllers\NewsletterSubscriptionController;
 
 /*
@@ -14,7 +15,11 @@ use Modules\Newsletter\App\Http\Controllers\NewsletterSubscriptionController;
     |
 */
 
-Route::group(['prefix' => 'newsletter'], function () {
-    Route::post('subscribe', [NewsletterSubscriptionController::class, 'subscribe'])->name('api.newsletter.subscribe');
-    Route::post('unsubscribe', [NewsletterSubscriptionController::class, 'unsubscribe'])->name('api.newsletter.unsubscribe');
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:api']], function () {
+    Route::group(['prefix' => 'newsletter'], function () {
+        Route::post('subscribe', [NewsletterSubscriptionController::class, 'subscribe'])->name('api.newsletter.subscribe');
+        Route::post('unsubscribe', [NewsletterSubscriptionController::class, 'unsubscribe'])->name('api.newsletter.unsubscribe');
+    });
+
+    Route::apiResource('newsletter', NewsletterController::class);
 });

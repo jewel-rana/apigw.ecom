@@ -14,9 +14,9 @@ use Modules\Category\App\Http\Controllers\Api\CategoryController;
     |
 */
 
-Route::group(['prefix' => 'category'], function () {
-    Route::get('{category}/show', [CategoryController::class, 'show'])->name('api.category.show');
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:api']], function () {
+    Route::group(['prefix' => 'category'], function () {
+        Route::get('suggestions', [CategoryController::class, 'suggestions']);
+    });
+    Route::apiResource('category', CategoryController::class);
 });
-Route::apiResource('category', CategoryController::class)
-    ->names('api.category')
-    ->only(['index']);

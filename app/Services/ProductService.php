@@ -4,8 +4,8 @@
 namespace App\Services;
 
 use App\Models\SimilarProduct;
-use App\Repositories\Interfaces\ProductRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use Modules\Product\Repositories\Interfaces\ProductRepositoryInterface;
 
 class ProductService
 {

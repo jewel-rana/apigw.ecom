@@ -1,11 +1,12 @@
 <?php
 
 
-namespace App\Repositories;
+namespace Modules\Product\Repositories;
 
-
-use App\Models\Product;
-use App\Repositories\Interfaces\ProductRepositoryInterface;
+use Modules\Product\Entities\Product;
+use App\Repositories\BaseRepository;
+use Illuminate\Database\Eloquent\Collection;
+use Modules\Product\Repositories\Interfaces\ProductRepositoryInterface;
 
 class ProductRepository extends BaseRepository implements ProductRepositoryInterface
 {
@@ -14,14 +15,14 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         parent::__construct($model);
     }
 
-    public function all()
+    public function all(): Collection
     {
         return parent::all();
     }
 
     public function create(array $data)
     {
-        return $this->model->create($data);
+        return parent::create($data);
     }
 
     public function update(array $data, $id)

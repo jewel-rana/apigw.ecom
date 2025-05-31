@@ -3,6 +3,7 @@
 namespace Modules\Category\App\Http\Controllers\Api;
 
 use App\Helpers\CommonHelper;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Category\App\Models\Category;
@@ -39,13 +40,15 @@ class CategoryController extends Controller
                 $category = Category::where('code', $slug)->first();
             }
             return response()->success(
-                $category->format(true) +
-                [
-                    'products' => $this->categoryService->getOperators($category->id, $request)
-                ]
+                $category->format(true)
             );
         } catch (Throwable|\Exception $exception) {
             return response()->failed();
         }
+    }
+
+    public function suggestions(Request $request): JsonResponse
+    {
+        return $this->categoryService->suggestions($request);
     }
 }

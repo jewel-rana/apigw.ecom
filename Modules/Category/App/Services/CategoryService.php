@@ -31,8 +31,10 @@ class CategoryService
 
     public function all()
     {
-        return Cache::remember('categories', 3600, function () {
-            return $this->categoryRepository->all()->sortBy('position');
+        return Cache::remember('categories', 3600, function (){
+            return $this->categoryRepository->getModel()
+                ->all()
+                ->sortBy('position');
         });
     }
 
@@ -97,10 +99,10 @@ class CategoryService
             ->toJson();
     }
 
-    public function getSuggestions(Request $request): JsonResponse
+    public function suggestions(Request $request): JsonResponse
     {
         try {
-            $data = $this->all()->filter(function ($category) use ($request) {
+            $data = $this->all($request)->filter(function ($category) use ($request) {
                 $matched = true;
                 if ($request->filled('term')) {
                     $matched = CommonHelper::matchText($category->name, $request->input('term'));
@@ -121,31 +123,6 @@ class CategoryService
             return response()->json(['results' => $data]);
         } catch (\Exception $exception) {
             return response()->json(['message' => __('No data!'), 'results' => []]);
-        }
-    }
-
-    public function getOperators($id, $request): ?array
-    {
-        try {
-            if ($request->input('type', 'bundle') == 'bundle') {
-                $operatorIds = app(OperatorService::class)->getCategoryOperatorIds($id);
-                $query = app(BundleRepository::class)->getModel()
-                    ->whereIn('operator_id', $operatorIds)
-                    ->filter($request, true);
-            } else {
-                $query = app(OperatorRepositoryInterface::class)->getModel()
-                    ->where('category_id', $id)
-                    ->filter($request, true);
-                if(CommonHelper::isRestrictedCustomers()) {
-                    $query->whereNotIn('service_type_id', config('customer.restricted.service_type_ids'));
-                }
-            }
-            return CommonHelper::parsePaginator(
-                $query->orderBy('position')->paginate(10)
-            );
-        } catch (\Exception $exception) {
-            LogHelper::exception($exception);
-            return null;
         }
     }
 }

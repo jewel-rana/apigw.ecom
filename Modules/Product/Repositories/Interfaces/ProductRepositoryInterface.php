@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Repositories\Interfaces;
+namespace Modules\Product\Repositories\Interfaces;
 
 
 interface ProductRepositoryInterface
