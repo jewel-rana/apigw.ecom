@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('refunds', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('order_id')->constrained();
             $table->foreignId('customer_id')->constrained();
             $table->foreignId('gateway_id')->constrained();
             $table->double('amount');
             $table->enum('status', ['pending', 'processing', 'initiated', 'success', 'failed'])->default('pending');
             $table->tinyInteger('attempts')->default(0);
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }

@@ -12,18 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('purchases', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(1000001);
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('provider_id')->constrained();
             $table->integer('quantity');
             $table->decimal('amount',12,2);
             $table->string('currency')->default('iqd');
             $table->decimal('exchange_rate')->default(1);
-            $table->enum('status',['Pending','Completed','Canceled'])->default('Pending')->index();
+            $table->string('status')->default('pending')->index();
+            $table->text('remarks')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->index('created_at');
         });
-        DB::statement("ALTER TABLE purchases AUTO_INCREMENT = 1000001;");
     }
 
     /**

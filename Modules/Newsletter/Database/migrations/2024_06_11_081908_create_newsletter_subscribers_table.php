@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('newsletter_subscribers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->string('email')->unique();
             $table->string('name')->nullable();
             $table->boolean('is_subscribed')->default(true)->index();

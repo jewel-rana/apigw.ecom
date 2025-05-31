@@ -14,6 +14,8 @@ return new class extends Migration {
             Schema::create('orders', function (Blueprint $table) {
                 $table->id()->startingValue(10000000001);
                 $table->uuid()->unique();
+                $table->foreignId('created_by')->nullable()->constrained('users');
+                $table->foreignId('updated_by')->nullable()->constrained('users');
                 $table->foreignId('customer_id')->nullable()->constrained();
                 $table->integer('total_qty')->default(1);
                 $table->decimal('total_amount', 10, 2)->default(0);
@@ -21,9 +23,9 @@ return new class extends Migration {
                 $table->decimal('discount', 10, 2)->default(0);
                 $table->decimal('coupon_discount', 10, 2)->default(0);
                 $table->decimal('total_payable', 10, 2)->default(0);
-                $table->enum('status', ['pending', 'processing', 'cancelled', 'complete', 'failed'])
-                    ->default('pending')
-                    ->index();
+                $table->string('status')->default('pending')->index();
+                $table->text('notes')->nullable();
+                $table->text('remarks')->nullable();
                 $table->timestamps();
                 $table->index('created_at');
             });

@@ -17,5 +17,7 @@
     "Setting": true,
     "Auth": true,
     "Customer": true,
-    "Provider": true
+    "Provider": true,
+    "Product": true,
+    "Brand": true
 }

@@ -15,6 +15,8 @@ class CreateProductVariantsTable extends Migration
     {
         Schema::create('product_variants', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('product_id')->constrained();
             $table->uuid('sku');
             $table->decimal('price', 10, 2)->default(0);

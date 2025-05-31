@@ -21,6 +21,7 @@ class CreateProviderStatementsTable extends Migration
             $table->float('amount', 12, 2);
             $table->float('balance', 12, 2);
             $table->enum('type', ['credit', 'debit'])->default('debit');
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }

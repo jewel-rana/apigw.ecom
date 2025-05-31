@@ -15,9 +15,13 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->string('name');
-            $table->string('code');
+            $table->string('slug')->unique();
             $table->foreignId('parent_id')->nullable()->constrained('categories', 'id');
+            $table->string('status')->default('active');
+            $table->string('remarks')->nullable();
             $table->timestamps();
             $table->softDeletesTz();
         });

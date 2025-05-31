@@ -16,12 +16,13 @@ class CreatePagesTable extends Migration
         Schema::dropIfExists('pages');
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description');
             $table->string('template')->default('page');
-            $table->tinyInteger('status')->default(1);
+            $table->string('status')->default('active');
             $table->timestamps();
         });
     }

@@ -15,10 +15,12 @@ class CreateGatewaysTable extends Migration
     {
         Schema::create('gateways', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->string('name');
             $table->string('class_name');
             $table->foreignId('media_id')->nullable()->constrained()->on('medias');
-            $table->tinyInteger('status')->default(1);
+            $table->string('status')->default('active');
             $table->timestamps();
             $table->softDeletesTz();
         });

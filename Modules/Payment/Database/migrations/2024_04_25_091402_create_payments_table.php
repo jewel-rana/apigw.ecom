@@ -12,13 +12,16 @@ return new class extends Migration {
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id()->startingValue(10000001);
+            $table->foreignId('created_by')->nullable()->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('order_id')->constrained();
             $table->foreignId('customer_id')->constrained();
             $table->foreignId('gateway_id')->constrained();
-            $table->decimal('amount', 11, 2);
+            $table->decimal('amount', 15, 2);
             $table->enum('status', ['pending', 'processing', 'success', 'failed', 'cancelled', 'declined'])
                 ->default('pending')
                 ->index();
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }

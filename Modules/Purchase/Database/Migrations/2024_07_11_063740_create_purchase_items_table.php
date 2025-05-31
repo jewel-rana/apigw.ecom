@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('purchase_items', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('purchase_id')->constrained();
             $table->foreignId('product_id')->constrained();
             $table->foreignId('product_variant_id')->nullable()->constrained();
             $table->integer('quantity');
             $table->decimal('unit_price');
             $table->decimal('amount',12,2);
+            $table->string('remarks')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

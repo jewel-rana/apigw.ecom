@@ -16,13 +16,15 @@ class CreateProviderUsersTable extends Migration
         Schema::create('provider_users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('provider_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->string('name');
             $table->string('email');
             $table->string('mobile');
             $table->string('password');
             $table->string('remember_me')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }

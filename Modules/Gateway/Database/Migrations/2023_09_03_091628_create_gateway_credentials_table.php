@@ -15,6 +15,8 @@ class CreateGatewayCredentialsTable extends Migration
     {
         Schema::create('gateway_credentials', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('gateway_id')->constrained();
             $table->string('key');
             $table->text('value');

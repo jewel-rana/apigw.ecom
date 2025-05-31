@@ -15,6 +15,8 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->default(1)->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('product_variant_id');
             $table->integer('qty')->default(0);

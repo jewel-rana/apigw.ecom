@@ -15,6 +15,8 @@ class CreateSimilarProductsTable extends Migration
     {
         Schema::create('similar_products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('similar_product_id');
         });
