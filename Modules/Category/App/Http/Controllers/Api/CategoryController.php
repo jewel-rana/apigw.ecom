@@ -6,6 +6,7 @@ use App\Helpers\CommonHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Modules\Brand\Entities\Brand;
 use Modules\Category\App\Models\Category;
 use Modules\Category\App\Services\CategoryService;
 use Throwable;
@@ -31,6 +32,11 @@ class CategoryController extends Controller
         );
     }
 
+    public function store(Request $request)
+    {
+        return $this->categoryService->create($request->all());
+    }
+
     public function show(Request $request, $slug)
     {
         try {
@@ -46,6 +52,17 @@ class CategoryController extends Controller
             return response()->failed();
         }
     }
+
+    public function update(Request $request, Category $category)
+    {
+        return $this->categoryService->update($request->all(), $category->id);
+    }
+
+    public function destroy(Category $category)
+    {
+        return $this->categoryService->delete($category);
+    }
+
 
     public function suggestions(Request $request): JsonResponse
     {

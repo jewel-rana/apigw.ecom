@@ -43,30 +43,45 @@ class CategoryService
         return $this->categoryRepository->show($id);
     }
 
-    public function create(array $data): RedirectResponse
+    public function create(array $data)
     {
         try {
             DB::transaction(function () use ($data) {
                 $category = $this->categoryRepository->create($data);
                 CategoryMediaUploadJob::dispatch($category, $this->mediaService);
             });
+            if(request()->wantsJson()) {
+                return response()->success();
+            }
             return redirect()->route('category.index')->with(['status' => true, 'message' => __('Category created successfully')]);
         } catch (\Exception $exception) {
             LogHelper::exception($exception);
+
+            if(request()->wantsJson()) {
+                return response()->failed(['message' => $exception->getMessage()]);
+            }
             return redirect()->back()->withInput($data)->with(['status' => false, 'message' => $exception->getMessage()]);
         }
     }
 
-    public function update(array $data, int $id): RedirectResponse
+    public function update(array $data, int $id)
     {
         try {
             DB::transaction(function () use ($data, $id) {
                 $category = $this->categoryRepository->update($data, $id);
                 CategoryMediaUploadJob::dispatch($category, $this->mediaService);
             });
+
+            if(request()->wantsJson()) {
+                return response()->success();
+            }
             return redirect()->route('category.index')->with(['status' => true, 'message' => __('Category updated successfully')]);;
         } catch (\Exception $exception) {
             LogHelper::exception($exception);
+
+            if(request()->wantsJson()) {
+                return response()->failed(['message' => $exception->getMessage()]);
+            }
             return redirect()->back()->with(['status' => false, 'message' => __('Category failed to update')]);
         }
     }
@@ -123,6 +138,19 @@ class CategoryService
             return response()->json(['results' => $data]);
         } catch (\Exception $exception) {
             return response()->json(['message' => __('No data!'), 'results' => []]);
+        }
+    }
+
+    public function delete(Category $category)
+    {
+        try {
+            $category->delete();
+            return response()->success();
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'USER_DELETE_EXCEPTION'
+            ]);
+            return  response()->failed(['message' => $exception->getMessage()]);
         }
     }
 }

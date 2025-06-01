@@ -52,6 +52,28 @@ class CommonHelper
         return request()->user()->status == AuthConstant::STATUS_ACTIVE && (request()->user()->hasRole('admin') || request()->user()->tokenCan($permissions));
     }
 
+    /**
+     * @throws \Exception
+     */
+    public static function purseGateway($gateway): ?string
+    {
+        $gatewayName = $gateway->class_name ?? NotExist::class;
+        if (!class_exists($gatewayName)) {
+            throw new \Exception('Gateway not properly configured', 500);
+        }
+        return $gatewayName;
+    }
+
+    public static function parseLocalizeAttribute($key, $value, $attrs): ?string
+    {
+        return $attrs->where('key', $key)->first()->value ?? $value;
+    }
+
+    public static function parseMenuAttribute($key, $value, $attrs): ?string
+    {
+        return $attrs->where('language', app()->getLocale())->first()->{$key} ?? $value;
+    }
+
     public static function parseLocalTimeZone($datetime, $tz = '+03:00'): string
     {
         return Carbon::parse($datetime)->setTimezone(auth()->user()->timezone ?? $tz)->format('d/m/Y h:i a');

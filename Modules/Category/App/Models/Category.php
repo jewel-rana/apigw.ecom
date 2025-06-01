@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Modules\Activity\App\Traits\ActivityTrait;
 use Modules\Bundle\Entities\Bundle;
 use Modules\Bundle\Repositories\BundleRepository;
@@ -137,9 +138,12 @@ class Category extends Model
         parent::boot();
         static::creating(function (Category $category) {
             $category->parent_id = (request()->filled('parent_id')) ? request()->filled('parent_id') : null;
+            $category->created_by = auth()->id();
+            $category->slug = Str::slug($category->slug ?? $category->name);
         });
 
         static::updating(function (Category $category) {
+            $category->updated_by = auth()->id();
             $category->parent_id = (request()->filled('parent_id')) ? request()->filled('parent_id') : null;
         });
     }
