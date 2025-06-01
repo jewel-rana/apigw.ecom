@@ -15,6 +15,12 @@ use Modules\Provider\Http\Controllers\Api\ProviderController;
 |
 */
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'supplier'], function () {
+        Route::get('suggestion', [ProviderController::class, 'suggestion']);
+        Route::put('{supplier}/action', [ProviderController::class, 'action']);
+    });
+
     Route::apiResource('supplier', ProviderController::class);
 });
+

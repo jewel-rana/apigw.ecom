@@ -33,11 +33,6 @@ class User extends \App\Models\User
             ->where('is_blocked', true);
     }
 
-    public function getNiceStatusAttribute()
-    {
-        return config('auth.user.statuses')[$this->status] ?? 'N/A';
-    }
-
     public function getCreatedAtAttribute($datetime): string
     {
         return CommonHelper::parseLocalTimeZone($datetime);

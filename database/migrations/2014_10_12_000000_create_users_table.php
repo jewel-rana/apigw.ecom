@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('is_system')->default(false);
             $table->enum('type', ['customer', 'admin'])->default('customer');
+            $table->string('status')->default('active')->index();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -28,8 +28,7 @@ class ProviderController extends Controller
 
     public function index(Request $request)
     {
-        $providers = Provider::with(['createdBy', 'updatedBy'])
-            ->filter($request)
+        $providers = Provider::filter($request)
             ->orderBy('created_at', $request->order ?? 'DESC')
             ->paginate($request->input('per_page', 10));
         return response()->success(CommonHelper::parsePaginator($providers));
@@ -70,6 +69,19 @@ class ProviderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function action(Request $request, Provider $provider)
+    {
+        try {
+            $provider->update(['status' => $request->input('status')]);
+            return response()->success();
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => LogConstant::EXCEPTION_GENERAL
+            ]);
+            return response()->failed(['message' => $exception->getMessage()]);
+        }
     }
 
     public function suggestion(Request $request): JsonResponse

@@ -14,8 +14,7 @@ class AddMoreColumnsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            if(!Schema::hasColumns('users', ['status', 'is_editable'])) {
-                $table->tinyInteger('status')->default(0)->index();
+            if(!Schema::hasColumn('users', 'is_editable')) {
                 $table->boolean('is_editable')->default(true)->after('status');
             }
         });
@@ -29,8 +28,8 @@ class AddMoreColumnsToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            if(Schema::hasColumns('users', ['status', 'is_editable'])) {
-                $table->dropColumn(['status', 'is_editable']);
+            if(Schema::hasColumn('users', 'is_editable')) {
+                $table->dropColumn('is_editable');
             }
         });
     }

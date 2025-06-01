@@ -5,6 +5,7 @@ namespace Modules\Provider\Entities;
 use App\Helpers\CommonHelper;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -15,7 +16,8 @@ use Modules\Operator\Entities\Operator;
 class Provider extends Model
 {
     use ActivityTrait;
-    protected $fillable = ['user_id', 'name', 'email', 'password', 'status', 'updated_by'];
+
+    protected $fillable = ['created_by', 'name', 'email', 'password', 'status', 'updated_by'];
 
     protected $hidden = [
         'password',
@@ -47,29 +49,19 @@ class Provider extends Model
         return $this->hasMany(ProviderDeposit::class, 'provider_id', 'id')->latest();
     }
 
-    public function operators(): BelongsToMany
-    {
-        return $this->belongsToMany(Operator::class)->withPivot('user_id');
-    }
-
-    public function bundles(): BelongsToMany
-    {
-        return $this->belongsToMany(Bundle::class);
-    }
-
     public function statements(): HasMany
     {
         return $this->hasMany(ProviderStatement::class, 'id', 'provider_id');
     }
 
-    public function createdBy()
+    public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id', 'id')->select('id', 'name', 'email', 'mobile')->withTrashed();
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function updatedBy()
+    public function updatedBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'updated_by', 'id')->select('id', 'name', 'email', 'mobile')->withTrashed();
+        return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
     public function getCreatedAtAttribute($datetime): string
@@ -82,18 +74,13 @@ class Provider extends Model
         return CommonHelper::parseLocalTimeZone($datetime);
     }
 
-    public function getNiceStatusAttribute($value): string
-    {
-        return $this->status ? 'Active' : 'Inactive';
-    }
-
     public function scopeFilter($query, $request)
     {
-        if($request->filled('status')) {
+        if ($request->filled('status')) {
             $query->where('status', $request->input('status'));
         }
 
-        if($request->filled('keyword')) {
+        if ($request->filled('keyword')) {
             $query->where(function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->input('keyword') . '%');
                 $query->orWhere('email', 'like', '%' . $request->input('keyword') . '%');
@@ -105,7 +92,10 @@ class Provider extends Model
 
     public function format(): array
     {
-        return $this->toArray();
+        return [
+                'createdBy' => $this->createdBy?->only('id', 'name'),
+                'updatedBy' => $this->updatedBy?->only('id', 'name'),
+            ] + $this->attributesToArray();
     }
 
     public static function boot()
@@ -113,7 +103,7 @@ class Provider extends Model
         parent::boot();
 
         static::creating(function ($provider) {
-            $provider->user_id = auth()->id();
+            $provider->created_by = auth()->id();
         });
 
         static::updating(function ($provider) {

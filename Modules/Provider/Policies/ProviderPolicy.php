@@ -43,6 +43,11 @@ class ProviderPolicy
         return CommonHelper::hasPermission(['supplier-action']);
     }
 
+    public function action(): bool
+    {
+        return CommonHelper::hasPermission(['supplier-action']);
+    }
+
     public function restore(): bool
     {
         return CommonHelper::hasPermission(['supplier-action']);

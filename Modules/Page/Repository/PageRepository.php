@@ -4,6 +4,7 @@
 namespace Modules\Page\Repository;
 
 use App\Repositories\BaseRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Modules\Page\Entities\Page;
 
 class PageRepository extends BaseRepository implements PageRepositoryInterface
@@ -13,7 +14,7 @@ class PageRepository extends BaseRepository implements PageRepositoryInterface
         parent::__construct($model);
     }
 
-    public function all()
+    public function all(): Collection
     {
         return parent::all();
     }

@@ -5,6 +5,7 @@ namespace Modules\Menu\Repository;
 
 
 use App\Repositories\BaseRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Modules\Menu\Entities\MenuItem;
 
 class MenuItemRepository extends BaseRepository implements MenuItemRepositoryInterface
@@ -14,7 +15,7 @@ class MenuItemRepository extends BaseRepository implements MenuItemRepositoryInt
         parent::__construct($model);
     }
 
-    public function all()
+    public function all(): Collection
     {
         return parent::all();
     }
