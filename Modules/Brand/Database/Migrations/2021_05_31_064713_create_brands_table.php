@@ -19,6 +19,7 @@ class CreateBrandsTable extends Migration
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->string('name');
+            $table->text('description')->nullable();
             $table->string('slug')->unique();
             $table->string('status')->default(BrandConstant::STATUS_ACTIVE);
             $table->string('remarks')->nullable();
