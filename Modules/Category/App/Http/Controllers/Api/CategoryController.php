@@ -2,11 +2,9 @@
 
 namespace Modules\Category\App\Http\Controllers\Api;
 
-use App\Helpers\CommonHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
-use Modules\Brand\Entities\Brand;
 use Modules\Category\App\Models\Category;
 use Modules\Category\App\Services\CategoryService;
 use Throwable;
@@ -64,7 +62,7 @@ class CategoryController extends Controller
     }
 
 
-    public function suggestions(Request $request): JsonResponse
+    public function suggestions(Request $request)
     {
         return $this->categoryService->suggestions($request);
     }

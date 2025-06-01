@@ -13,7 +13,7 @@ class BrandService
     public function all(Request $request)
     {
         return Cache::remember('brands', 3600, function () use ($request) {
-            return Brand::filter($request)->all();
+            return Brand::filter($request)->get();
         });
     }
 

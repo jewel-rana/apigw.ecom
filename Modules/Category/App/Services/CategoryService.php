@@ -29,12 +29,10 @@ class CategoryService
         $this->mediaService = $mediaService;
     }
 
-    public function all()
+    public function all(Request $request)
     {
         return Cache::remember('categories', 3600, function (){
-            return $this->categoryRepository->getModel()
-                ->all()
-                ->sortBy('position');
+            return $this->categoryRepository->getModel()->orderBy('position', 'asc')->get();
         });
     }
 
@@ -114,7 +112,27 @@ class CategoryService
             ->toJson();
     }
 
-    public function suggestions(Request $request): JsonResponse
+    public function suggestions(Request $request)
+    {
+        try {
+            return response()->success(
+                $this->all($request)
+                    ->map(function ($item) {
+                        return [
+                            'id' => $item->id,
+                            'name' => $item->name,
+                        ];
+                    })
+            );
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'AGENT_NOT_FOUND_EXCEPTION'
+            ]);
+            return response()->failed(['message' => $exception->getMessage()]);
+        }
+    }
+
+    public function getSuggestions(Request $request): JsonResponse
     {
         try {
             $data = $this->all($request)->filter(function ($category) use ($request) {
