@@ -38,7 +38,7 @@ class Brand extends Model
         return $query;
     }
 
-    public function format()
+    public function format(): array
     {
         return [
                 'createdBy' => $this->createdBy?->only(['id', 'name', 'email']),

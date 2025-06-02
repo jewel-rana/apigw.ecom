@@ -22,9 +22,9 @@ class PaymentController extends Controller
         $this->paymentService = $paymentService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $this->paymentService->index($request);
     }
 
     public function store(CreatePaymentRequest $request)
@@ -46,19 +46,4 @@ class PaymentController extends Controller
     {
         return $this->paymentService->ipn($payment, $gateway, $request);
     }
-
-    public function fibPaymentVerify(Payment $payment): array
-    {
-        $data = ['status' => false, 'message' => null];
-        try {
-            $data = $this->paymentService->fibPaymentVerify($payment, $data);
-        } catch (\Exception $exception) {
-            LogHelper::error($exception, [
-                'keyword' => 'FIB_PAYMENT_VERIFY_API_EXCEPTION',
-            ]);
-            $data['message'] = $exception->getMessage();
-        }
-        return $data;
-    }
-
 }

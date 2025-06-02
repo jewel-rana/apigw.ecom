@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Modules\Payment\App\Http\Controllers\Api\PaymentController;
 
@@ -14,18 +13,19 @@ use Modules\Payment\App\Http\Controllers\Api\PaymentController;
     | is assigned the "api" middleware group. Enjoy building your API!
     |
 */
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'payment'], function () {
+        Route::post('{payment}/{gateway}/ipn', [PaymentController::class, 'ipn'])->name('api.payment.ipn');
 
-Route::group(['prefix' => 'payment'], function () {
-    Route::post('{payment}/{gateway}/ipn', [PaymentController::class, 'ipn'])->name('api.payment.ipn');
+        Route::get('{payment}/verify', [PaymentController::class, 'verify'])
+            ->middleware('auth:api')
+            ->name('api.payment.verify');
 
-    Route::get('{payment}/verify', [PaymentController::class, 'verify'])
-        ->middleware('auth:api')
-        ->name('api.payment.verify');
+        Route::get('{gateway_trx_id}/status', [PaymentController::class, 'checkStatus'])
+            ->middleware('auth:api')
+            ->name('api.payment.status');
 
-    Route::get('{gateway_trx_id}/status', [PaymentController::class, 'checkStatus'])
-        ->middleware('auth:api')
-        ->name('api.payment.status');
-
-    Route::get('fib/{payment}/verify', [PaymentController::class, 'fibPaymentVerify'])->name('api.fib.payment.verify');
+        Route::get('fib/{payment}/verify', [PaymentController::class, 'fibPaymentVerify'])->name('api.fib.payment.verify');
+    });
+    Route::apiResource('payment', PaymentController::class)->names('api.payment');
 });
-Route::apiResource('payment', PaymentController::class)->names('api.payment');

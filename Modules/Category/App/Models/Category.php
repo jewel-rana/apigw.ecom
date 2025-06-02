@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Modules\Activity\App\Traits\ActivityTrait;
 use Modules\Bundle\Entities\Bundle;
-use Modules\Bundle\Repositories\BundleRepository;
 use Modules\Media\Entities\Media;
 use Modules\Operator\Entities\Operator;
 use Modules\ServiceType\Entities\ServiceType;
@@ -94,7 +93,7 @@ class Category extends Model
         return $this->hasMany(CategoryAttribute::class)->where('lang', app()->getLocale());
     }
 
-    public function getNameAttribute($value): string
+    public function getNameAttribute($value): ?string
     {
         return CommonHelper::parseLocalizeAttribute('name', $value, $this->customAttributes);
     }
@@ -125,10 +124,7 @@ class Category extends Model
             ];
 
         if($single) {
-            $data['childs'] = $this->childs;
-            $data['max_price'] = app(BundleRepository::class)->getModel()
-                ->whereIn('operator_id', $this->operators->pluck('id')->toArray())
-                ->max('selling_price');
+            $data['children'] = $this->childs;
         }
         return $data;
     }

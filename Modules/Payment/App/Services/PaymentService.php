@@ -2,7 +2,6 @@
 
 namespace Modules\Payment\App\Services;
 
-use App\Gateways\FIB;
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
 use Illuminate\Http\JsonResponse;
@@ -25,6 +24,15 @@ class PaymentService
     public function __construct(PaymentRepositoryInterface $paymentRepository)
     {
         $this->paymentRepository = $paymentRepository;
+    }
+
+    public function index(Request $request)
+    {
+        $agents = $this->paymentRepository->getModel()
+            ->filter($request)
+            ->latest()
+            ->paginate(CommonHelper::perPage($request));
+        return response()->success(CommonHelper::parsePaginator($agents));
     }
 
     public function getDataTable(Request $request): JsonResponse
@@ -120,7 +128,7 @@ class PaymentService
         return $data;
     }
 
-    public function checkStatus($gatewayTrxId)
+    public function checkStatus($gatewayTrxId): JsonResponse
     {
         $data = ['status' => false, 'message' => __('Failed')];
         try {
@@ -142,10 +150,5 @@ class PaymentService
             ]);
         }
         return response()->json($data)->header('Referrer-Policy', 'no-referrer');
-    }
-
-    public function fibPaymentVerify($payment, &$data): array
-    {
-        return (new FIB())->verify($payment, $data);
     }
 }

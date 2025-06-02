@@ -5,6 +5,8 @@ namespace Modules\Category\App\Http\Controllers\Api;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Modules\Category\App\Http\Requests\CategoryCreateRequest;
+use Modules\Category\App\Http\Requests\CategoryUpdateRequest;
 use Modules\Category\App\Models\Category;
 use Modules\Category\App\Services\CategoryService;
 use Throwable;
@@ -18,10 +20,10 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         return response()->success(
-            $this->categoryService->all()->where('parent', 0)
+            $this->categoryService->all($request)->where('parent', 0)
                 ->map(function (Category $item, $key) {
                     return $item->format() + [
                             'icon' => $item->media_attachment_url
@@ -30,9 +32,9 @@ class CategoryController extends Controller
         );
     }
 
-    public function store(Request $request)
+    public function store(CategoryCreateRequest $request)
     {
-        return $this->categoryService->create($request->all());
+        return $this->categoryService->create($request->validated());
     }
 
     public function show(Request $request, $slug)
@@ -51,9 +53,9 @@ class CategoryController extends Controller
         }
     }
 
-    public function update(Request $request, Category $category)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
-        return $this->categoryService->update($request->all(), $category->id);
+        return $this->categoryService->update($request->validated(), $category->id);
     }
 
     public function destroy(Category $category)

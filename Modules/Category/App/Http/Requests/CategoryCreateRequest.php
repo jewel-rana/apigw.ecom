@@ -2,18 +2,20 @@
 
 namespace Modules\Category\App\Http\Requests;
 
+use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryCreateRequest extends FormRequest
 {
+    use FormValidationResponseTrait;
+
     public function rules(): array
     {
         return [
-            'service_type_id' => 'required|integer|exists:service_types,id',
             'parent_id' => 'nullable|integer',
             'name' => 'required|string',
-            'code' => 'required|string|unique:categories,code',
-            'color' => 'required|string|in:' . implode(',', config('category.colors')),
+            'slug' => 'nullable|string|unique:categories,slug',
+            'color' => 'nullable|string|in:' . implode(',', config('category.colors')),
             'attachment' => 'nullable|image|mimes:jpg,png,gif,svg|max:500'
         ];
     }

@@ -28,7 +28,7 @@ class BrandController extends Controller
 
     public function show(Brand $brand)
     {
-        return response()->success($brand->format);
+        return response()->success($brand->format());
     }
 
     public function update(Request $request, Brand $brand)
