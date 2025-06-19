@@ -16,8 +16,7 @@ class CreateProductVariantAttributesTable extends Migration
         Schema::create('product_variant_attributes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_variant_id')->constrained();
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreignId('product_id')->constrained();
             $table->string('type')->comment('variant type');
             $table->string('value')->comment('variant type value');
         });
