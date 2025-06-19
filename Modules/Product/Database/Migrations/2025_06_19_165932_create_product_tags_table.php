@@ -11,7 +11,7 @@ class CreateProductTagsTable extends Migration
         Schema::create('product_tags', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->string('tag');
+            $table->string('name');
             $table->string('slug');
             $table->timestamps();
         });
