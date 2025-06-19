@@ -4,7 +4,10 @@ namespace Modules\Product\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Auth\Entities\User;
+use Modules\Brand\Entities\Brand;
+use Modules\Category\App\Models\Category;
 
 class Product extends Model
 {
@@ -21,6 +24,8 @@ class Product extends Model
         'sku',
         'description',
         'price',
+        'purchase_price',
+        'strike_price',
         'status',
         'remarks'
     ];
@@ -33,6 +38,21 @@ class Product extends Model
     public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function  brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
+
+    }
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function tags(): HasMany
+    {
+        return $this->hasMany(ProductTag::class);
     }
 
     public function scopeFilter($query, $request)

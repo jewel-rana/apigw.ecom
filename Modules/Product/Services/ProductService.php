@@ -6,7 +6,10 @@ use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
+use Modules\Media\MediaService;
 use Modules\Product\Entities\Product;
+use Modules\Product\Jobs\ProductMediaUploadJob;
 use Modules\Product\Repositories\Interfaces\ProductRepositoryInterface;
 
 class ProductService
@@ -58,7 +61,27 @@ class ProductService
     public function create(Request $request)
     {
         try {
-            $this->productRepository->create($request->all());
+            $product = $this->productRepository->create($request->validated());
+
+            if ($request->filled('tags')) {
+                foreach ($request->input('tags') as $tag) {
+                    $product->tags()->create([
+                        'name' => $tag,
+                        'slug' => Str::slug($tag)
+                    ]);
+                }
+            }
+
+            if ($request->has('attachments') && is_array($request->input('attachments'))) {
+                foreach ($request->input('attachments') as $attachment) {
+                    ProductMediaUploadJob::dispatch($product, $attachment, false);
+                }
+            }
+
+            if ($request->hasFile('thumbnail')) {
+                ProductMediaUploadJob::dispatch($product, $request->input('thumbnail'), true);
+            }
+
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
@@ -71,7 +94,25 @@ class ProductService
     public function update(Request $request, Product $product)
     {
         try {
-            $product->update($request->all());
+            $this->productRepository->update($request->validated(), $product->id);
+            if ($request->filled('tags')) {
+                foreach ($request->input('tags') as $tag) {
+                    $product->tags()->create([
+                        'name' => $tag,
+                        'slug' => Str::slug($tag)
+                    ]);
+                }
+            }
+
+            if ($request->has('attachments') && is_array($request->input('attachments'))) {
+                foreach ($request->input('attachments') as $attachment) {
+                    ProductMediaUploadJob::dispatch($product, $attachment, false);
+                }
+            }
+
+            if ($request->hasFile('thumbnail')) {
+                ProductMediaUploadJob::dispatch($product, $request->input('thumbnail'), true);
+            }
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [

@@ -18,16 +18,19 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
-            $table->foreignId('provider_id')->constrained();
+            $table->foreignId('provider_id')->nullable()->constrained();
             $table->foreignId('category_id')->constrained();
-            $table->foreignId('brand_id')->constrained();
-            $table->string('name');
+            $table->foreignId('brand_id')->nullable()->constrained();
+            $table->string('title');
             $table->longText('description')->nullable();
             $table->string('slug');
-            $table->string('sku');
+            $table->string('sku')->nullable();
             $table->decimal('price', 15, 2);
+            $table->decimal('purchase_price', 15, 2);
+            $table->decimal('strike_price', 15, 2);
             $table->string('status')->default(ProductConstant::STATUS_ACTIVE);
             $table->string('remarks')->nullable();
+            $table->string('thumbnail')->nullable();
             $table->timestamps();
         });
     }

@@ -19,5 +19,6 @@
     "Customer": true,
     "Provider": true,
     "Product": true,
-    "Brand": true
+    "Brand": true,
+    "ProductTag": true
 }

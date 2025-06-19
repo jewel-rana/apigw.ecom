@@ -14,6 +14,7 @@ class StoreProductRequest extends FormRequest
         return [
             'category_id' => 'required|integer|exists:categories,id',
             'brand_id' => 'nullable|integer|exists:brands,id',
+            'provider_id' => 'nullable|integer|exists:providers,id',
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:products,slug',
             'description' => 'nullable|string',
@@ -24,6 +25,7 @@ class StoreProductRequest extends FormRequest
             'attachments' => 'nullable|array',
             'tags' => 'nullable|array',
             'variants' => ['nullable', 'array'],
+            'remarks' => 'nullable|string',
         ];
     }
 
