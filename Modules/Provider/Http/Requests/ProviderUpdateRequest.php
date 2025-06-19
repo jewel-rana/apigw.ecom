@@ -12,6 +12,8 @@ class ProviderUpdateRequest extends FormRequest
             'name' => 'required|string',
             'email' => 'required|string|unique:providers,email,' . $this->provider,
             'password' => 'nullable|string|min:8|max:32',
+            'mobile' => 'nullable|string',
+            'address' => 'nullable|string',
             'status' => 'required|in:0,1'
         ];
     }
