@@ -20,8 +20,10 @@ class CreateProvidersTable extends Migration
             $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->string('password');
-            $table->float('balance', 12, 2)->default(0);
+            $table->string('mobile')->nullable();
+            $table->string('address')->nullable();
             $table->string('status')->default('active');
+            $table->string('remarks')->nullable();
             $table->timestampsTz();
             $table->softDeletesTz();
         });

@@ -17,7 +17,16 @@ class Provider extends Model
 {
     use ActivityTrait;
 
-    protected $fillable = ['created_by', 'name', 'email', 'password', 'status', 'updated_by'];
+    protected $fillable = [
+        'created_by',
+        'name',
+        'email',
+        'password',
+        'mobile',
+        'address',
+        'status',
+        'updated_by'
+    ];
 
     protected $hidden = [
         'password',

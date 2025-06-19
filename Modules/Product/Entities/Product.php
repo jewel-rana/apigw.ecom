@@ -19,7 +19,7 @@ class Product extends Model
         'updated_by',
         'brand_id',
         'category_id',
-        'name',
+        'title',
         'slug',
         'sku',
         'description',
