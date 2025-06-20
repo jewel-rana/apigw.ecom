@@ -4,10 +4,13 @@ namespace Modules\Product\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use Modules\Auth\Entities\User;
 use Modules\Brand\Entities\Brand;
 use Modules\Category\App\Models\Category;
+use Modules\Media\Entities\Media;
 
 class Product extends Model
 {
@@ -27,7 +30,8 @@ class Product extends Model
         'purchase_price',
         'strike_price',
         'status',
-        'remarks'
+        'remarks',
+        'thumbnail'
     ];
 
     public function createdBy(): BelongsTo
@@ -55,10 +59,20 @@ class Product extends Model
         return $this->hasMany(ProductTag::class);
     }
 
+    public function medias(): BelongsToMany
+    {
+        return $this->belongsToMany(Media::class);
+    }
+
     public function scopeFilter($query, $request)
     {
 
         return $query;
+    }
+
+    public function getThumbnailAttribute($value): ?string
+    {
+        return ($value) ? asset($value) : null;
     }
 
     public function format($single = false): array

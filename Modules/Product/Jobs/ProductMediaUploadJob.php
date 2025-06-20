@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Modules\Media\MediaService;
 use Modules\Product\Entities\Product;
 
-class ProductMediaUploadJob implements ShouldQueue
+class ProductMediaUploadJob
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     private Product $product;
@@ -27,10 +27,11 @@ class ProductMediaUploadJob implements ShouldQueue
 
     public function handle(): mixed
     {
-        if($this->file || request()->has('attachment')) {
+        $file = request()->file('attachment', $this->file);
+        if(is_file($file)) {
             $media = app(MediaService::class)->upload($this->file ?? request()->file('attachment'));
             if($this->thumb) {
-                $this->product->update(['thumbnail' => $media->thumbnail]);
+                $this->product->update(['thumbnail' => $media->getRawOriginal('attachment')]);
             } else {
                 $this->product->medias()->attach($media->id);
             }

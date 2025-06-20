@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Media;
 
 use App\Helpers\CommonHelper;
@@ -16,23 +17,17 @@ class MediaService
         $this->dir = 'uploads/files/' . date('Y') . '/' . date('m');
     }
 
-    public function upload($files)
+    public function upload($file)
     {
-        if(is_array($files)) {
-            foreach($files as $file) {
-                return $this->handle($file);
-            }
-        } else {
-            return $this->handle($files);
-        }
+        return $this->handle($file);
     }
 
     public function handle($file)
     {
-        if($file) {
+        if ($file) {
             $imageName = time() . '.' . $file->extension();
-            if(!config('media.is_cloud')) {
-                $store = $file->storePubliclyAs('public/' . $this->dir . '/' .  $imageName);
+            if (!config('media.is_cloud')) {
+                $store = $file->storePubliclyAs('public/' . $this->dir . '/' . $imageName);
                 $url = 'storage/' . $this->dir . '/' . $imageName;
             } else {
                 $url = Storage::disk('s3')->put($this->dir, $file);
@@ -55,7 +50,7 @@ class MediaService
     public function delete($media): void
     {
         $path = CommonHelper::getStoragePath($media->attachment);
-        if(Storage::exists($path)) {
+        if (Storage::exists($path)) {
             Storage::delete($path);
         }
         $media->delete();

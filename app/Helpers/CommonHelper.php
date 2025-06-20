@@ -12,6 +12,37 @@ use Illuminate\Support\Facades\DB;
 
 class CommonHelper
 {
+    public static function calculateImageSize(int $width, int $height): int
+    {
+        return round((($width * $height) / 3) / 1024);
+    }
+
+    public static function calculateImageRatio(int $width, int $height): string
+    {
+        $gcd = self::gcd($width, $height);
+        $aspectRatioWidth = $width / $gcd;
+        $aspectRatioHeight = $height / $gcd;
+        return "$aspectRatioWidth:$aspectRatioHeight";
+    }
+
+    public static function gcd($a, $b)
+    {
+        while ($b != 0) {
+            $remainder = $a % $b;
+            $a = $b;
+            $b = $remainder;
+        }
+        return $a;
+    }
+
+    public static function calculatePercentageGrowth($oldNumber, $newNumber): float
+    {
+        if ($oldNumber == 0) {
+            return 100;
+        }
+        return round((($newNumber - $oldNumber) / $oldNumber) * 100);
+    }
+
     public static function perPage(Request $request)
     {
         return (!$request->has('per_age') || $request->input('per_page', 10) > 50) ? 10 : $request->input('per_page');

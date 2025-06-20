@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Modules\Media\MediaService;
 use Modules\Product\Entities\Product;
+use Modules\Product\Http\Requests\StoreProductRequest;
+use Modules\Product\Http\Requests\UpdateProductRequest;
 use Modules\Product\Jobs\ProductMediaUploadJob;
 use Modules\Product\Repositories\Interfaces\ProductRepositoryInterface;
 
@@ -58,7 +60,7 @@ class ProductService
         }
     }
 
-    public function create(Request $request)
+    public function create(StoreProductRequest $request)
     {
         try {
             $product = $this->productRepository->create($request->validated());
@@ -79,11 +81,13 @@ class ProductService
             }
 
             if ($request->hasFile('thumbnail')) {
-                ProductMediaUploadJob::dispatch($product, $request->input('thumbnail'), true);
+                ProductMediaUploadJob::dispatch($product, $request->file('thumbnail'), true);
+                dd($product->thumbnail);
             }
 
             return response()->success();
         } catch (\Exception $exception) {
+            dd($exception);
             LogHelper::exception($exception, [
                 'keyword' => 'USER_CREATE_EXCEPTION'
             ]);
@@ -91,7 +95,7 @@ class ProductService
         }
     }
 
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
         try {
             $this->productRepository->update($request->validated(), $product->id);
@@ -112,6 +116,7 @@ class ProductService
 
             if ($request->hasFile('thumbnail')) {
                 ProductMediaUploadJob::dispatch($product, $request->input('thumbnail'), true);
+                dd($product);
             }
             return response()->success();
         } catch (\Exception $exception) {
