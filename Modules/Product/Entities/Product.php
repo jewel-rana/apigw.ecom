@@ -2,6 +2,7 @@
 
 namespace Modules\Product\Entities;
 
+use App\Helpers\CommonHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -66,7 +67,7 @@ class Product extends Model
 
     public function scopeFilter($query, $request)
     {
-
+        $query = CommonHelper::filterModel($query, $request);
         return $query;
     }
 
