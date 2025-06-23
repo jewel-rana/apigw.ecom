@@ -16,7 +16,9 @@ class CategoryUpdateRequest extends FormRequest
             'name' => 'required|string',
             'slug' => 'nullable|string|unique:categories,slug,' . $this->category->id,
             'color' => 'nullable|string|in:' . implode(',', config('category.colors')),
-            'attachment' => 'nullable|image|mimes:jpg,png,gif,svg|max:500'
+            'attachment' => 'nullable|image|mimes:jpg,png,gif,svg|max:500',
+            'position' => 'required|integer',
+            'remarks' => 'nullable|string'
         ];
     }
 

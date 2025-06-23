@@ -14,7 +14,6 @@ use Modules\Category\App\Http\Requests\CategoryCreateRequest;
 use Modules\Category\App\Http\Requests\CategoryUpdateRequest;
 use Modules\Category\App\Models\Category;
 use Modules\Category\App\Services\CategoryService;
-use Modules\ServiceType\Services\ServiceTypes;
 use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
@@ -30,7 +29,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        if($request->wantsJson() || $request->expectsJson()) {
+        if ($request->wantsJson() || $request->expectsJson()) {
             return $this->categoryService->getDataTable($request);
         }
         return response(view('category::index')->with(['title' => 'Categories']));
@@ -56,11 +55,10 @@ class CategoryController extends Controller
             ->with(['title' => 'View category']));
     }
 
-    public function edit(Category $category)
+    public function edit(Request $request, Category $category)
     {
         return response(view('category::edit', [
-            'service_types' => app(ServiceTypes::class)->all(),
-            'parents' => $this->categoryService->all()->where('parent', 0),
+            'parents' => $this->categoryService->all($request)->where('parent', 0),
             'category' => $category,
             'colors' => config('category.colors')
         ])->with(['title' => 'Update category']));
@@ -89,7 +87,7 @@ class CategoryController extends Controller
 
     public function callAction($method, $parameters): Response
     {
-        if(!Arr::except(['suggestions'], $method)) {
+        if (!Arr::except(['suggestions'], $method)) {
             $this->authorize($method, Category::class);
         }
 
