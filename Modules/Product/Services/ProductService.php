@@ -7,7 +7,6 @@ use App\Helpers\LogHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
-use Modules\Media\MediaService;
 use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\StoreProductRequest;
 use Modules\Product\Http\Requests\UpdateProductRequest;
@@ -82,12 +81,10 @@ class ProductService
 
             if ($request->hasFile('thumbnail')) {
                 ProductMediaUploadJob::dispatch($product, $request->file('thumbnail'), true);
-                dd($product->thumbnail);
             }
 
             return response()->success();
         } catch (\Exception $exception) {
-            dd($exception);
             LogHelper::exception($exception, [
                 'keyword' => 'USER_CREATE_EXCEPTION'
             ]);

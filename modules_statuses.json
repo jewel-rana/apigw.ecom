@@ -20,5 +20,6 @@
     "Provider": true,
     "Product": true,
     "Brand": true,
-    "ProductTag": true
+    "ProductTag": true,
+    "Cart": true
 }

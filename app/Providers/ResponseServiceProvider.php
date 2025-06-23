@@ -24,14 +24,21 @@ class ResponseServiceProvider extends ServiceProvider
      */
     public function boot(ResponseFactory $factory)
     {
-        $factory->macro('success', function ($data = null, $message = 'Success!') use ($factory) {
+        $factory->macro('success', function ($data = null, $message = 'Success!', $cookies = []) use ($factory) {
             $format = [
                 'status' => true,
                 'message' => $message,
                 'data' => $data,
             ];
 
-            return $factory->make($format);
+            $response = $factory->make($format);
+
+            // Attach cookies if provided
+            foreach ($cookies as $cookie) {
+                $response->headers->setCookie($cookie);
+            }
+
+            return $response;
         });
 
         $factory->macro('error', function ($params = []) use ($factory){
