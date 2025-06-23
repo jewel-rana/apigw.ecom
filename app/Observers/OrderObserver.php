@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Models\Order;
-use App\Notifications\OrderCreateNotification;
 use App\Notifications\OrderUpdateNotification;
 
 class OrderObserver

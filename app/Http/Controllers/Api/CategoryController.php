@@ -2,7 +2,6 @@
 
 namespace Modules\Category\App\Http\Controllers\Api;
 
-use App\Helpers\CommonHelper;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Category\App\Models\Category;
@@ -18,14 +17,13 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         return response()->success(
-            $this->categoryService->all()->where('parent', 0)
+            $this->categoryService->all($request)
+                ->where('parent', 0)
                 ->map(function (Category $item, $key) {
-                    return $item->format() + [
-                            'icon' => $item->media_attachment_url
-                        ];
+                    return $item->format();
                 })->values()
         );
     }
@@ -33,23 +31,20 @@ class CategoryController extends Controller
     public function show(Request $request, $slug)
     {
         try {
-            if(is_numeric($slug)) {
+            if (is_numeric($slug)) {
                 $category = Category::findOrFail($slug);
             } else {
-                $category = Category::where('code', $slug)->first();
+                $category = Category::where('slug', $slug)->first();
             }
             return response()->success(
-                $category->format(true) +
-                [
-                    'products' => $this->categoryService->getOperators($category->id, $request)
-                ]
+                $category->format(true)
             );
         } catch (Throwable|\Exception $exception) {
             return response()->failed();
         }
     }
 
-    public function getColors()
+    public function colors()
     {
         return response()->success(config('category.colors'));
     }

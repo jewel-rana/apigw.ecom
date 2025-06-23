@@ -16,7 +16,7 @@ use Modules\Category\App\Http\Controllers\Api\CategoryController;
 
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:api']], function () {
     Route::group(['prefix' => 'category'], function () {
-        Route::get('colors', [CategoryController::class, 'getColors']);
+        Route::get('colors', [CategoryController::class, 'colors']);
         Route::get('suggestions', [CategoryController::class, 'suggestions']);
     });
     Route::apiResource('category', CategoryController::class);

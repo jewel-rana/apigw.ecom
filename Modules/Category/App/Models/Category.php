@@ -3,6 +3,7 @@
 namespace Modules\Category\App\Models;
 
 use App\Helpers\CommonHelper;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -20,6 +21,7 @@ use Modules\ServiceType\Entities\ServiceType;
 class Category extends Model
 {
     use SoftDeletes, ActivityTrait;
+
     protected $fillable = [
         'service_type_id',
         'name',
@@ -57,9 +59,14 @@ class Category extends Model
         return "Category {$eventName}";
     }
 
-    public function serviceType(): BelongsTo
+    public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(ServiceType::class);
+        return $this->belongsTo(User::class, 'created_by', 'id')->select('id', 'name', 'email');
+    }
+
+    public function updatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by', 'id')->select('id', 'name', 'email');
     }
 
     public function parent(): BelongsTo
@@ -114,22 +121,38 @@ class Category extends Model
         return $this->media()->attachment ?? asset('default/category.png');
     }
 
+    public function getIconAttribute($value): string
+    {
+        return $value ? asset($value) : asset('default/category.png');
+    }
+
     public function scopeFilter($query, $request)
     {
-        if($request->filled('status')) {
+        if ($request->filled('status')) {
             $query->where('status', $request->input('status'));
         }
+
+        if ($request->filled('position')) {
+            $query->where('position', $request->input('position'));
+        }
+
+        if ($request->filled('keyword')) {
+            $query->where('name', 'like', '%' . $request->input('keyword') . '%');
+        }
+
         return $query;
     }
 
     public function format($single = false): array
     {
-        $data = $this->only(['id', 'name', 'code', 'color']) +
+        $data = $this->only(['id', 'name', 'slug', 'color', 'position', 'remarks']) +
             [
-                'icon' => $this->media_attachment_url ?? ''
+                'icon' => $this->icon ?? '',
+                'created_by' => $this->createdBy?->only(['id', 'name', 'email']),
+                'updated_by' => $this->updatedBy?->only(['id', 'name', 'email'])
             ];
 
-        if($single) {
+        if ($single) {
             $data['children'] = $this->childs;
         }
         return $data;

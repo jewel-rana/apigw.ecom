@@ -3,13 +3,9 @@
 namespace App\Providers;
 
 use App\Repositories\BaseRepository;
-use App\Repositories\ComplainRepository;
 use App\Repositories\CustomerRepository;
-use App\Repositories\FeedbackRepository;
 use App\Repositories\Interfaces\BaseRepositoryInterface;
-use App\Repositories\Interfaces\ComplainRepositoryInterface;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
-use App\Repositories\Interfaces\FeedbackRepositoryInterface;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Repositories\Interfaces\PermissionRepositoryInterface;
