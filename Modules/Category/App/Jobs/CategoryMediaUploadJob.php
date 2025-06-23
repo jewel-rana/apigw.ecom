@@ -24,10 +24,13 @@ class CategoryMediaUploadJob
 
     public function handle(): void
     {
-        if(request()->has('attachment')) {
+        if (request()->has('attachment')) {
             $media = $this->media->upload(request()->file('attachment'));
-            $this->category->medias()->detach();
-            $this->category->medias()->attach($media->id);
+            if ($media) {
+                $this->category->update(['icon' => $media->attachment]);
+                $this->category->medias()->detach();
+                $this->category->medias()->attach($media->id);
+            }
         }
     }
 }

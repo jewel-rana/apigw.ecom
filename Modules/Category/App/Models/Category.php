@@ -23,10 +23,16 @@ class Category extends Model
     protected $fillable = [
         'service_type_id',
         'name',
-        'code',
+        'icon',
         'parent_id',
         'color',
-        'type'
+        'type',
+        'icon',
+        'position',
+        'status',
+        'remarks',
+        'created_by',
+        'updated_by',
     ];
 
     protected $hidden = [
@@ -133,14 +139,14 @@ class Category extends Model
     {
         parent::boot();
         static::creating(function (Category $category) {
-            $category->parent_id = (request()->filled('parent_id')) ? request()->filled('parent_id') : null;
+            $category->parent_id = (request()->filled('parent_id')) ? request()->input('parent_id') : null;
             $category->created_by = auth()->id();
             $category->slug = Str::slug($category->slug ?? $category->name);
         });
 
         static::updating(function (Category $category) {
             $category->updated_by = auth()->id();
-            $category->parent_id = (request()->filled('parent_id')) ? request()->filled('parent_id') : null;
+            $category->parent_id = (request()->filled('parent_id')) ? request()->input('parent_id') : null;
         });
     }
 }
