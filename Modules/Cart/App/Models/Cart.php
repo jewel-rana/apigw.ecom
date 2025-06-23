@@ -4,8 +4,6 @@ namespace Modules\Cart\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Str;
-use Ramsey\Uuid\UuidInterface;
 
 class Cart extends Model
 {
@@ -43,7 +41,8 @@ class Cart extends Model
                     'id' => $item->item_id,
                     'qty' => $item->qty,
                     'price' => $item->price,
-                    'sub_total' => $item->qty * $item->price
+                    'sub_total' => $item->qty * $item->price,
+                    'product' => $item->product->only(['id', 'title', 'price', 'thumbnail'])
                 ];
             })
         ];

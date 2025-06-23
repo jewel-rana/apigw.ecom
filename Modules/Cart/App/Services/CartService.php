@@ -64,7 +64,6 @@ class CartService
             }
             return response()->success($cart->format());
         } catch (\Exception $exception) {
-            dd($exception);
             LogHelper::exception($exception, [
                 'keyword' => 'ADD_TO_CART_EXCEPTION'
             ]);

@@ -14,8 +14,7 @@ return new class extends Migration {
             Schema::create('order_items', function (Blueprint $table) {
                 $table->id()->startingValue('10000001');
                 $table->foreignId('order_id')->constrained();
-                $table->foreignId('operator_id')->constrained();
-                $table->foreignId('bundle_id')->nullable()->constrained();
+                $table->foreignId('product_id')->constrained();
                 $table->integer('qty')->default(1);
                 $table->decimal('unit_price', 10, 2)->default(0);
                 $table->decimal('discount', 10, 2)->default(0);

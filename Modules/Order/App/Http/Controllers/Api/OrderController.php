@@ -3,7 +3,6 @@
 namespace Modules\Order\App\Http\Controllers\Api;
 
 use App\Helpers\CommonHelper;
-use App\Processor\Kartat;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Order\App\Http\Requests\Api\StoreOrderRequest;
@@ -50,39 +49,5 @@ class OrderController extends Controller
     public function deliver(Order $order, OrderDeliveryRequest $request): array
     {
         return $this->orderService->deliver($order, $request);
-    }
-
-    public function check(Order $order): array
-    {
-        $data = ['status' => false, 'message' => __('Check failed')];
-        try {
-            $data['order'] = $order->formatCheck();
-            $gateway = CommonHelper::purseGateway($order->payment->gateway);
-            $data = (new $gateway)->verify($order->payment, $data);
-            $data['status'] = true;
-            $data['message'] = __('Success');
-        } catch (\Exception $exception) {
-            $data['message'] = $exception->getMessage();
-        }
-
-        return $data;
-    }
-
-    public function mintRoute(Order $order)
-    {
-        $data = ['status' => false, 'message' => __('Check failed')];
-        try {
-            $data['order'] = $order->formatCheck();
-            $data = (new Kartat())->get(
-                config('gateway.kartat.urls.mint_route_info'). $order->id . $order->items?->first()->id,
-                ['order_id' => $order->id]
-            );
-            $data['status'] = true;
-            $data['message'] = __('Success');
-        } catch (\Exception $exception) {
-            $data['message'] = $exception->getMessage();
-        }
-
-        return $data;
     }
 }

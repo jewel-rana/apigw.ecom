@@ -13,14 +13,7 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'items' => ['required', 'array', new CreateOrderRule()],
-            'info' => ['required', 'array'],
-            'info.name' => 'required|string',
-            'info.email' => 'required|email',
-            'info.country_id' => 'nullable',
-            'info.city_id' => 'nullable',
-            'info.code' => 'nullable|string',
-            'info.address' => 'nullable|string'
+            'items' => ['required', 'array', new CreateOrderRule()]
         ];
     }
 
