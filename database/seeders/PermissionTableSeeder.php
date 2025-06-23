@@ -15,8 +15,10 @@ class PermissionTableSeeder extends Seeder
         $role = Role::where('name', 'admin')->first();
 
         foreach ($permissions as $permission => $description) {
-            $permission = Permission::create(['name' => $permission]);
-            $permission->assignRole($role);
+            if (!Permission::where('name', $permission)->exists()) {
+                $permission = Permission::create(['name' => $permission]);
+                $permission->assignRole($role);
+            }
         }
     }
 }

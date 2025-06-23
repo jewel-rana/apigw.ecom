@@ -90,9 +90,22 @@ class UserService
         try {
             $user = User::where('email', $request->input('email'))->first();
             CommonHelper::revokeUserToken($user->id);
+            $permissions = $user->getPermissions();
+
+            $allPermissions = $user->getAllPermissions()->map(function (Permission $permission) {
+                return $permission->only(['id', 'name']);
+            });
+
+            if ($user->hasRole('admin')) {
+                $permissions = array_keys(config('scopes.permissions'));
+                $allPermissions = \App\Models\Permission::all()
+                    ->map(function (Permission $permission) {
+                        return $permission->only(['id', 'name']);
+                    });
+            }
             return response()->success($user->format() + [
                     'type' => 'user',
-                    'token' => $user->createToken('authToken', $user->getPermissions())->accessToken,
+                    'token' => $user->createToken('authToken', $permissions)->accessToken,
                     'role' => $user->roles->first()->name ?? '',
                     'permission' => $user->getAllPermissions()->map(function (Permission $permission) {
                         return $permission->only(['id', 'name']);
