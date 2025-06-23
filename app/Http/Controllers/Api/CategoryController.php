@@ -48,4 +48,9 @@ class CategoryController extends Controller
             return response()->failed();
         }
     }
+
+    public function getColors()
+    {
+        return response()->success(config('category.colors'));
+    }
 }
