@@ -13,4 +13,7 @@ class AppConstant
     const ORDER_INACTIVE = 'Inactive';
     const ORDER_ACTIVE = 'Active';
     const ORDER_FAILED = 'Failed';
+    const PRODUCT_AVAILABLE = 'In-Stock';
+    const PRODUCT_UNAVAILABLE = 'Out-Of-Stock';
+    const USER_INACTIVE = 'Inactive';
 }

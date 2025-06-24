@@ -66,7 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getNiceStatusAttribute($value): string
     {
-        return $value == 1 ? 'Active' : 'Inactive';
+        return ucfirst($value);
     }
 
     public function getPermissions(): array

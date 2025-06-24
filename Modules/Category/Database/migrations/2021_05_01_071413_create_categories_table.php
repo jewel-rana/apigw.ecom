@@ -22,7 +22,7 @@ class CreateCategoriesTable extends Migration
             $table->string('icon')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('categories', 'id');
             $table->integer('position')->default(99);
-            $table->string('status')->default('active');
+            $table->string('status')->default('Active');
             $table->string('remarks')->nullable();
             $table->timestamps();
             $table->softDeletesTz();

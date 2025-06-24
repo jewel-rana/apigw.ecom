@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Constants\AppConstant;
 use App\Helpers\CommonHelper;
 use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
@@ -23,7 +24,8 @@ class UserCreateRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|max:18|same:password_confirm',
             'gender' => 'nullable|string|in:male,female',
-            'role_id' => 'required|integer|exists:roles,id'
+            'role_id' => 'required|integer|exists:roles,id',
+            'status' => 'required|in:' . AppConstant::USER_ACTIVE . ',' . AppConstant::USER_INACTIVE,
         ];
     }
 }

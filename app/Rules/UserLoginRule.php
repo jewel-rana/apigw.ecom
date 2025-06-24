@@ -19,7 +19,7 @@ class UserLoginRule implements ValidationRule
                 $fail(__('No account associate with this email'));
             } else {
 
-                if ($user->status != AuthConstant::STATUS_ACTIVE) {
+                if (strtolower($user->status) != strtolower(AuthConstant::STATUS_ACTIVE)) {
                     $fail(__('Your account is ' . $user->nice_status));
                 }
 
