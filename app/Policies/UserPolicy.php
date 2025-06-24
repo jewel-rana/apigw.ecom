@@ -20,7 +20,7 @@ class UserPolicy
 
     public function store(): bool
     {
-        return CommonHelper::isHierarchyOk() && CommonHelper::hasPermission('user-create');
+        return CommonHelper::hasPermission('user-create');
     }
 
     public function update(): bool

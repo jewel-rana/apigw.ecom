@@ -13,7 +13,7 @@ class UserCreateRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return CommonHelper::hasPermission('user-create');
+        return true;
     }
 
     public function rules(): array
@@ -24,8 +24,7 @@ class UserCreateRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|max:18|same:password_confirm',
             'gender' => 'nullable|string|in:male,female',
-            'role_id' => 'required|integer|exists:roles,id',
-            'status' => 'required|in:' . AppConstant::USER_ACTIVE . ',' . AppConstant::USER_INACTIVE,
+            'role_id' => 'required|integer|exists:roles,id'
         ];
     }
 }

@@ -75,12 +75,20 @@ class CommonHelper
 
     public static function hasPermission($permissions): bool
     {
-        if(is_array($permissions)) {
-            $user = request()->user();
-            return $user->hasRole('admin') || $user->canAny($permissions);
+        $hasAccess = false;
+        if (is_array($permissions)) {
+            foreach ($permissions as $permission) {
+                if (request()->user()->tokenCan($permission)) {
+                    $hasAccess = true;
+                }
+            }
+        } else {
+            if (request()->user()->tokenCan($permissions)) {
+                $hasAccess = true;
+            }
         }
 
-        return request()->user()->status == AuthConstant::STATUS_ACTIVE && (request()->user()->hasRole('admin') || request()->user()->tokenCan($permissions));
+        return request()->user()->hasRole('admin') || $hasAccess;
     }
 
     /**
@@ -119,7 +127,7 @@ class CommonHelper
             'current_page' => $collections->currentPage(),
             'last_page' => $collections->lastPage(),
             'total' => $collections->total(),
-            'data' => collect($collections->items())->map(function($item) {
+            'data' => collect($collections->items())->map(function ($item) {
                 return $item->format();
             })
         ];
@@ -166,19 +174,19 @@ class CommonHelper
 
     public static function filterModel($query, $request)
     {
-        if($request->filled('invoice_no')) {
+        if ($request->filled('invoice_no')) {
             $query->where('id', $request->input('invoice_no'));
         }
 
-        if($request->filled('id')) {
+        if ($request->filled('id')) {
             $query->where('id', $request->input('id'));
         }
 
-        if($request->filled('order_id')) {
+        if ($request->filled('order_id')) {
             $query->where('order_id', $request->input('order_id'));
         }
 
-        if($request->filled('customer_id')) {
+        if ($request->filled('customer_id')) {
             $query->where('customer_id', $request->input('customer_id'));
         }
 
@@ -214,11 +222,11 @@ class CommonHelper
             $query->where('promotion_objective', '=', $request->input('promotion_objective'));
         }
 
-        if($request->filled('company')) {
+        if ($request->filled('company')) {
             $query->where('company', $request->input('company'));
         }
 
-        if($request->filled('designation')) {
+        if ($request->filled('designation')) {
             $query->where('designation', $request->input('designation'));
         }
 
