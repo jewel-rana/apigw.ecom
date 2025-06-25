@@ -3,8 +3,6 @@
 namespace App\Policies;
 
 use App\Helpers\CommonHelper;
-use App\Models\User;
-use Illuminate\Http\Request;
 
 class UserPolicy
 {
