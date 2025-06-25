@@ -1,10 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Modules\CMS\App\Http\Controllers\Api\BannerController;
 use Modules\CMS\App\Http\Controllers\CMSController;
-use Modules\CMS\Http\Controllers\FeatureController;
 
 /*
     |--------------------------------------------------------------------------
@@ -22,9 +20,11 @@ Route::name('api.')->group(function () {
         Route::get('init', [CMSController::class, 'index'])->name('cms.index');
         Route::get('search', [CMSController::class, 'search'])->name('cms.search');
         Route::get('recommendations', [CMSController::class, 'recommendations'])->name('cms.recommendations');
-        Route::get('feature-products/{feature}', [CMSController::class, 'featureProducts'])->name('cms.sectionProducts');
+        Route::get('feature-product/{feature}', [CMSController::class, 'featureProducts'])->name('cms.sectionProducts');
         Route::get('banner', [BannerController::class, 'index'])->name('cms.banner.index');
+    });
 
-        Route::resource('feature', FeatureController::class)->only(['index', 'show']);
+    Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function() {
+        Route::resource('feature', 'FeatureController')->only(['index', 'show', 'store', 'update', 'destroy']);
     });
 });

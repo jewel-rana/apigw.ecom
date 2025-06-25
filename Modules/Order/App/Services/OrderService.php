@@ -4,11 +4,9 @@ namespace Modules\Order\App\Services;
 
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
-use App\Processor\Kartat;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Modules\Bundle\Entities\Bundle;
 use Modules\Order\App\Constant\OrderDeliveryConstant;
 use Modules\Order\App\Constant\OrderItemConstant;
 use Modules\Order\App\Helpers\OrderHelper;
@@ -16,6 +14,7 @@ use Modules\Order\App\Models\Order;
 use Modules\Order\App\Models\OrderItem;
 use Modules\Order\App\Repositories\Interfaces\OrderRepositoryInterface;
 use Modules\Payment\App\Constants\PaymentConstant;
+use Modules\Product\Entities\Product;
 
 class OrderService
 {
@@ -28,13 +27,20 @@ class OrderService
 
     public function mostPurchasedItems(int $customerId = null)
     {
-        $ids = Bundle::limit(5)->get()->pluck('id')->toArray();
+        $ids = Product::limit(5)->get()->pluck('id')->toArray();
         if ($customerId) {
-            $mostPurchased = DB::select(DB::raw("SELECT product_id, COUNT(id) as total FROM `order_items`
-            LEFT JOIN orders ON orders.id = order_items.order_id
-            WHERE status = 1 AND order.customer_id = {$customerId} GROUP BY bundle_id ORDER BY total DESC LIMIT 5"));
-            if(count($mostPurchased) > 0){
-                $ids = array_column((array) $mostPurchased, 'product_id');
+            $mostPurchased = DB::select(
+                "SELECT order_items.product_id, COUNT(order_items.id) as total FROM `order_items`
+    LEFT JOIN orders ON orders.id = order_items.order_id
+    WHERE orders.customer_id = ?
+    GROUP BY product_id
+    ORDER BY total DESC
+    LIMIT 10",
+                [$customerId]
+            );
+
+            if (count($mostPurchased) > 0) {
+                $ids = array_column((array)$mostPurchased, 'product_id');
             }
         }
         return $ids;
@@ -277,7 +283,7 @@ class OrderService
                 ['customer_id' => $order->customer_id, 'delivery_to' => $order->customer->mobile]
             );
 
-            foreach($order->items as $item) {
+            foreach ($order->items as $item) {
                 $data = (new Kartat())->post(config('gateway.kartat.urls.delivery'), [
                     'transaction_id' => $item->order_id . $item->id,
                     'order_id' => $item->order_id,

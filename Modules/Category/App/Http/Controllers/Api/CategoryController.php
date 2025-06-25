@@ -24,6 +24,7 @@ class CategoryController extends Controller
     {
         return response()->success(
             $this->categoryService->all($request)->where('parent', 0)
+                ->sortBy($request->input('sort', 'position'), $request->input('order', 'ASC'))
                 ->map(function (Category $item, $key) {
                     return $item->format() + [
                             'icon' => $item->media_attachment_url

@@ -15,13 +15,17 @@ class CreateFeaturesTable extends Migration
     {
         Schema::create('features', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->nullable()->constrained('users', 'id')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users', 'id')->onDelete('set null');
             $table->string('title');
             $table->text('description')->nullable();
+            $table->text('remarks')->nullable();
             $table->string('feature_icon')->nullable();
             $table->enum('type', ['category', 'brand', 'tag'])->default('category');
             $table->string('model_id');
             $table->tinyInteger('position')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

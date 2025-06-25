@@ -2,6 +2,7 @@
 
 namespace Modules\CMS\App\Http\Controllers;
 
+use App\Helpers\LogHelper;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\CMS\App\Models\Feature;
@@ -41,11 +42,25 @@ class CMSController extends Controller
         );
     }
 
-    public function featureProducts(Request $request, Feature $feature)
+    public function featureProducts(Request $request, $featureId)
     {
-        return response()->success(
-            app(ProductService::class)
-                ->featureProducts($feature, $request)
-        );
+        try {
+            $feature = Feature::find($featureId);
+            if(!$feature) {
+                return response()->failed(['message' => 'Feature not found']);
+            }
+
+            return response()->success(
+                app(ProductService::class)
+                    ->featureProducts($feature, $request)
+            );
+        } catch (\Exception $e) {
+            LogHelper::error($e->getMessage(), [
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+                'keyword' => 'FEATURE_PRODUCT_EXCEPTION'
+            ]);
+            return response()->failed(['message' => $e->getMessage()]);
+        }
     }
 }
