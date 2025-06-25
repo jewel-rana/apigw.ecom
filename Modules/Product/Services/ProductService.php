@@ -7,6 +7,7 @@ use App\Helpers\LogHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Modules\CMS\App\Models\Feature;
 use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\StoreProductRequest;
 use Modules\Product\Http\Requests\UpdateProductRequest;
@@ -135,5 +136,42 @@ class ProductService
             ]);
             return response()->failed(['message' => $exception->getMessage()]);
         }
+    }
+
+    public function featureProducts(Feature $feature, Request $request)
+    {
+        return $this->{$feature->type}($feature);
+    }
+
+    public function category(Feature $feature, Request $request)
+    {
+        return $this->productRepository->getModel()
+            ->where('category_id', $feature->model_id)
+            ->filter($request)
+            ->map(function ($product) {
+                return $product->format();
+            });
+    }
+
+    public function brand(Feature $feature, Request $request)
+    {
+        return $this->productRepository->getModel()
+            ->where('brand_id', $feature->model_id)
+            ->filter($request)
+            ->map(function ($product) {
+                return $product->format();
+            });
+    }
+
+    public function tag(Feature $feature, Request $request)
+    {
+        return $this->productRepository->getModel()
+            ->filter($request)
+            ->whereHas('tags', function ($query) use ($feature) {
+                $query->where('name', $feature->model_id);
+            })
+            ->map(function ($product) {
+                return $product->format();
+            });
     }
 }

@@ -48,8 +48,5 @@ class OptionService implements OptionServiceInterface
             );
         });
         Cache::forget('options');
-        Cache::forget('section4_products');
-        Cache::forget('section7_products');
-        Cache::forget('section9_products');
     }
 }

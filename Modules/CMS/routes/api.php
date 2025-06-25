@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Modules\CMS\App\Http\Controllers\Api\BannerController;
 use Modules\CMS\App\Http\Controllers\CMSController;
+use Modules\CMS\Http\Controllers\FeatureController;
 
 /*
     |--------------------------------------------------------------------------
@@ -21,10 +22,9 @@ Route::name('api.')->group(function () {
         Route::get('init', [CMSController::class, 'index'])->name('cms.index');
         Route::get('search', [CMSController::class, 'search'])->name('cms.search');
         Route::get('recommendations', [CMSController::class, 'recommendations'])->name('cms.recommendations');
-        Route::get('section-products', [CMSController::class, 'sectionProducts'])->name('cms.sectionProducts');
+        Route::get('feature-products/{feature}', [CMSController::class, 'featureProducts'])->name('cms.sectionProducts');
         Route::get('banner', [BannerController::class, 'index'])->name('cms.banner.index');
-        Route::get('git-cards', [CMSController::class, 'giftCards'])->name('cms.giftCard');
-        Route::get('mobile-recharge', [CMSController::class, 'mobileRecharge'])->name('cms.mobileRecharge');
-        Route::get('internet-recharge', [CMSController::class, 'internetRecharge'])->name('cms.internetRecharge');
+
+        Route::resource('feature', FeatureController::class)->only(['index', 'show']);
     });
 });

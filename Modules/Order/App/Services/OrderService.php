@@ -30,11 +30,11 @@ class OrderService
     {
         $ids = Bundle::limit(5)->get()->pluck('id')->toArray();
         if ($customerId) {
-            $mostPurchased = DB::select(DB::raw("SELECT id, COUNT(id) as total FROM `order_items`
+            $mostPurchased = DB::select(DB::raw("SELECT product_id, COUNT(id) as total FROM `order_items`
             LEFT JOIN orders ON orders.id = order_items.order_id
             WHERE status = 1 AND order.customer_id = {$customerId} GROUP BY bundle_id ORDER BY total DESC LIMIT 5"));
             if(count($mostPurchased) > 0){
-                $ids = array_column((array) $mostPurchased, 'id');
+                $ids = array_column((array) $mostPurchased, 'product_id');
             }
         }
         return $ids;

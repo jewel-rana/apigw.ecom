@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Storage;
 use Modules\Auth\Entities\User;
 use Modules\Brand\Entities\Brand;
 use Modules\Category\App\Models\Category;
@@ -45,11 +44,12 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function  brand(): BelongsTo
+    public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class);
 
     }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -74,6 +74,11 @@ class Product extends Model
     public function getThumbnailAttribute($value): ?string
     {
         return ($value) ? asset($value) : null;
+    }
+
+    public function getStatusAttribute($value): ?string
+    {
+        return ucfirst($value);
     }
 
     public function format($single = false): array
