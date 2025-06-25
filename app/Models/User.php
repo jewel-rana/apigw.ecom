@@ -69,6 +69,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return ucfirst($value);
     }
 
+    public function getStatusAttribute($value): string
+    {
+        return ucwords($value);
+    }
+
     public function getPermissions(): array
     {
         return $this->hasRole('admin') ?
