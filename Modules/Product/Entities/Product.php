@@ -41,12 +41,12 @@ class Product extends Model
 
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     public function updatedBy(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
     public function brand(): BelongsTo
@@ -88,10 +88,32 @@ class Product extends Model
 
     public function format($single = false): array
     {
-        return [
+        $data = [
                 'created_by' => $this->createdBy?->only(['id', 'name', 'email']),
-                'updated_by' => $this->updatedBy?->only(['id', 'name', 'email'])
-            ] + $this->attributesToArray();
+                'updated_by' => $this->updatedBy?->only(['id', 'name', 'email']),
+                'category' => $this->category?->only(['id', 'name']),
+                'brand' => $this->brand?->only(['id', 'name']),
+            ] + $this->only([
+                'title',
+                'slug',
+                'sku',
+                'description',
+                'price',
+                'purchase_price',
+                'strike_price',
+                'status',
+                'remarks',
+                'thumbnail',
+                'is_featured'
+            ]);
+
+        if ($single) {
+            $data['medias'] = $this->medias->map(function ($media) {
+                return $media->only(['id', 'attachment']);
+            });
+        }
+
+        return $data;
     }
 
     public static function boot()
@@ -99,11 +121,11 @@ class Product extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->created_by = request()->user()->id;
+            $model->created_by = auth('api')->user()->id;
         });
 
         static::updating(function ($model) {
-            $model->updated_by = request()->user()->id;
+            $model->updated_by = auth('api')->user()->id;
         });
     }
 }

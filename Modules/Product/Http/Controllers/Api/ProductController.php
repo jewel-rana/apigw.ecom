@@ -24,7 +24,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return response()->success($product->format());
+        return response()->success($product->format(true));
     }
 
     public function store(StoreProductRequest $request)

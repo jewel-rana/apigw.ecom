@@ -106,9 +106,14 @@ class ProductService
                 }
             }
 
-            if ($request->has('attachments') && is_array($request->input('attachments'))) {
-                foreach ($request->input('attachments') as $attachment) {
-                    ProductMediaUploadJob::dispatch($product, $attachment, false);
+            if ($request->hasFile('attachments')) {
+                $attachments = $request->attachments;
+                if(is_array($attachments)) {
+                    foreach ($attachments as $attachment) {
+                        ProductMediaUploadJob::dispatch($product, $attachment, false);
+                    }
+                } else {
+                    ProductMediaUploadJob::dispatch($product, $attachments, false);
                 }
             }
 
