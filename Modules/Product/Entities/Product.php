@@ -89,8 +89,8 @@ class Product extends Model
     public function format($single = false): array
     {
         $data = [
-                'created_by' => $this->createdBy?->only(['id', 'name', 'email']),
-                'updated_by' => $this->updatedBy?->only(['id', 'name', 'email']),
+                'createdBy' => $this->createdBy?->only(['id', 'name', 'email']),
+                'updatedBy' => $this->updatedBy?->only(['id', 'name', 'email']),
                 'category' => $this->category?->only(['id', 'name']),
                 'brand' => $this->brand?->only(['id', 'name']),
             ] + $this->only([
