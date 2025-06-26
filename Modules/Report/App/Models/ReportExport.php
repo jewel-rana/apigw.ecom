@@ -24,7 +24,7 @@ class ReportExport extends Model
 
     protected $casts = [
         'criteria' => 'array',
-        'created_at' => 'datetime:d/m/Y h:i a',
+
         'updated_at' => 'datetime:d/m/Y h:i a'
     ];
 

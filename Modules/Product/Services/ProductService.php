@@ -114,7 +114,6 @@ class ProductService
 
             if ($request->hasFile('thumbnail')) {
                 ProductMediaUploadJob::dispatch($product, $request->input('thumbnail'), true);
-                dd($product);
             }
             return response()->success();
         } catch (\Exception $exception) {
@@ -138,42 +137,65 @@ class ProductService
         }
     }
 
-    public function featureProducts(Feature $feature, Request $request)
+    public function featureProducts(Feature $feature, Request $request, $paginate = false)
     {
-        return $this->{$feature->type}($feature, $request);
+        return $this->{$feature->type}($feature, $request, $paginate);
     }
 
-    public function category(Feature $feature, Request $request)
+    public function category(Feature $feature, Request $request, $paginate = false)
     {
-        return $this->productRepository->getModel()
+        $query = $this->productRepository->getModel()
             ->where('category_id', $feature->model_id)
-            ->where('is_feature', true)
+            ->where('is_featured', true)
             ->filter($request)
+            ->latest();
+
+        if ($paginate) {
+            return CommonHelper::parsePaginator($query->paginate(CommonHelper::perPage($request)));
+        }
+
+        return $query->limit($feature->limit)
             ->get()
             ->map(function ($product) {
                 return $product->format();
             });
     }
 
-    public function brand(Feature $feature, Request $request)
+    public function brand(Feature $feature, Request $request, $paginate = false)
     {
-        return $this->productRepository->getModel()
+        $query = $this->productRepository->getModel()
             ->where('brand_id', $feature->model_id)
-            ->where('is_feature', true)
+            ->where('is_featured', true)
             ->filter($request)
+            ->latest();
+
+        if ($paginate) {
+            return CommonHelper::parsePaginator($query->paginate(CommonHelper::perPage($request)));
+        }
+
+        return $query->limit($feature->limit)
+            ->get()
             ->map(function ($product) {
                 return $product->format();
             });
     }
 
-    public function tag(Feature $feature, Request $request)
+    public function tag(Feature $feature, Request $request, $paginate = false)
     {
-        return $this->productRepository->getModel()
-            ->where('is_feature', true)
+        $query = $this->productRepository->getModel()
+            ->where('is_featured', true)
             ->filter($request)
             ->whereHas('tags', function ($query) use ($feature) {
                 $query->where('name', $feature->model_id);
             })
+            ->latest();
+
+        if ($paginate) {
+            return CommonHelper::parsePaginator($query->paginate(CommonHelper::perPage($request)));
+        }
+
+        return $query->limit($feature->limit)
+            ->get()
             ->map(function ($product) {
                 return $product->format();
             });

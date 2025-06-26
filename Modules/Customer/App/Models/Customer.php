@@ -37,8 +37,8 @@ class Customer extends Authenticatable
 
     protected $casts = [
         'password' => 'hashed',
-        'created_at' => 'datetime:d/m/Y h:i a',
-        'updated_at' => 'datetime:d/m/Y h:i a',
+
+
     ];
 
     protected $hidden = [

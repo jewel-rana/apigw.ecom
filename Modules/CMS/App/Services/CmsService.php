@@ -45,9 +45,7 @@ class CmsService
                 $response[] = [
                     'key' => $feature->title,
                     'description' => $feature->description,
-                    'products' => $products->map(function (Product $product) {
-                        return $product->format();
-                    })
+                    'products' => $products
                 ];
             }
         } catch (\Throwable $th) {

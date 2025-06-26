@@ -47,13 +47,16 @@ class CMSController extends Controller
     {
         try {
             $feature = Feature::find($featureId);
-            if(!$feature) {
+            if (!$feature) {
                 return response()->failed(['message' => 'Feature not found']);
             }
 
-            return response()->success(
-                app(ProductService::class)
-                    ->featureProducts($feature, $request)
+            return response()->success([
+                    'id' => $feature->id,
+                    'title' => $feature->title,
+                    'description' => $feature->description,
+                    'products' => app(ProductService::class)->featureProducts($feature, $request, true)
+                ]
             );
         } catch (\Exception $e) {
             LogHelper::error($e->getMessage(), [

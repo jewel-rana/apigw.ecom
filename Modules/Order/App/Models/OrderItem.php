@@ -26,8 +26,8 @@ class OrderItem extends Model
     protected $casts = [
         'data' => 'array',
         'is_remote_voucher' => 'boolean',
-        'created_at' => 'datetime:d/m/Y h:i a',
-        'updated_at' => 'datetime:d/m/Y h:i a',
+
+
     ];
 
     protected static $logAttributes = ['name', 'guard_name'];

@@ -31,7 +31,12 @@ class Product extends Model
         'strike_price',
         'status',
         'remarks',
-        'thumbnail'
+        'thumbnail',
+        'is_featured'
+    ];
+
+    protected $casts = [
+        'is_featured' => 'boolean',
     ];
 
     public function createdBy(): BelongsTo

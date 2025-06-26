@@ -26,6 +26,7 @@ class StoreProductRequest extends FormRequest
             'tags' => 'nullable|array',
             'variants' => ['nullable', 'array'],
             'remarks' => 'nullable|string',
+            'is_featured' => 'required|boolean'
         ];
     }
 

@@ -50,8 +50,8 @@ class Order extends Model
     protected $casts = [
         'is_refund_initiated' => 'boolean',
         'is_refunded' => 'boolean',
-        'created_at' => 'datetime:d/m/Y h:i a',
-        'updated_at' => 'datetime:d/m/Y h:i a',
+
+
     ];
 
     protected static $logAttributes = ['name', 'guard_name'];
