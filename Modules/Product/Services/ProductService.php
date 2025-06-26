@@ -140,14 +140,16 @@ class ProductService
 
     public function featureProducts(Feature $feature, Request $request)
     {
-        return $this->{$feature->type}($feature);
+        return $this->{$feature->type}($feature, $request);
     }
 
     public function category(Feature $feature, Request $request)
     {
         return $this->productRepository->getModel()
             ->where('category_id', $feature->model_id)
+            ->where('is_feature', true)
             ->filter($request)
+            ->get()
             ->map(function ($product) {
                 return $product->format();
             });
@@ -157,6 +159,7 @@ class ProductService
     {
         return $this->productRepository->getModel()
             ->where('brand_id', $feature->model_id)
+            ->where('is_feature', true)
             ->filter($request)
             ->map(function ($product) {
                 return $product->format();
@@ -166,6 +169,7 @@ class ProductService
     public function tag(Feature $feature, Request $request)
     {
         return $this->productRepository->getModel()
+            ->where('is_feature', true)
             ->filter($request)
             ->whereHas('tags', function ($query) use ($feature) {
                 $query->where('name', $feature->model_id);

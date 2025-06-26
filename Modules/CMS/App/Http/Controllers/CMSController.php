@@ -19,7 +19,8 @@ class CMSController extends Controller
         $data = [
             'banners' => app(BannerService::class)->cms(),
             'options' => app(OptionService::class)->cms(),
-            'recommendations' => app(CmsService::class)->recommended($request)
+            'recommendations' => app(CmsService::class)->recommended($request),
+            'featured' => app(CmsService::class)->featured($request),
         ];
 
 //            return $data;

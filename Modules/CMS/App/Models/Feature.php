@@ -35,6 +35,11 @@ class Feature extends Model
         return $query;
     }
 
+    public function scopeActive($query)
+    {
+        return $query->whereIn('status', ['active', 'Active']);
+    }
+
     public function format()
     {
         return [
