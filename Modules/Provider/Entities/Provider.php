@@ -6,12 +6,9 @@ use App\Helpers\CommonHelper;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Activity\App\Traits\ActivityTrait;
-use Modules\Bundle\Entities\Bundle;
-use Modules\Operator\Entities\Operator;
 
 class Provider extends Model
 {
@@ -87,6 +84,14 @@ class Provider extends Model
     {
         if ($request->filled('status')) {
             $query->where('status', $request->input('status'));
+        }
+
+        if ($request->filled('email')) {
+            $query->where('email', $request->input('email'));
+        }
+
+        if ($request->filled('mobile')) {
+            $query->where('mobile', $request->input('mobile'));
         }
 
         if ($request->filled('keyword')) {

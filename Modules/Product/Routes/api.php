@@ -21,3 +21,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:api']], function (
 
     Route::apiResource('product', ProductController::class);
 });
+
+Route::group(['prefix' => 'product', 'middleware' => ['auth:api']], function () {
+    Route::get('{product}', [ProductController::class, 'show']);
+});
