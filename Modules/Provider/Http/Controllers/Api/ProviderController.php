@@ -48,8 +48,9 @@ class ProviderController extends Controller
         }
     }
 
-    public function show(Provider $provider)
+    public function show($id)
     {
+        $provider = Provider::findOrFail($id);
         return response()->success($provider->format());
     }
 
