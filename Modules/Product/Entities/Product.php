@@ -32,6 +32,7 @@ class Product extends Model
         'status',
         'remarks',
         'thumbnail',
+        'weight',
         'is_featured'
     ];
 
@@ -104,7 +105,8 @@ class Product extends Model
                 'status',
                 'remarks',
                 'thumbnail',
-                'is_featured'
+                'is_featured',
+                'weight'
             ]);
 
         if ($single) {

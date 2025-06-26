@@ -26,7 +26,8 @@ class UpdateProductRequest extends FormRequest
             'tags' => 'nullable|array',
             'variants' => ['nullable', 'array'],
             'remarks' => 'nullable|string',
-            'is_featured' => 'required|boolean'
+            'is_featured' => 'required|boolean',
+            'weight' => 'nullable|numeric',
         ];
     }
 
