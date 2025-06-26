@@ -112,11 +112,11 @@ class Provider extends Model
         parent::boot();
 
         static::creating(function ($provider) {
-            $provider->created_by = auth()->id();
+            $provider->created_by = auth('api')->id();
         });
 
         static::updating(function ($provider) {
-            $provider->updated_by = auth()->id();
+            $provider->updated_by = auth('api')->id();
         });
     }
 }
