@@ -14,7 +14,7 @@ class ProviderUpdateRequest extends FormRequest
             'password' => 'nullable|string|min:8|max:32',
             'mobile' => 'nullable|string',
             'address' => 'nullable|string',
-            'status' => 'required|in:0,1'
+            'status' => 'required|in:Active,Inactive,active,inactive',
         ];
     }
 

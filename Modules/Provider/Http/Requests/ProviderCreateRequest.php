@@ -14,7 +14,7 @@ class ProviderCreateRequest extends FormRequest
             'password' => 'required|string|min:8|max:32',
             'mobile' => 'nullable|string',
             'address' => 'nullable|string',
-            'status' => 'required|in:0,1'
+            'status' => 'required|in:Active,Inactive,active,inactive',
         ];
     }
 
