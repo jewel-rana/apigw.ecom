@@ -13,11 +13,13 @@ class CreateMediaProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('media_product', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('media_id')->index();
-            $table->unsignedBigInteger('product_id')->index();
-        });
+        if(!Schema::hasTable('media_product')) {
+            Schema::create('media_product', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('media_id')->index();
+                $table->unsignedBigInteger('product_id')->index();
+            });
+        }
     }
 
     /**
