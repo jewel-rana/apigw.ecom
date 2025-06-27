@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Brand\Http\Controllers\Api\BrandController;
+use Modules\Brand\Http\Controllers\Api\BrandProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +21,10 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:api']], function (
     });
 
     Route::apiResource('brand', BrandController::class);
+});
+
+Route::group(['prefix' => 'brand'], function () {
+    Route::get('/', [BrandProductController::class, 'index']);
+    Route::get('suggestions', [BrandController::class, 'suggestions']);
+    Route::get('{category}/product', [BrandProductController::class, 'show']);
 });

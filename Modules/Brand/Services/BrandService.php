@@ -7,6 +7,7 @@ use App\Helpers\LogHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Modules\Brand\Entities\Brand;
+use Modules\Product\Entities\Product;
 
 class BrandService
 {
@@ -49,6 +50,7 @@ class BrandService
     {
         try {
             Brand::create($request->all());
+            Cache::forget('brands');
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
@@ -62,6 +64,7 @@ class BrandService
     {
         try {
             $brand->update($request->all());
+            Cache::forget('brands');
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
@@ -82,5 +85,14 @@ class BrandService
             ]);
             return  response()->failed(['message' => $exception->getMessage()]);
         }
+    }
+
+    public function brandProducts(Brand $brand, Request $request): array
+    {
+        return CommonHelper::parsePaginator(
+            Product::where('category_id', $brand->id)
+                ->filter($request)
+                ->paginate(CommonHelper::perPage($request))
+        );
     }
 }
