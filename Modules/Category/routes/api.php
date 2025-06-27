@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Category\App\Http\Controllers\Api\CategoryController;
+use Modules\Category\Http\Controllers\Api\CategoryProductController;
 
 /*
     |--------------------------------------------------------------------------
@@ -20,4 +21,10 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:api']], function (
         Route::get('suggestions', [CategoryController::class, 'suggestions']);
     });
     Route::apiResource('category', CategoryController::class);
+});
+
+Route::group(['prefix' => 'category'], function () {
+    Route::get('/', [CategoryProductController::class, 'index']);
+    Route::get('suggestions', [CategoryController::class, 'suggestions']);
+    Route::get('{category}/product', [CategoryProductController::class, 'show']);
 });

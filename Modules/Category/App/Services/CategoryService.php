@@ -17,6 +17,7 @@ use Modules\Category\App\Repositories\Interfaces\CategoryRepositoryInterface;
 use Modules\Media\MediaService;
 use Modules\Operator\Repositories\Interfaces\OperatorRepositoryInterface;
 use Modules\Operator\Services\OperatorService;
+use Modules\Product\Entities\Product;
 
 class CategoryService
 {
@@ -31,7 +32,7 @@ class CategoryService
 
     public function all(Request $request)
     {
-        return Cache::remember('categories', 3600, function (){
+        return Cache::remember('categories', 3600, function () {
             return $this->categoryRepository->getModel()->orderBy('position', 'asc')->get();
         });
     }
@@ -48,14 +49,14 @@ class CategoryService
                 $category = $this->categoryRepository->create($data);
                 CategoryMediaUploadJob::dispatch($category, $this->mediaService);
             });
-            if(request()->wantsJson()) {
+            if (request()->wantsJson()) {
                 return response()->success();
             }
             return redirect()->route('category.index')->with(['status' => true, 'message' => __('Category created successfully')]);
         } catch (\Exception $exception) {
             LogHelper::exception($exception);
 
-            if(request()->wantsJson()) {
+            if (request()->wantsJson()) {
                 return response()->failed(['message' => $exception->getMessage()]);
             }
             return redirect()->back()->withInput($data)->with(['status' => false, 'message' => $exception->getMessage()]);
@@ -70,14 +71,14 @@ class CategoryService
                 CategoryMediaUploadJob::dispatch($category, $this->mediaService);
             });
 
-            if(request()->wantsJson()) {
+            if (request()->wantsJson()) {
                 return response()->success();
             }
             return redirect()->route('category.index')->with(['status' => true, 'message' => __('Category updated successfully')]);;
         } catch (\Exception $exception) {
             LogHelper::exception($exception);
 
-            if(request()->wantsJson()) {
+            if (request()->wantsJson()) {
                 return response()->failed(['message' => $exception->getMessage()]);
             }
             return redirect()->back()->with(['status' => false, 'message' => __('Category failed to update')]);
@@ -168,7 +169,16 @@ class CategoryService
             LogHelper::exception($exception, [
                 'keyword' => 'USER_DELETE_EXCEPTION'
             ]);
-            return  response()->failed(['message' => $exception->getMessage()]);
+            return response()->failed(['message' => $exception->getMessage()]);
         }
+    }
+
+    public function categoryProducts(Category $category, Request $request): array
+    {
+        return CommonHelper::parsePaginator(
+            Product::where('category_id', $category->id)
+                ->filter($request)
+                ->paginate(CommonHelper::perPage($request))
+        );
     }
 }
