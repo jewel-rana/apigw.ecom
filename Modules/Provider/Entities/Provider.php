@@ -107,7 +107,7 @@ class Provider extends Model
     public function format(): array
     {
         return [
-                'createdBy' => $this->createdBy?->only('id', 'name'),
+                'created_by' => $this->createdBy?->only('id', 'name'),
                 'updated_by' => $this->updatedBy?->only('id', 'name'),
             ] + $this->attributesToArray();
     }
