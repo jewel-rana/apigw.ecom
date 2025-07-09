@@ -41,8 +41,8 @@ class Brand extends Model
     public function format(): array
     {
         return [
-                'createdBy' => $this->createdBy?->only(['id', 'name', 'email']),
-                'updatedBy' => $this->updatedBy?->only(['id', 'name', 'email']),
+                'created_by' => $this->createdBy?->only(['id', 'name', 'email']),
+                'updated_by' => $this->updatedBy?->only(['id', 'name', 'email']),
         ] + $this->attributesToArray();
     }
 
