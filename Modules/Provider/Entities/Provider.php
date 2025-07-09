@@ -108,7 +108,7 @@ class Provider extends Model
     {
         return [
                 'createdBy' => $this->createdBy?->only('id', 'name'),
-                'updatedBy' => $this->updatedBy?->only('id', 'name'),
+                'updated_by' => $this->updatedBy?->only('id', 'name'),
             ] + $this->attributesToArray();
     }
 
