@@ -2,8 +2,11 @@
 
 namespace Modules\Menu\Http\Controllers\Api;
 
+use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Brand\Entities\Brand;
 use Modules\Menu\Entities\Menu;
 use Modules\Menu\Http\Requests\MenuCreateRequest;
 use Modules\Menu\Http\Requests\MenuUpdateRequest;
@@ -18,11 +21,12 @@ class MenuController extends Controller
         $this->menuService = $menuService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return \response()->success(
-            $this->menuService->cms()
-        );
+        $menus = Menu::filter($request)
+            ->latest()
+            ->paginate(CommonHelper::perPage($request));
+        return response()->success(CommonHelper::parsePaginator($menus));
     }
 
     public function store(MenuCreateRequest $request)

@@ -15,6 +15,8 @@ class CreateMenuItemsTable extends Migration
     {
         Schema::create('menu_items', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->constrained('users', 'id');
+            $table->foreignId('updated_by')->nullable()->constrained('users', 'id');
             $table->bigInteger('menu_id');
             $table->enum('type', ['page', 'category', 'custom'])->default('custom');
             $table->string('name');
@@ -23,6 +25,7 @@ class CreateMenuItemsTable extends Migration
             $table->string('icon_class')->nullable();
             $table->integer('parent_id')->default(0);
             $table->integer('menu_order')->default(99);
+            $table->string('remarks')->nullable();
         });
     }
 

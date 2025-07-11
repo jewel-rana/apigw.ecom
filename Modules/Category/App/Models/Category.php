@@ -10,13 +10,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Modules\Activity\App\Traits\ActivityTrait;
 use Modules\Bundle\Entities\Bundle;
 use Modules\Media\Entities\Media;
 use Modules\Operator\Entities\Operator;
-use Modules\ServiceType\Entities\ServiceType;
 
 class Category extends Model
 {

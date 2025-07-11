@@ -36,15 +36,7 @@ class BannerService
     {
         return Cache::remember('api_banners', 3600, function() {
             return $this->all()->map(function(Banner $banner) {
-                return $banner->format() +
-                    [
-                        'medias' => $banner->medias->map(function($item) {
-                            return $item->only(['pivot']) +
-                                [
-                                    'attachment' => $item->attachment
-                                ];
-                        })
-                    ];
+                return $banner->format();
             });
         });
     }

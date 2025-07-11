@@ -14,6 +14,6 @@ use Modules\Menu\Http\Controllers\Api\MenuController;
 |
 */
 
-Route::group(['prefix' => 'cms'], function() {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function() {
    Route::apiResource('menu', MenuController::class);
 });

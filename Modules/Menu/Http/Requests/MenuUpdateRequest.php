@@ -2,29 +2,24 @@
 
 namespace Modules\Menu\Http\Requests;
 
+use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MenuUpdateRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
+    use FormValidationResponseTrait;
+
     public function rules(): array
     {
         return [
             'name' => 'bail|required|unique:menus,name,' . $this->menu,
             'description' => 'bail|nullable',
-            'wrapper_class' => 'bail|nullable|alpha_dash'
+            'wrapper_class' => 'bail|nullable|alpha_dash',
+            'status' => 'bail|required|string|in:Active,Inactive',
+            'remarks' => 'bail|nullable',
         ];
     }
 
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize(): bool
     {
         return true;

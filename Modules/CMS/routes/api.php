@@ -25,6 +25,7 @@ Route::name('api.')->group(function () {
     });
 
     Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function() {
-        Route::resource('feature', 'FeatureController')->only(['index', 'show', 'store', 'update', 'destroy']);
+        Route::apiResource('banner', BannerController::class);
+        Route::apiResource('feature', 'FeatureController')->only(['index', 'show', 'store', 'update', 'destroy']);
     });
 });

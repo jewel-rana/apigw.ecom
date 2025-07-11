@@ -15,10 +15,14 @@ class CreateMenusTable extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->constrained('users', 'id');
+            $table->foreignId('updated_by')->nullable()->constrained('users', 'id');
             $table->string('name')->unique();
             $table->string('description')->nullable();
             $table->string('wrapper_class')->nullable();
             $table->string('wrapper_id')->nullable();
+            $table->string('remarks')->nullable();
+            $table->timestamps();
         });
     }
 

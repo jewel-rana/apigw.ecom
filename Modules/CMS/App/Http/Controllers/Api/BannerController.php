@@ -2,14 +2,16 @@
 
 namespace Modules\CMS\App\Http\Controllers\Api;
 
+use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
-use Illuminate\Contracts\View\View;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Modules\CMS\App\Events\BannerCacheRemoveEvent;
 use Modules\CMS\App\Http\Requests\StoreBannerItem;
 use Modules\CMS\App\Models\Banner;
 use Modules\CMS\App\Services\BannerService;
+use Modules\CMS\Http\Requests\Api\StoreBannerRequest;
+use Modules\CMS\Http\Requests\Api\UpdateBannerRequest;
 
 class BannerController extends Controller
 {
@@ -20,17 +22,25 @@ class BannerController extends Controller
         $this->bannerService = $bannerService;
     }
 
-    public function index()
+    public function cms()
     {
         return response()->success(
             $this->bannerService->cms()
         );
     }
 
-    public function store(Request $request)
+    public function index(Request $request)
+    {
+        $menus = Banner::filter($request)
+            ->latest()
+            ->paginate(CommonHelper::perPage($request));
+        return response()->success(CommonHelper::parsePaginator($menus));
+    }
+
+    public function store(StoreBannerRequest $request)
     {
         try {
-            $this->bannerService->create($request->all());
+            $this->bannerService->create($request->validated());
             event(new BannerCacheRemoveEvent());
             return response()->success();
         } catch (\Throwable $exception) {
@@ -39,15 +49,15 @@ class BannerController extends Controller
         }
     }
 
-    public function show(Banner $banner): View
+    public function show(Banner $banner)
     {
         return response()->success($banner->format());
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateBannerRequest $request, $id)
     {
         try {
-            $this->bannerService->update($request->all(), $id);
+            $this->bannerService->update($request->validated(), $id);
             event(new BannerCacheRemoveEvent());
             return response()->success();
         } catch (\Throwable $exception) {

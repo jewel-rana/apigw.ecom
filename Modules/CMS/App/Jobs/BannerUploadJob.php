@@ -66,7 +66,6 @@ class BannerUploadJob
             Cache::forget('banners');
             Cache::forget('api_banners');
         } catch (\Exception $exception) {
-            dd($exception);
             LogHelper::exception($exception);
         }
     }

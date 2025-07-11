@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->nullable()->constrained('users', 'id')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users', 'id')->onDelete('set null');
             $table->string('name');
             $table->string('label');
             $table->boolean('is_default')->default(true);
-            $table->boolean('status')->default(true);
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }
