@@ -79,29 +79,13 @@ class BannerService
         event(new BannerCacheRemoveEvent());
     }
 
-    public function create(array $data): RedirectResponse
+    public function create(array $data)
     {
-        try {
-            $this->repository->create($data);
-            event(new BannerCacheRemoveEvent());
-        } catch (\Throwable $exception) {
-            session()->flash('error', $exception->getMessage());
-            return redirect()->back()->withInput($data);
-        }
-
-        return redirect()->route('banner.index');
+        return $this->repository->create($data);
     }
 
-    public function update(array $data, $id): RedirectResponse
+    public function update(array $data, $id)
     {
-        try {
-            $this->repository->update($data, $id);
-            event(new BannerCacheRemoveEvent());
-        } catch (\Throwable $exception) {
-            session()->flash('error', $exception->getMessage());
-            return redirect()->back()->withInput($data);
-        }
-
-        return redirect()->route('banner.index');
+        return $this->repository->update($data, $id);
     }
 }
