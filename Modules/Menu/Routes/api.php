@@ -15,5 +15,5 @@ use Modules\Menu\Http\Controllers\Api\MenuController;
 */
 
 Route::group(['prefix' => 'cms'], function() {
-   Route::apiResource('menus', MenuController::class)->only(['index', 'show'])->names('api.menus');
+   Route::apiResource('menu', MenuController::class);
 });
