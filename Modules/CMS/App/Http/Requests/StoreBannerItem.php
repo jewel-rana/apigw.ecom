@@ -2,10 +2,13 @@
 
 namespace Modules\CMS\App\Http\Requests;
 
+use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreBannerItem extends FormRequest
 {
+    use FormValidationResponseTrait;
+
     public function rules(): array
     {
         return [

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\CMS\App\Http\Controllers\Api\BannerController;
+use Modules\CMS\App\Http\Controllers\Api\BannerItemController;
 use Modules\CMS\App\Http\Controllers\CMSController;
 
 /*
@@ -25,6 +26,9 @@ Route::name('api.')->group(function () {
     });
 
     Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function() {
+        Route::group(['prefix' => 'banner'], function() {
+            Route::apiResource('{banner}/item', BannerItemController::class);
+        });
         Route::apiResource('banner', BannerController::class);
         Route::apiResource('feature', 'FeatureController')->only(['index', 'show', 'store', 'update', 'destroy']);
     });

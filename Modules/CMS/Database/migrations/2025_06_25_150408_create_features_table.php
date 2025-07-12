@@ -21,7 +21,7 @@ class CreateFeaturesTable extends Migration
             $table->text('description')->nullable();
             $table->text('remarks')->nullable();
             $table->string('feature_icon')->nullable();
-            $table->enum('type', ['category', 'brand', 'tag'])->default('category');
+            $table->enum('type', ['category', 'brand', 'product', 'tag'])->default('category');
             $table->string('model_id');
             $table->tinyInteger('position')->default(0);
             $table->timestamps();

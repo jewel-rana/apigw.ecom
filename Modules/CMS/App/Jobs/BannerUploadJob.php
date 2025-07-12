@@ -35,16 +35,16 @@ class BannerUploadJob
                 $media = $this->media->upload(request()->file('attachment'));
             }
             if (!$this->itemId && $media) {
-                Banner::find($this->data['banner_id'])->medias()->attach($media->id,
+                $item = Banner::find($this->data['banner_id'])->medias()->attach($media->id,
                     [
                         'title' => $this->data['title'],
-                        'slogan' => $this->data['slogan'],
-                        'description' => $this->data['description'],
+                        'slogan' => $this->data['slogan'] ?? null,
+                        'description' => $this->data['description'] ?? null,
                         'text_size' => $this->data['text_size'] ?? 'large',
-                        'text_color' => $this->data['text_color'],
-                        'btn_color' => $this->data['btn_color'],
-                        'btn_text' => $this->data['btn_text'],
-                        'btn_url' => $this->data['btn_url']
+                        'text_color' => $this->data['text_color'] ?? null,
+                        'btn_color' => $this->data['btn_color'] ?? null,
+                        'btn_text' => $this->data['btn_text'] ?? null,
+                        'btn_url' => $this->data['btn_url'] ?? null,
                     ]
                 );
             }
@@ -52,7 +52,7 @@ class BannerUploadJob
             if ($this->itemId) {
                 $data = Arr::except($this->data, ['attachment', 'banner_id', '_token', '_method']);
                 if ($media) {
-                    $data['media_id'] = $media->media_id;;
+                    $data['media_id'] = $media->id;;
                 }
                 $banner = Banner::find($this->data['banner_id']);
 
