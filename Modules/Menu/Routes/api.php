@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Menu\Http\Controllers\Api\MenuController;
+use Modules\Menu\Http\Controllers\Api\MenuItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,9 @@ use Modules\Menu\Http\Controllers\Api\MenuController;
 */
 
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function() {
+    Route::group(['prefix' => 'menu'], function() {
+        Route::apiResource('{menu}/item', MenuItemController::class);
+    });
+
    Route::apiResource('menu', MenuController::class);
 });

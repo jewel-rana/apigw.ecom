@@ -42,13 +42,9 @@ class MenuController extends Controller
         }
     }
 
-    public function show($name)
+    public function show(Menu $menu)
     {
-        return \response()->success(
-            $this->menuService->cms()->filter(function ($item) use ($name) {
-                return trim(strtolower($item['name'])) == trim(strtolower($name));
-            })->first()
-        );
+        return response()->success($menu->format(true));
     }
 
     public function update(MenuUpdateRequest $request, Menu $menu)

@@ -2,10 +2,13 @@
 
 namespace Modules\Menu\Http\Requests;
 
+use App\Traits\FormValidationResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MenuItemCreateRequest extends FormRequest
 {
+    use FormValidationResponseTrait;
+
     public function rules(): array
     {
         return [

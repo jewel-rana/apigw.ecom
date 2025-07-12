@@ -66,9 +66,22 @@ class MenuItem extends Model
         return CommonHelper::parseMenuAttribute('description', $value, $this->customAttributes);
     }
 
+    public function format(): array
+    {
+        return $this->toArray();
+    }
+
     public static function boot()
     {
         parent::boot();
+
+        static::creating(function ($model) {
+            $model->created_by = auth()->id();
+        });
+
+        static::creating(function ($model) {
+            $model->updated_by = auth()->id();
+        });
 
         static::deleting(function (MenuItem $item) {
             $item->customAttributes()->delete();

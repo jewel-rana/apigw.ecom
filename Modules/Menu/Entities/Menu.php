@@ -52,7 +52,12 @@ class Menu extends Model
         return [
                 'created_by' => $this->createdBy?->only(['id', 'name', 'email']),
                 'updated_by' => $this->updatedBy?->only(['id', 'name', 'email'])
-            ] + $this->only(['id', 'name', 'description', 'wrapper_class', 'status', 'remarks']);
+            ] + $this->only(['id', 'name', 'description', 'wrapper_class', 'status', 'remarks']) +
+            [
+                'items' => $this->items->map(function ($item) {
+                    return $item->format();
+                })
+            ];
     }
 
     public static function boot(): void
