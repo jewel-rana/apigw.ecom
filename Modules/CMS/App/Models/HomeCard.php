@@ -5,21 +5,22 @@ namespace Modules\CMS\App\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Modules\Product\Entities\Product;
 
-class Feature extends Model
+class HomeCard extends Model
 {
     protected $fillable = [
         'created_by',
         'updated_by',
         'title',
         'description',
-        'remarks',
-        'feature_icon',
-        'type',
-        'model_id',
-        'position',
+        'icon',
+        'bg_color',
+        'text_color',
+        'border_color',
+        'variant_color',
+        'url',
+        'status',
+        'remarks'
     ];
 
     public function createdBy(): BelongsTo
@@ -30,16 +31,6 @@ class Feature extends Model
     public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by', 'id');
-    }
-
-    public function products(): BelongsToMany
-    {
-        return $this->belongsToMany(Product::class)->withPivot('position');
-    }
-
-    public function scopeFilter($query, $request)
-    {
-        return $query;
     }
 
     public function scopeActive($query)
@@ -53,28 +44,19 @@ class Feature extends Model
                 'created_by' => $this->createdBy?->only(['id', 'name', 'email']),
                 'updated_by' => $this->updatedBy?->only(['id', 'name', 'email']),
             ] +
-            $this->only([
-                'id',
-                'title',
-                'description',
-                'remarks',
-                'feature_icon',
-                'position',
-                'type',
-                'model_id',
-            ]);
+            $this->toArray();
     }
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 
         static::creating(function ($model) {
-            $model->created_by = auth('api')->user()->id;
+            $model->created_by = auth()->id();
         });
 
         static::updating(function ($model) {
-            $model->updated_by = auth('api')->user()->id;
+            $model->updated_by = auth()->id();
         });
     }
 }

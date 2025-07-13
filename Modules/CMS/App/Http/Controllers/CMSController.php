@@ -20,7 +20,8 @@ class CMSController extends Controller
             'banners' => app(BannerService::class)->cms(),
             'options' => app(OptionService::class)->cms(),
             'recommendations' => app(CmsService::class)->recommended($request),
-            'featured' => app(CmsService::class)->featured($request),
+            'features' => app(CmsService::class)->featured($request),
+            'cards' => app(CmsService::class)->homeCards($request)
         ];
 
 //            return $data;

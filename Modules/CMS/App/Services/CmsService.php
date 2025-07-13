@@ -4,6 +4,7 @@ namespace Modules\CMS\App\Services;
 
 use App\Helpers\LogHelper;
 use Modules\CMS\App\Models\Feature;
+use Modules\CMS\App\Models\HomeCard;
 use Modules\Order\App\Services\OrderService;
 use Modules\Product\Constants\ProductConstant;
 use Modules\Product\Entities\Product;
@@ -55,5 +56,21 @@ class CmsService
             ]);
         }
         return $response;
+    }
+
+    public function homeCards($request): array
+    {
+        try {
+            return HomeCard::active()->get()
+                ->map(function (HomeCard $homeCard) {
+                    return $homeCard->format();
+                });
+        } catch (\Throwable $th) {
+            LogHelper::error('feature.products', [
+                'message' => $th->getMessage(),
+                'keyword' => 'FEATURED_PRODUCT_EXCEPTION'
+            ]);
+            return [];
+        }
     }
 }

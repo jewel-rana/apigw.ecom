@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Modules\CMS\App\Http\Controllers\Api\BannerController;
 use Modules\CMS\App\Http\Controllers\Api\BannerItemController;
+use Modules\CMS\App\Http\Controllers\Api\HomeCardController;
 use Modules\CMS\App\Http\Controllers\CMSController;
+use \Modules\CMS\App\Http\Controllers\Api\FeatureProductController;
 
 /*
     |--------------------------------------------------------------------------
@@ -29,6 +31,12 @@ Route::name('api.')->group(function () {
         Route::group(['prefix' => 'banner'], function() {
             Route::apiResource('{banner}/item', BannerItemController::class);
         });
+
+        Route::group(['prefix' => 'feature'], function() {
+            Route::apiResource('{feature}/product', FeatureProductController::class)->only(['index', 'store', 'destroy']);
+        });
+
+        Route::apiResource('home-card', HomeCardController::class);
         Route::apiResource('banner', BannerController::class);
         Route::apiResource('feature', 'FeatureController')->only(['index', 'show', 'store', 'update', 'destroy']);
     });

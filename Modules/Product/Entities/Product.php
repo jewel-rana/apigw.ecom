@@ -95,6 +95,7 @@ class Product extends Model
                 'category' => $this->category?->only(['id', 'name']),
                 'brand' => $this->brand?->only(['id', 'name']),
             ] + $this->only([
+                'id',
                 'title',
                 'slug',
                 'sku',

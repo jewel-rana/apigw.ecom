@@ -15,8 +15,9 @@ class CreateFeatureProductTable extends Migration
     {
         Schema::create('feature_product', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('feature_id')->constrained('features');
-            $table->foreignId('product_id')->constrained('products');
+            $table->foreignId('feature_id')->index()->constrained('features');
+            $table->foreignId('product_id')->index()->constrained('products');
+            $table->integer('position')->default(0);
         });
     }
 

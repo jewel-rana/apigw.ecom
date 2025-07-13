@@ -12,16 +12,35 @@ class MenuItem extends Model
 {
     use ActivityTrait;
 
-    protected $fillable = ['menu_id', 'type', 'name', 'description', 'menu_url', 'css_class', 'icon_class', 'parent_id', 'menu_order'];
-    protected $hidden = [
-        'icon_class',
+    protected $fillable = [
         'menu_id',
+        'type',
+        'name',
+        'description',
+        'menu_url',
+        'css_class',
+        'icon_class',
         'parent_id',
         'menu_order'
     ];
+
+    protected $hidden = [
+        'menu_id',
+        'parent_id'
+    ];
     public $timestamps = false;
 
-    protected static $logAttributes = ['menu_id', 'type', 'name', 'description', 'menu_url', 'css_class', 'icon_class', 'parent_id', 'menu_order'];
+    protected static $logAttributes = [
+        'menu_id',
+        'type',
+        'name',
+        'description',
+        'menu_url',
+        'css_class',
+        'icon_class',
+        'parent_id',
+        'menu_order'
+    ];
     protected static $logOnlyDirty = true;
 
     public function getDescriptionForEvent(string $eventName): string
