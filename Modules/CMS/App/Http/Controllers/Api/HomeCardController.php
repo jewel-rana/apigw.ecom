@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Modules\CMS\App\Models\HomeCard;
 use Modules\CMS\Http\Requests\StoreHomeCardRequest;
 use Modules\CMS\Http\Requests\UpdateHomeCardRequest;
+use Modules\Media\MediaService;
 
 class HomeCardController extends Controller
 {
@@ -22,7 +23,11 @@ class HomeCardController extends Controller
     public function store(StoreHomeCardRequest $request)
     {
         try {
-            HomeCard::create($request->validated());
+            $card = HomeCard::create($request->validated());
+            if($request->hasFile('attachment')) {
+                $media = app(MediaService::class)->upload($request->file('attachment'));
+                $card->update(['icon' => $media->getFullUrl()]);
+            }
             return response()->success();
         } catch (\Exception $e) {
             return response()->error($e->getMessage());

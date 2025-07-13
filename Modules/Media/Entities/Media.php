@@ -39,6 +39,11 @@ class Media extends Model
         return $url;
     }
 
+    public function getFullUrl(): string
+    {
+        return $this->attachment;
+    }
+
     public function format(): array
     {
         return [$this->ratio => $this->attachment];
