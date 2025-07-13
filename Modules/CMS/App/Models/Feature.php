@@ -39,6 +39,9 @@ class Feature extends Model
 
     public function scopeFilter($query, $request)
     {
+        if($request->filled('status') && in_array($request->status, ['Active', 'Inactive'])) {
+            $query->where('status', $request->status);
+        }
         return $query;
     }
 
