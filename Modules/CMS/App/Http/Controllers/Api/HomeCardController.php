@@ -45,6 +45,10 @@ class HomeCardController extends Controller
     {
         try {
             $homeCard->update($request->validated());
+            if($request->hasFile('attachment')) {
+                $media = app(MediaService::class)->upload($request->file('attachment'));
+                $homeCard->update(['icon' => $media->getFullUrl()]);
+            }
             return response()->success();
         } catch (\Exception $e) {
             return response()->error($e->getMessage());
