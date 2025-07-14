@@ -35,21 +35,20 @@ class BannerUploadJob
                 $media = $this->media->upload(request()->file('attachment'));
             }
             if (!$this->itemId && $media) {
-                $item = Banner::find($this->data['banner_id'])->medias()->attach($media->id,
+                $banner = Banner::find($this->data['banner_id']);
+                $item = $banner->medias()->attach($media->id,
                     [
                         'title' => $this->data['title'],
                         'slogan' => $this->data['slogan'] ?? null,
                         'description' => $this->data['description'] ?? null,
                         'text_size' => $this->data['text_size'] ?? 'large',
-                        'text_color' => $this->data['text_color'] ?? null,
-                        'btn_color' => $this->data['btn_color'] ?? null,
+                        'text_color' => $this->data['text_color'] ?? 'black',
+                        'btn_color' => $this->data['btn_color'] ?? 'black',
                         'btn_text' => $this->data['btn_text'] ?? null,
                         'btn_url' => $this->data['btn_url'] ?? null,
                         'position' => $this->data['position'] ?? 0,
                     ]
                 );
-
-                dd($item->medias);
             }
 
             if ($this->itemId) {
