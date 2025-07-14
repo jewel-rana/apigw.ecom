@@ -143,7 +143,7 @@ class Category extends Model
 
     public function format($single = false): array
     {
-        $data = $this->only(['id', 'name', 'slug', 'color', 'position', 'remarks']) +
+        $data = $this->only(['id', 'name', 'slug', 'color', 'position', 'status', 'remarks']) +
             [
                 'icon' => $this->icon ?? '',
                 'created_by' => $this->createdBy?->only(['id', 'name', 'email']),
