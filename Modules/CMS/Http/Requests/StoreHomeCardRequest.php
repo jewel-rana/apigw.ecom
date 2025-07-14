@@ -14,7 +14,7 @@ class StoreHomeCardRequest extends FormRequest
         return [
             'title' => 'required|string',
             'description' => 'required|string',
-            'attachment' => 'nullable|file|mimes:jpeg,jpg,png,gif',
+            'attachment' => 'required|file|mimes:jpeg,jpg,png,gif',
             'bg_color' => 'nullable|string',
             'text_color' => 'nullable|string',
             'border_color' => 'nullable|string',
