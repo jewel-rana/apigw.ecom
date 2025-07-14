@@ -47,7 +47,8 @@ class Banner extends Model
     public function medias(): BelongsToMany
     {
         return $this->belongsToMany(Media::class)
-            ->withPivot(['id', 'title', 'slogan', 'description', 'text_size', 'text_color', 'btn_color', 'btn_text', 'btn_url']);
+            ->withPivot(['id', 'title', 'slogan', 'description', 'text_size', 'text_color', 'btn_color', 'btn_text', 'btn_url', 'position'])
+            ->orderByPivot('position');
     }
 
     public function getNiceStatusAttribute(): string
@@ -75,21 +76,23 @@ class Banner extends Model
         return $query;
     }
 
-    public function format(): array
+    public function format($single = false): array
     {
-        return [
+        $data = [
                 'created_by' => $this->createdBy?->only(['id', 'name']),
                 'updated_by' => $this->updatedBy?->only(['id', 'name']),
             ]
-            + $this->only(['id', 'name', 'remarks', 'is_default', 'status']) +
-            [
-                'medias' => $this->medias->map(function ($item) {
-                    return $item->only(['pivot']) +
-                        [
-                            'attachment' => $item->attachment
-                        ];
-                })
-            ];
+            + $this->only(['id', 'name', 'remarks', 'is_default', 'status']);
+        if ($single) {
+            $data['medias'] = $this->medias->map(function ($item) {
+                return $item->only(['pivot']) +
+                    [
+                        'attachment' => $item->attachment
+                    ];
+            });
+        }
+
+        return $data;
     }
 
     public static function boot(): void

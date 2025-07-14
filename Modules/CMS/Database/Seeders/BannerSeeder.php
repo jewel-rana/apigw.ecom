@@ -16,19 +16,7 @@ class BannerSeeder extends Seeder
             [
                 'name' => 'main',
                 'label' => 'Main banner (Top)'
-            ],
-            [
-                'name' => 'offer',
-                'label' => 'Offer banner (Second)'
-            ],
-            [
-                'name' => 'deal',
-                'label' => 'Deal of the Day (Third)'
-            ],
-            [
-                'name' => 'new_arrival',
-                'label' => 'New Arrival (Fourth)'
-            ],
+            ]
         ];
 
         foreach($banners as $banner) {

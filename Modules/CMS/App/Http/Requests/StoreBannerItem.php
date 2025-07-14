@@ -17,11 +17,12 @@ class StoreBannerItem extends FormRequest
             'slogan' => 'nullable|string',
             'description' => 'nullable|string',
             'attachment' => 'required|image|mimes:jpg,png,gif,webp',
-            'text_size' => 'required|string|in:large,medium,small',
+            'text_size' => 'nullable|string|in:large,medium,small',
             'text_color' => 'nullable|string',
             'btn_color' => 'nullable|string',
             'btn_text' => 'nullable|string',
-            'btn_url' => 'nullable|string'
+            'btn_url' => 'nullable|string',
+            'position' => 'nullable|integer',
         ];
     }
 

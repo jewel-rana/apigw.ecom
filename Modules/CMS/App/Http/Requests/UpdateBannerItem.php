@@ -14,7 +14,7 @@ class UpdateBannerItem extends FormRequest
             'slogan' => 'nullable|string',
             'description' => 'nullable|string',
             'attachment' => 'nullable|image|mimes:jpg,png,gif,webp',
-            'text_size' => 'required|string|in:large,medium,small',
+            'text_size' => 'nullable|string|in:large,medium,small',
             'text_color' => 'nullable|string',
             'btn_color' => 'nullable|string',
             'btn_text' => 'nullable|string',

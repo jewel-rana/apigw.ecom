@@ -45,8 +45,11 @@ class BannerUploadJob
                         'btn_color' => $this->data['btn_color'] ?? null,
                         'btn_text' => $this->data['btn_text'] ?? null,
                         'btn_url' => $this->data['btn_url'] ?? null,
+                        'position' => $this->data['position'] ?? 0,
                     ]
                 );
+
+                dd($item->medias);
             }
 
             if ($this->itemId) {
