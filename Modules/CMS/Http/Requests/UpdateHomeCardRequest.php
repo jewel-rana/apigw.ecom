@@ -19,6 +19,7 @@ class UpdateHomeCardRequest extends FormRequest
             'text_color' => 'nullable|string',
             'border_color' => 'nullable|string',
             'variant_color' => 'nullable|string',
+            'position' => 'required|integer',
             'remarks' => 'nullable|string',
             'status' => 'required|in:Active,Inactive'
         ];

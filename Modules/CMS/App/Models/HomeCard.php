@@ -18,6 +18,7 @@ class HomeCard extends Model
         'text_color',
         'border_color',
         'variant_color',
+        'position',
         'url',
         'status',
         'remarks'

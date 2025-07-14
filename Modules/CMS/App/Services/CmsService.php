@@ -61,7 +61,7 @@ class CmsService
     public function homeCards($request): array
     {
         try {
-            return HomeCard::active()->get()
+            return HomeCard::active()->orderBy('position', 'ASC')->get()
                 ->map(function (HomeCard $homeCard) {
                     return $homeCard->format();
                 });
