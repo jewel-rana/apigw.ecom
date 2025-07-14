@@ -42,6 +42,7 @@ class BaseRepository implements BaseRepositoryInterface
     {
         return $this->model->findOrFail($id);
     }
+
     // Get the associated model
     public function getModel(): Model
     {

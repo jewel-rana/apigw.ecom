@@ -2,6 +2,7 @@
 
 namespace Modules\Category\App\Http\Controllers\Api;
 
+use App\Helpers\CommonHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -22,15 +23,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        return response()->success(
-            $this->categoryService->all($request)->where('parent', 0)
-                ->sortBy($request->input('sort', 'position'), SORT_REGULAR, $request->input('order', 'ASC'))
-                ->map(function (Category $item, $key) {
-                    return $item->format() + [
-                            'icon' => $item->media_attachment_url
-                        ];
-                })->values()
-        );
+        return $this->categoryService->index($request);
     }
 
     public function store(CategoryCreateRequest $request)

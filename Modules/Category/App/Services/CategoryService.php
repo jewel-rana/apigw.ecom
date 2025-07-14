@@ -181,4 +181,12 @@ class CategoryService
                 ->paginate(CommonHelper::perPage($request))
         );
     }
+
+    public function index(Request $request)
+    {
+        $categories = $this->categoryRepository->getModel()->paginate($request->input('per_page', 10));
+        return response()->success(
+            CommonHelper::parsePaginator($categories)
+        );
+    }
 }
