@@ -58,16 +58,6 @@ class Banner extends Model
         return $this->belongsToMany(Product::class);
     }
 
-    public function getMediaAttachmentUrlAttribute(): string
-    {
-        $media = $this->media();
-        $url = asset('default/category.png');
-        if ($media) {
-            $url = $media->is_cloud ? Storage::disk('s3')->url($media->attachment) : asset($media->attachment);
-        }
-        return $url;
-    }
-
     public function scopeFilter($query, $request)
     {
         if ($request->filled('keyword')) {
@@ -83,7 +73,7 @@ class Banner extends Model
         return [
                 'created_by' => $this->createdBy?->only(['id', 'name']),
                 'updated_by' => $this->updatedBy?->only(['id', 'name']),
-                'attachment' => $this->getMediaAttachmentUrlAttribute(),
+                'attachment' => $this->media->attachment ?? null,
             ]
             + $this->only(['id', 'title', 'medium_text', 'small_text', 'position', 'remarks', 'status']);
     }
