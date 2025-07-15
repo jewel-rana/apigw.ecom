@@ -15,8 +15,8 @@ class CreateBannerProductTable extends Migration
     {
         Schema::create('banner_product', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('banner_id')->constrained('banners');
-            $table->foreignId('product_id')->constrained('products');
+            $table->foreignId('banner_id')->constrained('banners', 'id');
+            $table->foreignId('product_id')->constrained('products', 'id');
             $table->timestamps();
         });
     }
