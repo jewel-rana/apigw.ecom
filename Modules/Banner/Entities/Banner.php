@@ -48,9 +48,9 @@ class Banner extends Model
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
-    public function media(): HasOne
+    public function media(): BelongsTo
     {
-        return $this->hasOne(Media::class)->orderBy('position');
+        return $this->belongsTo(Media::class);
     }
 
     public function products(): BelongsToMany
