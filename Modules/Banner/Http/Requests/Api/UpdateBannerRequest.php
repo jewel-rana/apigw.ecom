@@ -18,6 +18,7 @@ class UpdateBannerRequest extends FormRequest
             'is_default' => 'required|boolean',
             'attachments' => 'nullable|array',
             'banner_url' => 'nullable|url',
+            'position' => 'required|integer',
         ];
     }
 
