@@ -18,6 +18,7 @@ class StoreBannerRequest extends FormRequest
             'remarks' => 'nullable|string',
             'status' => 'nullable|string|in:Active,Inactive',
             'attachment' => 'required|image|mimes:jpeg,jpg,png,gif',
+            'banner_url' => 'nullable|url',
         ];
     }
 

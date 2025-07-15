@@ -26,7 +26,8 @@ class Banner extends Model
         'small_text',
         'position',
         'status',
-        'remarks'
+        'remarks',
+        'banner_url'
     ];
 
     protected static $logAttributes = ['title', 'medium_text', 'small_text', 'status', 'position', 'remarks', 'created_by', 'updated_by'];
