@@ -66,7 +66,7 @@ class ProviderService
             ->toJson();
     }
 
-    public function getSuggestions(Request $request): JsonResponse
+    public function getSuggestions(Request $request)
     {
         try {
             $data = $this->providerRepository->all()
@@ -83,7 +83,7 @@ class ProviderService
                         'text' => $provider->name
                     ];
                 })->values();
-            return response()->json(['results' => $data]);
+            return response()->success($data);
         } catch (\Exception $exception) {
             return response()->json(['message' => 'No data!']);
         }

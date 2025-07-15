@@ -85,7 +85,7 @@ class ProviderController extends Controller
         }
     }
 
-    public function suggestion(Request $request): JsonResponse
+    public function suggestion(Request $request)
     {
         return $this->providerService->getSuggestions($request);
     }
