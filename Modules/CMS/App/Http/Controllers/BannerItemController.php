@@ -5,12 +5,10 @@ namespace Modules\CMS\App\Http\Controllers;
 use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Jobs\BannerUploadJob;
 use Modules\CMS\App\Events\BannerCacheRemoveEvent;
 use Modules\CMS\App\Http\Requests\UpdateBannerItem;
-use Modules\CMS\App\Jobs\BannerUploadJob;
-use Modules\CMS\App\Models\Banner;
+use Modules\Banner\Entities\Banner;
 use Modules\Media\MediaService;
 
 class BannerItemController extends Controller

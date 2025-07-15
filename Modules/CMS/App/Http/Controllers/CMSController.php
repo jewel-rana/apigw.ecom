@@ -6,10 +6,10 @@ use App\Helpers\LogHelper;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\CMS\App\Models\Feature;
-use Modules\CMS\App\Services\BannerService;
 use Modules\CMS\App\Services\CmsService;
 use Modules\Product\Services\ProductService;
 use Modules\Setting\OptionService;
+use Modules\Banner\Services\BannerService;
 
 class CMSController extends Controller
 {

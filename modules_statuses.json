@@ -23,5 +23,6 @@
     "ProductTag": true,
     "Cart": true,
     "Delivery": true,
-    "Shipping": true
+    "Shipping": true,
+    "Banner": true
 }

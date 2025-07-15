@@ -3,7 +3,7 @@
 namespace Modules\CMS\App\Observers;
 
 use Illuminate\Support\Facades\Cache;
-use Modules\CMS\App\Models\Banner;
+use Modules\Banner\Entities\Banner;
 
 class BannerObserver
 {
@@ -13,9 +13,19 @@ class BannerObserver
         Cache::forget('api_banners');
     }
 
+    public function creating(Banner $banner)
+    {
+        $banner->created_by = auth()->id();
+    }
+
     public function created(Banner $banner): void
     {
         //
+    }
+
+    public function updating(Banner $banner)
+    {
+        $banner->updated_by = auth()->id();
     }
 
     public function updated(Banner $banner): void

@@ -3,7 +3,7 @@
 namespace Modules\CMS\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\CMS\App\Models\Banner;
+use Modules\Banner\Entities\Banner;
 
 class BannerSeeder extends Seeder
 {

@@ -4,10 +4,10 @@ namespace Modules\CMS\App\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Modules\CMS\App\Models\Banner;
+use Modules\Banner\Repositories\BannerRepository;
+use Modules\Banner\Repositories\Interfaces\BannerRepositoryInterface;
+use Modules\Banner\Entities\Banner;
 use Modules\CMS\App\Observers\BannerObserver;
-use Modules\CMS\App\Repositories\BannerRepository;
-use Modules\CMS\App\Repositories\Interfaces\BannerRepositoryInterface;
 
 class CMSServiceProvider extends ServiceProvider
 {

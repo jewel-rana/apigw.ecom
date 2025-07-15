@@ -2,18 +2,12 @@
 
 namespace Modules\CMS\App\Http\Controllers;
 
-use App\Helpers\LogHelper;
-use Illuminate\Routing\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Cache;
-use Modules\CMS\App\Events\BannerCacheRemoveEvent;
-use Modules\CMS\App\Http\Requests\StoreBannerItem;
-use Modules\CMS\App\Models\Banner;
-use Modules\CMS\App\Services\BannerService;
-use Modules\Menu\Entities\Menu;
+use Illuminate\Routing\Controller;
+use Modules\Banner\Services\BannerService;
+use Modules\Banner\Entities\Banner;
 
 class BannerController extends Controller
 {
@@ -60,28 +54,5 @@ class BannerController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function add(StoreBannerItem $request): RedirectResponse
-    {
-        try {
-            $this->bannerService->addItem($request->validated());
-        } catch (\Throwable $exception) {
-            session()->flash('error', $exception->getMessage());
-        }
-
-        return redirect()->back();
-    }
-
-    public function remove(Banner $banner, Request $request): RedirectResponse
-    {
-        try {
-            $banner->medias()->detach([$request->media_id]);
-            event(new BannerCacheRemoveEvent());
-            return redirect()->back()->with(['status' => true, 'message' => 'Successfully deleted']);
-        } catch (\Exception $exception) {
-            LogHelper::exception($exception);
-            return redirect()->back()->with(['status' => true, 'message' => 'Failed to delete']);
-        }
     }
 }

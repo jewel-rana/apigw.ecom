@@ -16,8 +16,14 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section1_enabled">
-                                    <option value="yes" @if(old('section1_enabled', getOption('section1_enabled')) == 'yes') selected @endif>Yes</option>
-                                    <option value="no" @if(old('section1_enabled', getOption('section1_enabled')) == 'no') selected @endif>No</option>
+                                    <option value="yes"
+                                            @if(old('section1_enabled', getOption('section1_enabled')) == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no"
+                                            @if(old('section1_enabled', getOption('section1_enabled')) == 'no') selected @endif>
+                                        No
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -43,7 +49,7 @@
                             <div class="input-group input-group-merge">
                                 <select name="section1_banner_id" class="form-control" required>
                                     <option value="">Select banner</option>
-                                    @foreach(app(\Modules\CMS\App\Services\BannerService::class)->all() as $banner)
+                                    @foreach(app(Services\BannerService::class)->all() as $banner)
                                         <option value="{{ $banner->id }}"
                                                 @if(old('section1_banner_id', getOption('section1_banner_id')) == $banner->id) selected @endif>{{ $banner->label }}</option>
                                     @endforeach
@@ -72,8 +78,14 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section2_enabled">
-                                    <option value="yes" @if(old('section2_enabled', getOption('section2_enabled')) == 'yes') selected @endif>Yes</option>
-                                    <option value="no" @if(old('section2_enabled', getOption('section2_enabled')) == 'no') selected @endif>No</option>
+                                    <option value="yes"
+                                            @if(old('section2_enabled', getOption('section2_enabled')) == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no"
+                                            @if(old('section2_enabled', getOption('section2_enabled')) == 'no') selected @endif>
+                                        No
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -88,7 +100,9 @@
                                     <option value="">Select menu</option>
                                     @foreach(app(\Modules\Menu\MenuService::class)->all() as $menu)
                                         <option value="{{ strtolower($menu->name) }}"
-                                                @if(old('section2_menu_id', getOption('section2_menu_id')) == strtolower($menu->name)) selected @endif>{{ $menu->name }} ({{ $menu->description }})</option>
+                                                @if(old('section2_menu_id', getOption('section2_menu_id')) == strtolower($menu->name)) selected @endif>{{ $menu->name }}
+                                            ({{ $menu->description }})
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -101,7 +115,8 @@
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Section 3 (Game Categories - Menu) </h4><hr/>
+            <h4 class="card-title">Section 3 (Game Categories - Menu) </h4>
+            <hr/>
         </div>
         <div class="card-body">
             <input type="hidden" name="tab" value="home">
@@ -114,8 +129,14 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section3_enabled">
-                                    <option value="yes" @if(old('section3_enabled', getOption('section3_enabled')) == 'yes') selected @endif>Yes</option>
-                                    <option value="no" @if(old('section3_enabled', getOption('section3_enabled')) == 'no') selected @endif>No</option>
+                                    <option value="yes"
+                                            @if(old('section3_enabled', getOption('section3_enabled')) == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no"
+                                            @if(old('section3_enabled', getOption('section3_enabled')) == 'no') selected @endif>
+                                        No
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -142,7 +163,9 @@
                                     <option value="">Select menu</option>
                                     @foreach(app(\Modules\Menu\MenuService::class)->all() as $menu)
                                         <option value="{{ strtolower($menu->name) }}"
-                                                @if(old('section3_menu_id', getOption('section3_menu_id')) == strtolower($menu->name)) selected @endif>{{ $menu->name }} ({{ $menu->description }})</option>
+                                                @if(old('section3_menu_id', getOption('section3_menu_id')) == strtolower($menu->name)) selected @endif>{{ $menu->name }}
+                                            ({{ $menu->description }})
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -169,8 +192,14 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section4_enabled">
-                                    <option value="yes" @if(old('section4_enabled', getOption('section4_enabled')) == 'yes') selected @endif>Yes</option>
-                                    <option value="no" @if(old('section4_enabled', getOption('section4_enabled')) == 'no') selected @endif>No</option>
+                                    <option value="yes"
+                                            @if(old('section4_enabled', getOption('section4_enabled')) == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no"
+                                            @if(old('section4_enabled', getOption('section4_enabled')) == 'no') selected @endif>
+                                        No
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -213,8 +242,14 @@
                             <div class="input-group input-group-merge">
                                 <select name="section4_item_type"
                                         class="form-control">
-                                    <option value="operator" @if(old('section4_item_type', getOption('section4_item_type', 'bundle')) == 'operator') selected @endif>Operator</option>
-                                    <option value="bundle" @if(old('section4_item_type', getOption('section4_item_type', 'bundle')) == 'bundle') selected @endif>Bundles (Product)</option>
+                                    <option value="operator"
+                                            @if(old('section4_item_type', getOption('section4_item_type', 'bundle')) == 'operator') selected @endif>
+                                        Operator
+                                    </option>
+                                    <option value="bundle"
+                                            @if(old('section4_item_type', getOption('section4_item_type', 'bundle')) == 'bundle') selected @endif>
+                                        Bundles (Product)
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -255,8 +290,14 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section5_enabled">
-                                    <option value="yes" @if(old('section5_enabled', getOption('section5_enabled')) == 'yes') selected @endif>Yes</option>
-                                    <option value="no" @if(old('section5_enabled', getOption('section5_enabled')) == 'no') selected @endif>No</option>
+                                    <option value="yes"
+                                            @if(old('section5_enabled', getOption('section5_enabled')) == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no"
+                                            @if(old('section5_enabled', getOption('section5_enabled')) == 'no') selected @endif>
+                                        No
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -282,7 +323,7 @@
                             <div class="input-group input-group-merge">
                                 <select name="section5_banner_id" class="form-control" required>
                                     <option value="">Select banner</option>
-                                    @foreach(app(\Modules\CMS\App\Services\BannerService::class)->all() as $banner)
+                                    @foreach(app(Services\BannerService::class)->all() as $banner)
                                         <option value="{{ $banner->id }}"
                                                 @if(old('section5_banner_id', getOption('section5_banner_id')) == $banner->id) selected @endif>{{ $banner->label }}</option>
                                     @endforeach
@@ -311,8 +352,14 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section6_enabled">
-                                    <option value="yes" @if(old('section6_enabled', getOption('section6_enabled')) == 'yes') selected @endif>Yes</option>
-                                    <option value="no" @if(old('section6_enabled', getOption('section6_enabled')) == 'no') selected @endif>No</option>
+                                    <option value="yes"
+                                            @if(old('section6_enabled', getOption('section6_enabled')) == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no"
+                                            @if(old('section6_enabled', getOption('section6_enabled')) == 'no') selected @endif>
+                                        No
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -354,8 +401,14 @@
                             <div class="input-group input-group-merge">
                                 <select name="section6_item_type"
                                         class="form-control">
-                                    <option value="operator" @if(old('section6_item_type', getOption('section6_item_type', 'bundle')) == 'operator') selected @endif>Operator</option>
-                                    <option value="bundle" @if(old('section6_item_type', getOption('section6_item_type', 'bundle')) == 'bundle') selected @endif>Bundles (Product)</option>
+                                    <option value="operator"
+                                            @if(old('section6_item_type', getOption('section6_item_type', 'bundle')) == 'operator') selected @endif>
+                                        Operator
+                                    </option>
+                                    <option value="bundle"
+                                            @if(old('section6_item_type', getOption('section6_item_type', 'bundle')) == 'bundle') selected @endif>
+                                        Bundles (Product)
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -395,8 +448,14 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section7_enabled">
-                                    <option value="yes" @if(old('section7_enabled', getOption('section7_enabled')) == 'yes') selected @endif>Yes</option>
-                                    <option value="no" @if(old('section7_enabled', getOption('section7_enabled')) == 'no') selected @endif>No</option>
+                                    <option value="yes"
+                                            @if(old('section7_enabled', getOption('section7_enabled')) == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no"
+                                            @if(old('section7_enabled', getOption('section7_enabled')) == 'no') selected @endif>
+                                        No
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -421,7 +480,7 @@
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section7_banner_id">
                                     <option value="">Choose banner</option>
-                                    @foreach(app(\Modules\CMS\App\Services\BannerService::class)->all() as $banner)
+                                    @foreach(app(Services\BannerService::class)->all() as $banner)
                                         <option value="{{ $banner->id }}"
                                                 @if(old('section7_banner_id', getOption('section7_banner_id')) == $banner->id) selected @endif>{{ $banner->label }}</option>
                                     @endforeach
@@ -450,8 +509,14 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section8_enabled">
-                                    <option value="yes" @if(old('section8_enabled', getOption('section8_enabled')) == 'yes') selected @endif>Yes</option>
-                                    <option value="no" @if(old('section8_enabled', getOption('section8_enabled')) == 'no') selected @endif>No</option>
+                                    <option value="yes"
+                                            @if(old('section8_enabled', getOption('section8_enabled')) == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no"
+                                            @if(old('section8_enabled', getOption('section8_enabled')) == 'no') selected @endif>
+                                        No
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -505,8 +570,14 @@
                             <div class="input-group input-group-merge">
                                 <select name="section8_item_type"
                                         class="form-control">
-                                    <option value="operator" @if(old('section8_item_type', getOption('section8_item_type', 'bundle')) == 'operator') selected @endif>Operator</option>
-                                    <option value="bundle" @if(old('section8_item_type', getOption('section8_item_type', 'bundle')) == 'bundle') selected @endif>Bundles (Product)</option>
+                                    <option value="operator"
+                                            @if(old('section8_item_type', getOption('section8_item_type', 'bundle')) == 'operator') selected @endif>
+                                        Operator
+                                    </option>
+                                    <option value="bundle"
+                                            @if(old('section8_item_type', getOption('section8_item_type', 'bundle')) == 'bundle') selected @endif>
+                                        Bundles (Product)
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -547,8 +618,14 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section9_enabled">
-                                    <option value="yes" @if(old('section9_enabled', getOption('section9_enabled')) == 'yes') selected @endif>Yes</option>
-                                    <option value="no" @if(old('section9_enabled', getOption('section9_enabled')) == 'no') selected @endif>No</option>
+                                    <option value="yes"
+                                            @if(old('section9_enabled', getOption('section9_enabled')) == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no"
+                                            @if(old('section9_enabled', getOption('section9_enabled')) == 'no') selected @endif>
+                                        No
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -574,7 +651,7 @@
                             <div class="input-group input-group-merge">
                                 <select name="section9_banner_id" class="form-control" required>
                                     <option value="">Select banner</option>
-                                    @foreach(app(\Modules\CMS\App\Services\BannerService::class)->all() as $banner)
+                                    @foreach(app(Services\BannerService::class)->all() as $banner)
                                         <option value="{{ $banner->id }}"
                                                 @if(old('section9_banner_id', getOption('section9_banner_id')) == $banner->id) selected @endif>{{ $banner->label }}</option>
                                     @endforeach
@@ -604,8 +681,14 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section10_enabled">
-                                    <option value="yes" @if(old('section10_enabled', getOption('section10_enabled')) == 'yes') selected @endif>Yes</option>
-                                    <option value="no" @if(old('section10_enabled', getOption('section10_enabled')) == 'no') selected @endif>No</option>
+                                    <option value="yes"
+                                            @if(old('section10_enabled', getOption('section10_enabled')) == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no"
+                                            @if(old('section10_enabled', getOption('section10_enabled')) == 'no') selected @endif>
+                                        No
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -657,8 +740,14 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section11_enabled">
-                                    <option value="yes" @if(old('section11_enabled', getOption('section11_enabled')) == 'yes') selected @endif>Yes</option>
-                                    <option value="no" @if(old('section11_enabled', getOption('section11_enabled')) == 'no') selected @endif>No</option>
+                                    <option value="yes"
+                                            @if(old('section11_enabled', getOption('section11_enabled')) == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no"
+                                            @if(old('section11_enabled', getOption('section11_enabled')) == 'no') selected @endif>
+                                        No
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -696,8 +785,14 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <select class="form-control" name="section12_enabled">
-                                    <option value="yes" @if(old('section12_enabled', getOption('section12_enabled')) == 'yes') selected @endif>Yes</option>
-                                    <option value="no" @if(old('section12_enabled', getOption('section12_enabled')) == 'no') selected @endif>No</option>
+                                    <option value="yes"
+                                            @if(old('section12_enabled', getOption('section12_enabled')) == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no"
+                                            @if(old('section12_enabled', getOption('section12_enabled')) == 'no') selected @endif>
+                                        No
+                                    </option>
                                 </select>
                             </div>
                         </div>

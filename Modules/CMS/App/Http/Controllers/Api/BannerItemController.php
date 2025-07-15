@@ -3,17 +3,15 @@
 namespace Modules\CMS\App\Http\Controllers\Api;
 
 use App\Helpers\LogHelper;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Jobs\BannerUploadJob;
 use Modules\CMS\App\Events\BannerCacheRemoveEvent;
 use Modules\CMS\App\Http\Requests\StoreBannerItem;
 use Modules\CMS\App\Http\Requests\UpdateBannerItem;
-use Modules\CMS\App\Jobs\BannerUploadJob;
-use Modules\CMS\App\Models\Banner;
-use Modules\CMS\App\Services\BannerService;
+use Modules\Banner\Entities\Banner;
 use Modules\Media\MediaService;
+use Modules\Banner\Services\BannerService;
 
 class BannerItemController extends Controller
 {
