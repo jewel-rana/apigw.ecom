@@ -66,7 +66,7 @@ class CmsService
             return HomeCard::active()->orderBy('position', 'ASC')->get()
                 ->map(function (HomeCard $homeCard) {
                     return $homeCard->format();
-                });
+                })->toArray();
         } catch (\Throwable $th) {
             LogHelper::error('feature.products', [
                 'message' => $th->getMessage(),
