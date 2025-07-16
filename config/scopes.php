@@ -3,6 +3,11 @@
 return [
     'captcha_enabled' => env('GOOGLE_RECAPTCHA_ENABLED', true),
     'permissions' => [
+        'banner-list' => 'Banner list',
+        'banner-create' => 'Banner create',
+        'banner-update' => 'Banner update',
+        'banner-show' => 'Banner show',
+        'banner-delete' => 'Banner action',
         'user-list' => 'User list',
         'user-create' => 'User Create',
         'user-update' => 'User Update',
