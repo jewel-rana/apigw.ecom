@@ -17,8 +17,6 @@ class RecaptchaValidateRule implements ValidationRule
                     'response' => $value
                 ]);
 
-                dd($response->json());
-
                 if (!($response->json()["success"] ?? false)) {
                     $fail(__('You are not a human.'));
                 }
