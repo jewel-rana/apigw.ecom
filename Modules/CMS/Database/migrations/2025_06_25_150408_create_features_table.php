@@ -24,6 +24,7 @@ class CreateFeaturesTable extends Migration
             $table->enum('type', ['category', 'brand', 'product', 'tag'])->default('category');
             $table->string('model_id');
             $table->tinyInteger('position')->default(0);
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();
             $table->softDeletes();
         });

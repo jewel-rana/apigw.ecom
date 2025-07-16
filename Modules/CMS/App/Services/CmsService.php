@@ -40,12 +40,14 @@ class CmsService
     {
         $response = [];
         try {
-            $features = Feature::active()->all();
+            $features = Feature::active()->get();
             foreach ($features as $feature) {
-                $products = app(ProductService::class)->featureProducts($request, $feature);
+                $products = app(ProductService::class)->featureProducts($feature, $request);
                 $response[] = [
                     'key' => $feature->title,
                     'description' => $feature->description,
+                    'type' => $feature->type,
+                    'model_id' => $feature->model_id,
                     'products' => $products
                 ];
             }

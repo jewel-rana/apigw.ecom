@@ -20,6 +20,7 @@ class Feature extends Model
         'type',
         'model_id',
         'position',
+        'status'
     ];
 
     public function createdBy(): BelongsTo
@@ -47,7 +48,7 @@ class Feature extends Model
 
     public function scopeActive($query)
     {
-        return $query->whereIn('status', ['active', 'Active']);
+        return $query->whereIn('status', ['Active', 'active']);
     }
 
     public function format(): array
