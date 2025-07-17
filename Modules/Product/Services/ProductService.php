@@ -108,7 +108,7 @@ class ProductService
 
             if ($request->hasFile('attachments')) {
                 $attachments = $request->attachments;
-                if(is_array($attachments)) {
+                if (is_array($attachments)) {
                     foreach ($attachments as $attachment) {
                         ProductMediaUploadJob::dispatch($product, $attachment, false);
                     }
@@ -194,6 +194,21 @@ class ProductService
                 $query->where('name', $feature->model_id);
             })
             ->latest();
+
+        if ($paginate) {
+            return CommonHelper::parsePaginator($query->paginate(CommonHelper::perPage($request)));
+        }
+
+        return $query->limit($feature->limit)
+            ->get()
+            ->map(function ($product) {
+                return $product->format();
+            });
+    }
+
+    public function product(Feature $feature, Request $request, $paginate = false)
+    {
+        $query = $feature->products();
 
         if ($paginate) {
             return CommonHelper::parsePaginator($query->paginate(CommonHelper::perPage($request)));

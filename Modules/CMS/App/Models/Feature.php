@@ -35,7 +35,7 @@ class Feature extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class)->withPivot('position');
+        return $this->belongsToMany(Product::class)->withPivot('position')->orderByPivot('position');
     }
 
     public function scopeFilter($query, $request)
