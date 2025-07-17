@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\CMS\App\Http\Controllers\Api\BannerController;
+use Modules\CMS\App\Http\Controllers\Api\CmsSupplierController;
+use Modules\CMS\App\Http\Controllers\Api\FeatureProductController;
 use Modules\CMS\App\Http\Controllers\Api\HomeCardController;
 use Modules\CMS\App\Http\Controllers\CMSController;
-use \Modules\CMS\App\Http\Controllers\Api\FeatureProductController;
+use Modules\Product\Http\Controllers\Api\ProductController;
 
 /*
     |--------------------------------------------------------------------------
@@ -24,6 +26,9 @@ Route::name('api.')->group(function () {
         Route::get('recommendations', [CMSController::class, 'recommendations'])->name('cms.recommendations');
         Route::get('feature-product/{feature}', [CMSController::class, 'featureProducts'])->name('cms.sectionProducts');
         Route::get('banner', [BannerController::class, 'cms'])->name('cms.banner.index');
+        Route::get('product/{product}', [ProductController::class, 'show'])->name('cms.product.show');
+
+        Route::apiResource('supplier', CmsSupplierController::class)->only(['index', 'show']);
     });
 
     Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function() {

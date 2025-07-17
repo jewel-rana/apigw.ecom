@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Activity\App\Traits\ActivityTrait;
+use Modules\Product\Entities\Product;
 
 class Provider extends Model
 {
@@ -37,6 +38,11 @@ class Provider extends Model
     public function getDescriptionForEvent(string $eventName): string
     {
         return "Provider {$eventName}";
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'provider_id', 'id');
     }
 
 
@@ -68,16 +74,6 @@ class Provider extends Model
     public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by', 'id');
-    }
-
-    public function getCreatedAtAttribute($datetime): string
-    {
-        return CommonHelper::parseLocalTimeZone($datetime);
-    }
-
-    public function getUpdatedAtAttribute($datetime): string
-    {
-        return CommonHelper::parseLocalTimeZone($datetime);
     }
 
     public function scopeFilter($query, $request)
