@@ -109,11 +109,6 @@ class Category extends Model
         return CommonHelper::parseLocalizeAttribute('name', $value, $this->customAttributes);
     }
 
-    public function getCreatedAtAttribute($datetime): string
-    {
-        return CommonHelper::parseLocalTimeZone($datetime);
-    }
-
     public function getMediaAttachmentUrlAttribute(): string
     {
         return $this->media()->attachment ?? asset('default/category.png');
@@ -143,7 +138,7 @@ class Category extends Model
 
     public function format($single = false): array
     {
-        $data = $this->only(['id', 'name', 'slug', 'color', 'position', 'status', 'remarks']) +
+        $data = $this->only(['id', 'name', 'slug', 'color', 'position', 'status', 'remarks', 'created_at', 'updated_at']) +
             [
                 'icon' => $this->icon ?? '',
                 'created_by' => $this->createdBy?->only(['id', 'name', 'email']),
