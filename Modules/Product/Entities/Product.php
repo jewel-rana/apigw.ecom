@@ -107,7 +107,9 @@ class Product extends Model
                 'remarks',
                 'thumbnail',
                 'is_featured',
-                'weight'
+                'weight',
+                'created_at',
+                'updated_at'
             ]);
 
         if ($single) {
