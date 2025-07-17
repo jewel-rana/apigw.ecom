@@ -2,6 +2,7 @@
 
 namespace Modules\Banner\Services;
 
+use App\Constants\AppConstant;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -21,19 +22,17 @@ class BannerService
 
     public function all()
     {
-        return Cache::rememberForever('banners', function() {
-            return $this->repository->with('medias')
-                ->where('status', true)
+        return Cache::rememberForever('banners', function () {
+            return $this->repository->with('media')
+                ->where('status', AppConstant::ACTIVE)
                 ->get();
         });
     }
 
     public function cms()
     {
-        return Cache::remember('api_banners', 3600, function() {
-            return $this->all()->map(function(Banner $banner) {
-                return $banner->format();
-            });
+        return $this->all()->map(function (Banner $banner) {
+            return $banner->format();
         });
     }
 
@@ -42,9 +41,9 @@ class BannerService
         $banners = Banner::with(['medias'])->select(['id', 'name', 'label']);
 
         return Datatables::of($banners)
-            ->addColumn('items', function($banner) {
+            ->addColumn('items', function ($banner) {
                 $str = '<div class="avatar-group"><a href="' . route('banner.show', $banner->id) . '">';
-                $banner->medias->each(function($item, $key) use(&$str, $banner) {
+                $banner->medias->each(function ($item, $key) use (&$str, $banner) {
                     $str .= '<div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="' . $banner->name . '">
                         <img src="' . asset($item->attachment) . '" alt="' . $banner->name . '" height="26" width="26" />
                         </div>';
@@ -52,7 +51,7 @@ class BannerService
                 $str .= '</a></div>';
                 return $str;
             })
-            ->addColumn('action', function($banner) {
+            ->addColumn('action', function ($banner) {
                 return "<a href='" . route('banner.show', $banner->id) . "' class='btn btn-success'><i class='fa fa-wrench'></i> manage</a>
                     <a href='" . route('banner.edit', $banner->id) . "' class='btn btn-default'><i class='fa fa-edit'></i></a>";
             })

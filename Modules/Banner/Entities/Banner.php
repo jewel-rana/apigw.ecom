@@ -75,7 +75,7 @@ class Banner extends Model
                 'updated_by' => $this->updatedBy?->only(['id', 'name']),
                 'attachment' => $this->media->attachment ?? null,
             ]
-            + $this->only(['id', 'title', 'medium_text', 'small_text', 'position', 'remarks', 'banner_url', 'status']);
+            + $this->only(['id', 'title', 'medium_text', 'small_text', 'position', 'remarks', 'banner_url', 'status', 'created_at', 'updated_at']);
     }
 
     public static function boot(): void

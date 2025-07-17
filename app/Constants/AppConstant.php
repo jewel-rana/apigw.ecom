@@ -16,4 +16,5 @@ class AppConstant
     const PRODUCT_AVAILABLE = 'In-Stock';
     const PRODUCT_UNAVAILABLE = 'Out-Of-Stock';
     const USER_INACTIVE = 'Inactive';
+    const ACTIVE = 'Active';
 }

@@ -189,4 +189,11 @@ class CategoryService
             CommonHelper::parsePaginator($categories)
         );
     }
+
+    public function cms()
+    {
+        return $this->all(request())->map(function (Category $category) {
+            return $category->format();
+        });
+    }
 }

@@ -5,6 +5,7 @@ namespace Modules\CMS\App\Http\Controllers;
 use App\Helpers\LogHelper;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Category\App\Services\CategoryService;
 use Modules\CMS\App\Models\Feature;
 use Modules\CMS\App\Services\CmsService;
 use Modules\Product\Services\ProductService;
@@ -18,6 +19,7 @@ class CMSController extends Controller
 //        $results = Cache::remember('cms.initialize', 600, function () use ($request) {
         $data = [
             'banners' => app(BannerService::class)->cms(),
+            'categories' => app(CategoryService::class)->cms(),
             'options' => app(OptionService::class)->cms(),
             'recommendations' => app(CmsService::class)->recommended($request),
             'features' => app(CmsService::class)->featured($request),
