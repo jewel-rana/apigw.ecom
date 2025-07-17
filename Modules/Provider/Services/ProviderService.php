@@ -80,7 +80,7 @@ class ProviderService
                 ->map(function ($provider, $key) {
                     return [
                         'id' => $provider->id,
-                        'text' => $provider->name
+                        'name' => $provider->name
                     ];
                 })->values();
             return response()->success($data);

@@ -2,6 +2,7 @@
 
 namespace Modules\CMS\App\Http\Controllers;
 
+use App\Helpers\CommonHelper;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\CMS\App\Models\Feature;
@@ -12,14 +13,8 @@ class FeatureController extends Controller
 {
     public function index(Request $request)
     {
-        return response()->success(
-            Feature::filter($request)
-                ->orderBy($request->input('sort', 'position'), $request->input('order', 'ASC'))
-                ->get()
-                ->map(function ($feature) {
-                    return $feature->format();
-                })
-        );
+        $features = Feature::filter($request)->paginate($request->input('per_page', 10));
+        return response()->success(CommonHelper::parsePaginator($features));
     }
 
     public function store(StoreFeatureRequest $request)
