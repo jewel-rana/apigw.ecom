@@ -72,7 +72,7 @@ class ProviderService
             $data = $this->providerRepository->all()
                 ->filter(function ($provider) use ($request) {
                     $matched = true;
-                    if($request->has('term')) {
+                    if($request->filled('term')) {
                         $matched = CommonHelper::matchText($provider->name, $request->input('term'));
                     }
                     return $matched;
