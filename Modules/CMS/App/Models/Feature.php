@@ -66,6 +66,7 @@ class Feature extends Model
                 'position',
                 'type',
                 'model_id',
+                'status'
             ]);
     }
 
