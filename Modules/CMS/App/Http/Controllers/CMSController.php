@@ -5,6 +5,7 @@ namespace Modules\CMS\App\Http\Controllers;
 use App\Helpers\LogHelper;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
 use Modules\Category\App\Services\CategoryService;
 use Modules\CMS\App\Models\Feature;
 use Modules\CMS\App\Services\CmsService;
@@ -16,20 +17,20 @@ class CMSController extends Controller
 {
     public function index(Request $request)
     {
-//        $results = Cache::remember('cms.initialize', 600, function () use ($request) {
-        $data = [
-            'banners' => app(BannerService::class)->cms(),
-            'categories' => app(CategoryService::class)->cms(),
-            'options' => app(OptionService::class)->cms(),
-            'recommendations' => app(CmsService::class)->recommended($request),
-            'features' => app(CmsService::class)->featured($request),
-            'cards' => app(CmsService::class)->homeCards($request)
-        ];
+        Cache::forget('cms.initialize');
+        $results = Cache::remember('cms.initialize', 600, function () use ($request) {
+            return [
+                'banners' => app(BannerService::class)->cms(),
+                'categories' => app(CategoryService::class)->cms(),
+                'options' => app(OptionService::class)->cms(),
+                'features' => app(CmsService::class)->featured($request),
+                'cards' => app(CmsService::class)->homeCards($request)
+            ];
+        });
 
-//            return $data;
-//        });
+        $results['recommendations'] = app(CmsService::class)->recommended($request);
 
-        return \response()->success($data);
+        return response()->success($results);
     }
 
     public function search(Request $request)

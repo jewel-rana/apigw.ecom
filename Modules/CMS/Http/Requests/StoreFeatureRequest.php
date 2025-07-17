@@ -15,7 +15,7 @@ class StoreFeatureRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'remarks' =>  'nullable|string|max:255',
-            'type' => 'required|string|in:category,brand,tag',
+            'type' => 'required|string|in:category,brand,tag,product',
             'model_id' => 'required|string',
             'position' => 'required|integer|max:5'
         ];
