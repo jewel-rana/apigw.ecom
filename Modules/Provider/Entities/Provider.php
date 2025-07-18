@@ -45,7 +45,6 @@ class Provider extends Model
         return $this->hasMany(Product::class, 'provider_id', 'id');
     }
 
-
     public function providerUsers(): HasMany
     {
         return $this->hasMany(ProviderUser::class);

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 use Modules\Auth\Entities\User;
 use Modules\Brand\Entities\Brand;
 use Modules\Category\App\Models\Category;
@@ -127,10 +128,12 @@ class Product extends Model
 
         static::creating(function ($model) {
             $model->created_by = auth('api')->user()->id;
+            $model->slug = Str::slug(strtolower($model->title));
         });
 
         static::updating(function ($model) {
             $model->updated_by = auth('api')->user()->id;
+            $model->slug = Str::slug(strtolower($model->title));
         });
     }
 }

@@ -16,7 +16,6 @@ class UpdateProductRequest extends FormRequest
             'brand_id' => 'nullable|integer|exists:brands,id',
             'provider_id' => 'nullable|integer|exists:providers,id',
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:products,slug',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'purchase_price' => 'required|numeric|min:0',
