@@ -11,7 +11,7 @@ use Modules\Payment\App\Console\PaymentRefundInitiateCommand;
 use Modules\Payment\App\Console\PaymentRefundValidateCommand;
 use Modules\Payment\App\Console\PaymentVerifyCommand;
 use Modules\Payment\App\Repositories\Interfaces\PaymentRepositoryInterface;
-use Modules\Payment\App\Repositories\PaymentRepository;
+use Modules\Payment\App\Repositories\ShippingRepository;
 
 class PaymentServiceProvider extends ServiceProvider
 {
@@ -48,7 +48,7 @@ class PaymentServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
-        $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class);
+        $this->app->bind(PaymentRepositoryInterface::class, ShippingRepository::class);
     }
 
     /**

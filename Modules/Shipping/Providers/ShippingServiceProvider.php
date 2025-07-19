@@ -3,7 +3,8 @@
 namespace Modules\Shipping\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use Modules\Shipping\Repositories\ShippingRepository;
+use Modules\Shipping\Repositories\Interfaces\ShippingRepositoryInterface;
 
 class ShippingServiceProvider extends ServiceProvider
 {
@@ -38,6 +39,7 @@ class ShippingServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind(ShippingRepositoryInterface::class, ShippingRepository::class);
     }
 
     /**
