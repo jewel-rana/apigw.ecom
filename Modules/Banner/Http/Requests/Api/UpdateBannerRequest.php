@@ -12,13 +12,14 @@ class UpdateBannerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:banners,name',
-            'label' => 'required|string',
+            'title' => 'required|string|unique:banners,title|max:191',
+            'medium_text' => 'nullable|string|max:120',
+            'small_text' => 'nullable|string|max:120',
             'remarks' => 'nullable|string',
-            'is_default' => 'required|boolean',
-            'attachments' => 'nullable|array',
-            'banner_url' => 'nullable|url',
+            'status' => 'nullable|string|in:Active,Inactive',
+            'attachment' => 'required|image|mimes:jpeg,jpg,png,gif',
             'position' => 'required|integer',
+            'banner_url' => 'nullable|url',
         ];
     }
 
