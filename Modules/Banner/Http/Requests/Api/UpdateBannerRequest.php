@@ -12,7 +12,7 @@ class UpdateBannerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|unique:banners,title|max:191',
+            'title' => 'required|string|max:191|unique:banners,title,' . $this->id,
             'medium_text' => 'nullable|string|max:120',
             'small_text' => 'nullable|string|max:120',
             'remarks' => 'nullable|string',
