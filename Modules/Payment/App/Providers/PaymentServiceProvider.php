@@ -5,13 +5,11 @@ namespace Modules\Payment\App\Providers;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Modules\Device\App\Models\Device;
-use Modules\Device\App\Policies\DevicePolicy;
 use Modules\Payment\App\Console\PaymentRefundInitiateCommand;
 use Modules\Payment\App\Console\PaymentRefundValidateCommand;
 use Modules\Payment\App\Console\PaymentVerifyCommand;
 use Modules\Payment\App\Repositories\Interfaces\PaymentRepositoryInterface;
-use Modules\Payment\App\Repositories\ShippingRepository;
+use Modules\Payment\App\Repositories\PaymentRepository;
 
 class PaymentServiceProvider extends ServiceProvider
 {
@@ -25,7 +23,6 @@ class PaymentServiceProvider extends ServiceProvider
      * @var array
      */
     protected array $policies = [
-        Device::class => DevicePolicy::class
     ];
 
     /**
@@ -48,7 +45,7 @@ class PaymentServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
-        $this->app->bind(PaymentRepositoryInterface::class, ShippingRepository::class);
+        $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class);
     }
 
     /**
