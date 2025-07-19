@@ -100,6 +100,11 @@ class Customer extends Authenticatable
         return $this->belongsToMany(Operator::class);
     }
 
+    public function getStatusAttribute($value): string
+    {
+        return ucfirst($value);
+    }
+
     public function scopeFilter($query, $request)
     {
         if($request->filled('date_from')) {

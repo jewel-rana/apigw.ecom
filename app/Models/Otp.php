@@ -16,7 +16,9 @@ class Otp extends Model
         parent::boot();
 
         static::creating(function (Otp $otp) {
-            $otp->reference = $otp->uniqueStockId();
+            if(!$otp->reference) {
+                $otp->reference = $otp->uniqueStockId();
+            }
         });
     }
 

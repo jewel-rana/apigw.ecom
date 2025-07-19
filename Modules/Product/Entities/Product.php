@@ -127,12 +127,21 @@ class Product extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->created_by = auth('api')->user()->id;
+            $user = auth('api')->user();
+            $provider = auth('supplier')->user();
+            if($provider) {
+                $model->provider_id = $provider->id;
+            } else {
+                $model->provider_id = request()->input('supplier_id') ?? null;
+            }
+            $model->created_by = $user->id;
             $model->slug = Str::slug(strtolower($model->title));
         });
 
         static::updating(function ($model) {
-            $model->updated_by = auth('api')->user()->id;
+            $user = auth('api')->user();
+            $model->provider_id = request()->input('supplier_id', $model->provider_id ?? 1);
+            $model->updated_by = $user->id;
             $model->slug = Str::slug(strtolower($model->title));
         });
     }

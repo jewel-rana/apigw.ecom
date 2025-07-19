@@ -14,7 +14,7 @@ class UpdateProductRequest extends FormRequest
         return [
             'category_id' => 'required|integer|exists:categories,id',
             'brand_id' => 'nullable|integer|exists:brands,id',
-            'provider_id' => 'nullable|integer|exists:providers,id',
+            'supplier_id' => 'nullable|integer|exists:providers,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
@@ -22,6 +22,7 @@ class UpdateProductRequest extends FormRequest
             'strike_price' => 'required|numeric|min:0',
             'thumbnail' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg',
             'attachments' => 'nullable|array',
+            'attachments.*' => 'file|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'tags' => 'nullable|array',
             'variants' => ['nullable', 'array'],
             'remarks' => 'nullable|string',

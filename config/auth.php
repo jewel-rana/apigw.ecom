@@ -50,6 +50,11 @@ return [
             'driver' => 'passport',
             'provider' => 'customers',
         ],
+
+        'supplier' => [
+            'driver' => 'passport',
+            'provider' => 'suppliers',
+        ]
     ],
 
     /*
@@ -79,6 +84,11 @@ return [
              'driver' => 'eloquent',
              'model' => App\Models\Customer::class,
          ],
+
+        'suppliers' => [
+            'driver' => 'eloquent',
+            'model' => Modules\Provider\Entities\Provider::class,
+        ]
     ],
 
     /*
@@ -103,6 +113,19 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'customers' => [
+            'provider' => 'customers',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+        ],
+
+        'suppliers' => [
+            'provider' => 'suppliers',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

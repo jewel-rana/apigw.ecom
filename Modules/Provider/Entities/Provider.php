@@ -2,18 +2,19 @@
 
 namespace Modules\Provider\Entities;
 
-use App\Helpers\CommonHelper;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 use Modules\Activity\App\Traits\ActivityTrait;
 use Modules\Product\Entities\Product;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Provider extends Model
+class Provider extends Authenticatable
 {
-    use ActivityTrait;
+    use ActivityTrait, Notifiable, HasApiTokens;
 
     protected $fillable = [
         'created_by',
@@ -24,6 +25,10 @@ class Provider extends Model
         'address',
         'status',
         'updated_by'
+    ];
+
+    protected $casts = [
+        'password' => 'hashed'
     ];
 
     protected $hidden = [
