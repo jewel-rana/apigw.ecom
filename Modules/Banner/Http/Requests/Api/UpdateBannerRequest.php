@@ -17,7 +17,7 @@ class UpdateBannerRequest extends FormRequest
             'small_text' => 'nullable|string|max:120',
             'remarks' => 'nullable|string',
             'status' => 'nullable|string|in:Active,Inactive',
-            'attachment' => 'required|image|mimes:jpeg,jpg,png,gif',
+            'attachment' => 'nullable|image|mimes:jpeg,jpg,png,gif',
             'position' => 'required|integer',
             'banner_url' => 'nullable|url',
         ];
