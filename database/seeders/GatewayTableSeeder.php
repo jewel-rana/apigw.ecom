@@ -13,10 +13,15 @@ class GatewayTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Gateway::create([
-            'name' => 'Cash On Delivery',
-            'code' => 'COD',
-            'class_name' => 'App\Gateways\COD'
-        ]);
+        Gateway::updateOrCreate(
+            [
+                'name' => 'Cash On Delivery'
+            ],
+            [
+                'name' => 'Cash On Delivery',
+                'code' => 'COD',
+                'class_name' => 'App\Gateways\COD'
+            ]
+        );
     }
 }

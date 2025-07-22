@@ -7,16 +7,24 @@ use Spatie\Permission\Models\Role;
 
 class RoleTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $roles = [
-        	'admin',
+            'admin',
             'manager',
             'moderator'
         ];
 
         foreach ($roles as $role_name) {
-             Role::create(['name' => $role_name, 'guard_name' => 'web']);
+            Role::updateOrCreate(
+                [
+                    'name' => $role_name,
+                ],
+                [
+                    'name' => $role_name,
+                    'guard_name' => 'web'
+                ]
+            );
         }
     }
 }
