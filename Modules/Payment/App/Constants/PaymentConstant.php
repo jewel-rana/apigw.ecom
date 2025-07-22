@@ -20,4 +20,5 @@ class PaymentConstant
     const REFUND            = 'refund';
     const REFUNDED          = 'refunded';
     const STATUS_INITIATED  = 'initiated';
+    const PENDING = 'Pending';
 }

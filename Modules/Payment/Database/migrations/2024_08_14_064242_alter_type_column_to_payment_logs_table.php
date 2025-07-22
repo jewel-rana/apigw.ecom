@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('payment_logs', function (Blueprint $table) {
-            if (Schema::hasColumn('payment_logs', 'type')) {
+            if (!Schema::hasColumn('payment_logs', 'type')) {
                 $table->enum('type', ['init', 'create', 'execute', 'ipn', 'verify', 'refund'])
                     ->default('init')
                     ->change();
@@ -25,6 +25,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('payment_logs', function (Blueprint $table) {
+            if (Schema::hasColumn('payment_logs', 'type')) {
+                $table->dropColumn('type');
+            }
+        });
     }
 };

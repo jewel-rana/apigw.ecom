@@ -6,6 +6,7 @@ use App\Helpers\LogHelper;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Modules\Bundle\Services\BundleService;
+use Modules\Cart\App\Services\CartService;
 use Modules\Customer\App\Models\Customer;
 use Modules\Order\App\Constant\OrderConstant;
 use Modules\Order\App\Constant\OrderItemConstant;
@@ -19,12 +20,9 @@ class OrderHelper
     public static function getCustomer(array $data)
     {
         try {
-            if($customer = auth('api')->user()) {
+            if ($customer = auth('customer')->user()) {
                 return $customer;
             } else {
-                if(config('socialite.fib.enabled') && !array_key_exists('mobile', $data)) {
-                    $data['mobile'] = '01' . mt_rand(111111111, 999999999);
-                }
                 return Customer::firstOrCreate(
                     ['email' => $data['email']],
                     $data +
@@ -46,20 +44,21 @@ class OrderHelper
     {
         try {
             $data = $request->input('info');
-                $items = collect(self::buildOrderItems($request));
-            if($items->count()) {
+            $cart = app(CartService::class)->getCarts($request);
+
+            if ($cart) {
                 $data += [
-                    'total_qty' => $items->sum('qty'),
-                    'total_amount' => $items->sum('total_price'),
-                    'discount' => $items->sum('discount'),
-                    'coupon_discount' => $items->sum('coupon_discount'),
+                    'total_qty' => $cart['total_qty'],
+                    'total_amount' => $cart['total_amount'],
+                    'discount' => 0,
+                    'coupon_discount' => 0,
                     'status' => OrderConstant::PENDING
                 ];
 
                 $data['total_payable'] = $data['total_amount'] - ($data['discount'] + $data['coupon_discount']);
             }
             return $data;
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'BUILD_ORDER_INFO_EXCEPTION'
             ]);
@@ -71,12 +70,10 @@ class OrderHelper
     {
         $data = [];
         try {
-            if(is_array($request->input('items'))) {
-                foreach($request->input('items') as $item) {
+            if (is_array($request->input('items'))) {
+                foreach ($request->input('items') as $item) {
                     $product = app(BundleService::class)->get($item['product_id']);
                     $data[] = [
-                        'operator_id' => $product->operator_id,
-                        'bundle_id' => $item['product_id'],
                         'qty' => $item['qty'] ?? 1,
                         'unit_price' => $product->selling_price,
                         'purchase_price' => $product->buying_price ?? 0,
@@ -106,15 +103,15 @@ class OrderHelper
             $order->update(['status' => OrderConstant::COMPLETE]);
         }
 
-        if($failedCount == $order->total_qty) {
+        if ($failedCount == $order->total_qty) {
             $order->update(['status' => OrderConstant::FAILED]);
         }
 
-        if($successCount && $failedCount && !$unstableCount) {
+        if ($successCount && $failedCount && !$unstableCount) {
             $order->update(['status' => OrderConstant::PARTIAL]);
         }
 
-        if($unstableCount) {
+        if ($unstableCount) {
             $order->update(['status' => OrderConstant::UNSTABLE]);
         }
 

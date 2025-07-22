@@ -66,14 +66,6 @@ class Handler extends ExceptionHandler
             ], 404);
         });
 
-        // Fallback for all other exceptions
-        $this->renderable(function (Throwable $e, $request) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Server error.',
-            ], $e->getCode() ?: 500);
-        });
-
         $this->renderable(function (NotFoundHttpException $e, Request $request) {
             if ($request->is('api/*')) {
                 $response = [
@@ -111,6 +103,15 @@ class Handler extends ExceptionHandler
                 throw new HttpResponseException(response()->json($response, 401));
             }
             return null;
+        });
+
+        // Fallback for all other exceptions
+        $this->renderable(function (Throwable $e, $request) {
+            dd($e);
+            return response()->json([
+                'status' => false,
+                'message' => 'Server error.',
+            ], $e->getCode() ?: 500);
         });
     }
 }

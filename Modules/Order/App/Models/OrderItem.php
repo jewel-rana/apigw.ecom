@@ -15,6 +15,7 @@ use Modules\Operator\Entities\Operator;
 use Modules\Operator\Enums\OperatorEnums;
 use Modules\Payment\App\Constants\PaymentConstant;
 use Modules\Payment\App\Models\Payment;
+use Modules\Product\Entities\Product;
 use Modules\Voucher\Entities\Voucher;
 
 class OrderItem extends Model
@@ -25,9 +26,6 @@ class OrderItem extends Model
 
     protected $casts = [
         'data' => 'array',
-        'is_remote_voucher' => 'boolean',
-
-
     ];
 
     protected static $logAttributes = ['name', 'guard_name'];
@@ -38,14 +36,9 @@ class OrderItem extends Model
         return "Role {$eventName}";
     }
 
-    public function operator(): BelongsTo
+    public function product(): BelongsTo
     {
-        return $this->belongsTo(Operator::class);
-    }
-
-    public function bundle(): BelongsTo
-    {
-        return $this->belongsTo(Bundle::class);
+        return $this->belongsTo(Product::class);
     }
 
     public function order(): BelongsTo
@@ -56,16 +49,6 @@ class OrderItem extends Model
     public function payment(): HasOne
     {
         return $this->hasOne(Payment::class, 'order_id', 'order_id')->latest();
-    }
-
-    public function vouchers(): HasMany
-    {
-        return $this->hasMany(Voucher::class)->latest();
-    }
-
-    public function isVoucher(): bool
-    {
-        return $this->operator->deliverable_type === OperatorEnums::TYPE_VOUCHER;
     }
 
     public function scopeFilter($query, $request, $customerId = null)
@@ -86,12 +69,8 @@ class OrderItem extends Model
             $query->where('order_id', (int)$request->input('order_id'));
         }
 
-        if ($request->filled('operator_id')) {
-            $query->where('operator_id', (int)$request->input('operator_id'));
-        }
-
-        if ($request->filled('bundle_id')) {
-            $query->where('bundle_id', (int)$request->input('bundle_id'));
+        if ($request->filled('product_id')) {
+            $query->where('product_id', (int)$request->input('product_id'));
         }
 
         if ($request->filled('customer_id')) {
@@ -153,16 +132,6 @@ class OrderItem extends Model
         return $status;
     }
 
-    public function getCreatedAtAttribute($datetime): string
-    {
-        return CommonHelper::parseLocalTimeZone($datetime);
-    }
-
-    public function getUpdatedAtAttribute($datetime): string
-    {
-        return CommonHelper::parseLocalTimeZone($datetime);
-    }
-
     public function format(): array
     {
         return $this->only([
@@ -176,18 +145,14 @@ class OrderItem extends Model
                 'status'
             ]) +
             [
-                'operator' => $this->operator->only(['id', 'name', 'thumbnail', 'is_in_app_deliverable']),
-                'product' => $this->bundle?->only(['id', 'name', 'thumbnail']) ?? $this->operator->only(['id', 'name', 'thumbnail']),
-                'is_voucher' => $this->isVoucher(),
-                'is_in_app_deliverable' => $this->operator->is_in_app_deliverable
+                'product' => $this->product?->only(['id', 'name', 'thumbnail'])
             ];
     }
 
     public function itemInfo(): array
     {
         return [
-            'Operator' => $this->operator->name,
-            'Denomination' => $this->bundle->name,
+            'Product' => $this->product->name,
             'Order created' => $this->created_at,
             'Payment status' => $this->order->payment?->status,
             'Purchase status' => $this->status

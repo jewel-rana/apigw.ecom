@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Order\App\Http\Controllers\Api\OrderController;
+use Modules\Order\Http\Controllers\Api\OrderCheckoutController;
 
 /*
     |--------------------------------------------------------------------------
@@ -16,6 +17,7 @@ use Modules\Order\App\Http\Controllers\Api\OrderController;
 
 Route::group(['middleware' => 'guest.cookie'], function () {
     Route::get('order/{order}/check', [OrderController::class, 'check'])->name('api.order.check');
+    Route::post('checkout', [OrderCheckoutController::class, 'checkout'])->name('api.order.checkout');
     Route::group(['middleware' => 'auth:api'], function () {
         Route::group(['prefix' => 'order'], function () {
             Route::get('{item}/payload', [OrderController::class, 'payload'])->name('api.order.payload');

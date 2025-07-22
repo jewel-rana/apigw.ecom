@@ -2,16 +2,29 @@
 
 namespace App\Helpers;
 
-use App\Constants\AuthConstant;
-use App\Models\Order;
 use App\Models\Otp;
-use App\Notifications\OtpNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Modules\Payment\App\Models\Payment;
 
 class CommonHelper
 {
+    public static function orderMessage(Payment $payment): array
+    {
+        $data = [
+            'title' => __($payment->status),
+            'message' => __('Your payment :status', ['status' => $payment->status])
+        ];
+
+        if ($payment->status == 'pending') {
+            $data['title'] = __('Processing');
+            $data['message'] = __('Your payment processing');
+        }
+
+        return $data;
+    }
+
     public static function calculateImageSize(int $width, int $height): int
     {
         return round((($width * $height) / 3) / 1024);

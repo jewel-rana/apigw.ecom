@@ -67,16 +67,6 @@ class Order extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function country(): BelongsTo
-    {
-        return $this->belongsTo(Country::class);
-    }
-
-    public function city(): BelongsTo
-    {
-        return $this->belongsTo(City::class);
-    }
-
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
@@ -90,11 +80,6 @@ class Order extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class)->latest();
-    }
-
-    public function vouchers(): HasMany
-    {
-        return $this->hasMany(Voucher::class)->latest();
     }
 
     public function payment(): HasOne
@@ -147,16 +132,6 @@ class Order extends Model
         return $query;
     }
 
-    public function getCreatedAtAttribute($datetime): string
-    {
-        return CommonHelper::parseLocalTimeZone($datetime);
-    }
-
-    public function getUpdatedAtAttribute($datetime): string
-    {
-        return CommonHelper::parseLocalTimeZone($datetime);
-    }
-
     public function getBadgeWithStatusAttribute($value): string
     {
         return '<span class="badge badge-' . CommonHelper::attachBadge($this->status) . '">' . $this->status . '</span>';
@@ -177,22 +152,20 @@ class Order extends Model
 
     public function isNotOwner(): bool
     {
-        return $this->customer_id != auth('api')->id();
+        return $this->customer_id != auth('customer')->id();
     }
 
     public function isOwner(): bool
     {
-        return $this->customer_id == auth('api')->id();
+        return $this->customer_id == auth('customer')->id();
     }
 
-    public function format($single = false): array
+    public function format(): array
     {
-        $data = $this->only(
+        return $this->only(
                 'id',
                 'uuid',
                 'customer',
-                'country',
-                'city',
                 'code',
                 'address',
                 'total_qty',
@@ -203,25 +176,11 @@ class Order extends Model
                 'created_at'
             ) +
             [
-                'items' => $this->items->map(function ($item) {
+                'items' => $this->items?->map(function ($item) {
                     return $item->format(true);
                 }),
                 'payment' => $this->payment?->format()
             ];
-
-        if ($single && !$this->isNotOwner() && $this->status == OrderConstant::COMPLETE) {
-            $vouchers = [];
-            foreach ($this->items as $item) {
-                if ($item->operator->is_in_app_deliverable) {
-                    foreach ($item->vouchers->take($item->qty) as $voucher) {
-                        $vouchers[] = $voucher->format(true);
-                    }
-                }
-            }
-            $data['vouchers'] = $vouchers;
-        }
-
-        return $data;
     }
 
     public function formatCheck()

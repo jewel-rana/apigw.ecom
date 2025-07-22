@@ -15,6 +15,7 @@ class Shipping extends Model
         'created_by',
         'updated_by',
         'name',
+        'code',
         'description',
         'status',
         'remarks'

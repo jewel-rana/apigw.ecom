@@ -7,6 +7,8 @@ use App\Helpers\LogHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Modules\Cart\App\Services\CartService;
+use Modules\Gateway\Entities\Gateway;
 use Modules\Order\App\Constant\OrderDeliveryConstant;
 use Modules\Order\App\Constant\OrderItemConstant;
 use Modules\Order\App\Helpers\OrderHelper;
@@ -52,15 +54,40 @@ class OrderService
             $order = null;
             DB::transaction(function () use ($request, &$order) {
                 $customer = OrderHelper::getCustomer($request->input('info'));
+
+                if (!$customer || !$customer->id) {
+                    throw new \Exception('Customer creation failed');
+                }
+
                 $order = $this->orderRepository->create(OrderHelper::buildOrderInfo($request) +
                     $request->input('info') +
                     [
                         'customer_id' => $customer->id ?? null
                     ]);
-                $items = OrderHelper::buildOrderItems($request);
-                foreach ($items as $item) {
-                    $order->items()->save(new OrderItem($item + ['is_remote_voucher' => false]));
+
+                $cart = app(CartService::class)->getCarts($request);
+
+                if ($cart && count($cart['items']) > 0) {
+                    foreach ($cart['items'] as $item) {
+                        $order->items()->create([
+                            'customer_id' => $customer->id,
+                            'product_id' => $item['product']['id'],
+                            'qty' => $item['qty'],
+                            'price' => $item['price'],
+                            'total_price' => $item['sub_total'],
+                            'status' => OrderItemConstant::PENDING,
+                        ]);
+                    }
                 }
+
+                $gateway = Gateway::first();
+
+                $order->payment()->create([
+                    'gateway_id' => $gateway->id,
+                    'customer_id' => $customer->id,
+                    'amount' => $order->total_payable,
+                    'status' => PaymentConstant::PENDING
+                ]);
             });
             return response()->success(
                 $order->format()

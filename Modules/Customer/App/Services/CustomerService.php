@@ -25,6 +25,11 @@ class CustomerService
         $this->customerRepository = $customerRepository;
     }
 
+    public function create($data)
+    {
+        return $this->customerRepository->create($data);
+    }
+
     public function getDataTable(Request $request)
     {
         return datatables()->eloquent(
