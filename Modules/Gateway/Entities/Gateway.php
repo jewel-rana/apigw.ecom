@@ -75,11 +75,11 @@ class Gateway extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->created_by = auth('api')->id();
+            $model->created_by = auth('api')->id() ?? 1;
         });
 
         static::updating(function ($model) {
-            $model->updated_by = auth('api')->id();
+            $model->updated_by = auth('api')->id() ?? 1;
         });
     }
 }
