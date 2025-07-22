@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Modules\Gateway\Constants\GatewayConstant;
 use Modules\Gateway\Entities\Gateway;
 
 class GatewayTableSeeder extends Seeder
@@ -19,7 +20,7 @@ class GatewayTableSeeder extends Seeder
             ],
             [
                 'name' => 'Cash On Delivery',
-                'code' => 'COD',
+                'status' => GatewayConstant::ACTIVE,
                 'class_name' => 'App\Gateways\COD'
             ]
         );
