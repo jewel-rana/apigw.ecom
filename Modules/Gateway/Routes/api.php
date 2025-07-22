@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Modules\Gateway\Http\Controllers\Api\GatewayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/gateway', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'gateway'], function () {
+        Route::get('suggestion', [GatewayController::class, 'suggestion'])->name('gateway.suggestion');
+    });
+
+    Route::apiResource('gateway', GatewayController::class)->except(['destroy']);
+});
+
+Route::group(['prefix' => 'gateway'], function () {
+    Route::get('suggestion', [GatewayController::class, 'suggestion'])->name('gateway.suggestion');
 });

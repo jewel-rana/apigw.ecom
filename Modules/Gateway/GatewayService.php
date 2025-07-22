@@ -17,6 +17,7 @@ class GatewayService
 {
     public function all()
     {
+        Cache::forget('gateways');
         return Cache::remember('gateways', 3600, function () {
             return Gateway::where('status', Gateway::ACTIVE)->get();
         });
@@ -31,8 +32,8 @@ class GatewayService
                 return $gateway->nice_status;
             })
             ->addColumn('actions', function (Gateway $gateway) {
-                $btns =  '<a href="' . route('gateway.show', $gateway->id) . '" class="btn btn-sm btn-default"><i class="fa fa-eye"></i></a>';
-                if($gateway->is_editable) {
+                $btns = '<a href="' . route('gateway.show', $gateway->id) . '" class="btn btn-sm btn-default"><i class="fa fa-eye"></i></a>';
+                if ($gateway->is_editable) {
                     $btns .= '<a href="' . route('gateway.edit', $gateway->id) . '" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>';
                 }
                 return $btns;
@@ -69,11 +70,11 @@ class GatewayService
             $data = Gateway::all()
                 ->filter(function ($gateway) use ($request) {
                     $matched = true;
-                    if($request->has('provider_id')) {
+                    if ($request->has('provider_id')) {
                         $provider = Provider::find($request->input('provider_id'));
                         $matched = (in_array($gateway->id, $provider->gateway_ids));
                     }
-                    if($request->has('term')) {
+                    if ($request->has('term')) {
                         $matched = CommonHelper::matchText($gateway->name, $request->input('term'));
                     }
                     return $matched;
@@ -106,5 +107,25 @@ class GatewayService
             'callback' => 'IPN Callback endpoint',
             'redirect' => 'Redirect endpoint',
         ];
+    }
+
+    public function suggestions(Request $request)
+    {
+        try {
+            return response()->success(
+                $this->all()
+                    ->map(function ($item) {
+                        return [
+                            'id' => $item->id,
+                            'name' => $item->name,
+                        ];
+                    })
+            );
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception, [
+                'keyword' => 'AGENT_NOT_FOUND_EXCEPTION'
+            ]);
+            return response()->failed(['message' => $exception->getMessage()]);
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace Modules\Gateway\Entities;
 
 use App\Helpers\CommonHelper;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,10 +14,11 @@ use Modules\Provider\Entities\Provider;
 class Gateway extends Model
 {
     use SoftDeletes, ActivityTrait;
-    const ACTIVE                    = 1;
-    const INACTIVE                  = 0;
-    const ACTIVE_TEXT               = 'Active';
-    const INACTIVE_TEXT             = 'Inactive';
+
+    const ACTIVE = 'Active';
+    const INACTIVE = 'Inactive';
+    const ACTIVE_TEXT = 'Active';
+    const INACTIVE_TEXT = 'Inactive';
 
     protected $fillable = [
         'name',
@@ -33,6 +35,18 @@ class Gateway extends Model
         return "Gateway {$eventName}";
     }
 
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id')
+            ->select('id', 'name', 'email');
+    }
+
+    public function updatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by', 'id')
+            ->select('id', 'name', 'email');
+    }
+
     public function credentials(): HasMany
     {
         return $this->hasMany(GatewayCredential::class);
@@ -43,23 +57,16 @@ class Gateway extends Model
         return $this->hasMany(GatewayEndpoint::class);
     }
 
-    public function getNiceStatusAttribute(): string
+    public function scopeFilter($query, $request)
     {
-        return $this->status == 1 ? self::ACTIVE_TEXT : self::INACTIVE_TEXT;
+        return $query;
     }
 
-    public function getCreatedAtAttribute($datetime): string
+    public function format(): array
     {
-        return CommonHelper::parseLocalTimeZone($datetime);
-    }
-
-    public function getIsEditableAttribute($datetime): string
-    {
-        return $this->id !== 1 && CommonHelper::hasPermission(['gateway-update']);
-    }
-
-    public function getUpdatedAtAttribute($datetime): string
-    {
-        return CommonHelper::parseLocalTimeZone($datetime);
+        return [
+                'created_by' => $this->createdBy?->only(['id', 'name', 'email']),
+                'updated_by' => $this->updatedBy?->only(['id', 'name', 'email']),
+            ] + $this->only(['id', 'name', 'class_name', 'status', 'created_at', 'updated_at', 'is_editable']);
     }
 }

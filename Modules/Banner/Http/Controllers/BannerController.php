@@ -25,10 +25,10 @@ class BannerController extends Controller
 
     public function index(Request $request)
     {
-        $menus = Banner::filter($request)
+        $banners = Banner::filter($request)
             ->latest()
             ->paginate(CommonHelper::perPage($request));
-        return response()->success(CommonHelper::parsePaginator($menus));
+        return response()->success(CommonHelper::parsePaginator($banners));
     }
 
     public function store(StoreBannerRequest $request)
