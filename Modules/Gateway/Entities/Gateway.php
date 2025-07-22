@@ -69,4 +69,17 @@ class Gateway extends Model
                 'updated_by' => $this->updatedBy?->only(['id', 'name', 'email']),
             ] + $this->only(['id', 'name', 'class_name', 'status', 'created_at', 'updated_at', 'is_editable']);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->created_by = auth('api')->id();
+        });
+
+        static::updating(function ($model) {
+            $model->updated_by = auth('api')->id();
+        });
+    }
 }
