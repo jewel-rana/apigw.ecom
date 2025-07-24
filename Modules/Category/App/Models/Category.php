@@ -45,6 +45,10 @@ class Category extends Model
         'custom_attributes'
     ];
 
+    protected $casts = [
+        'position' => 'boolean',
+    ];
+
     public static array $defaultKeys = [
         'name'
     ];

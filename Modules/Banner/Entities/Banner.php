@@ -30,6 +30,10 @@ class Banner extends Model
         'banner_url'
     ];
 
+    protected $casts = [
+        'position' => 'boolean',
+    ];
+
     protected static $logAttributes = ['title', 'medium_text', 'small_text', 'status', 'position', 'remarks', 'created_by', 'updated_by'];
     protected static $logOnlyDirty = true;
 

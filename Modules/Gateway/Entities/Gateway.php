@@ -25,6 +25,10 @@ class Gateway extends Model
         'is_editable'
     ];
 
+    protected $casts = [
+        'position' => 'boolean',
+    ];
+
     protected static $logAttributes = ['name', 'class_name', 'status', 'is_editable'];
     protected static $logOnlyDirty = true;
 

@@ -21,6 +21,10 @@ class Shipping extends Model
         'remarks'
     ];
 
+    protected $casts = [
+        'position' => 'boolean',
+    ];
+
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by', 'id')->select('id', 'name', 'email');
