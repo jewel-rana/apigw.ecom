@@ -118,7 +118,7 @@ class ProductService
             }
 
             if ($request->hasFile('thumbnail')) {
-                ProductMediaUploadJob::dispatch($product, $request->input('thumbnail'), true);
+                ProductMediaUploadJob::dispatch($product, $request->file('thumbnail'), true);
             }
             return response()->success();
         } catch (\Exception $exception) {

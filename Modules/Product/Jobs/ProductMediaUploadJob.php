@@ -30,8 +30,9 @@ class ProductMediaUploadJob
         $file = request()->file('attachment', $this->file);
         if(is_file($file)) {
             $media = app(MediaService::class)->upload($this->file ?? request()->file('attachment'));
+            dd($media);
             if($this->thumb) {
-                $this->product->update(['thumbnail' => $media->getRawOriginal('attachment')]);
+                $this->product->update(['thumbnail' => $media->attachment]);
             } else {
                 $this->product->medias()->attach($media->id);
             }
