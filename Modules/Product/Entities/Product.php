@@ -98,6 +98,8 @@ class Product extends Model
                 'updated_by' => $this->updatedBy?->only(['id', 'name', 'email']),
                 'category' => $this->category?->only(['id', 'name']),
                 'brand' => $this->brand?->only(['id', 'name']),
+                'supplier_id' => $this->provider_id,
+                'supplier' => $this->provider?->only(['id', 'name']),
             ] + $this->only([
                 'id',
                 'title',
