@@ -12,6 +12,7 @@ use Modules\Auth\Entities\User;
 use Modules\Brand\Entities\Brand;
 use Modules\Category\App\Models\Category;
 use Modules\Media\Entities\Media;
+use Modules\Provider\Entities\Provider;
 
 class Product extends Model
 {
@@ -63,6 +64,11 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function provider(): BelongsTo
+    {
+        return $this->belongsTo(Provider::class);
     }
 
     public function tags(): HasMany
