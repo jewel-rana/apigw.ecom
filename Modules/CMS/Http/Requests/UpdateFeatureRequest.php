@@ -17,7 +17,8 @@ class UpdateFeatureRequest extends FormRequest
             'remarks' =>  'nullable|string|max:255',
             'type' => 'required|string|in:category,brand,tag,product',
             'model_id' => 'required|string',
-            'position' => 'required|integer|max:5'
+            'position' => 'required|integer|max:5',
+            'status' => 'nullable|string|in:Active,Inactive',
         ];
     }
 
