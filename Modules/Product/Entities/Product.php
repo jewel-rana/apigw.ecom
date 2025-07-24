@@ -39,6 +39,9 @@ class Product extends Model
 
     protected $casts = [
         'is_featured' => 'boolean',
+        'price' => 'decimal:2',
+        'purchase_price' => 'decimal:2',
+        'strike_price' => 'decimal:2',
     ];
 
     public function createdBy(): BelongsTo

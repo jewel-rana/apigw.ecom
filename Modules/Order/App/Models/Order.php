@@ -50,8 +50,11 @@ class Order extends Model
     protected $casts = [
         'is_refund_initiated' => 'boolean',
         'is_refunded' => 'boolean',
-
-
+        'price' => 'decimal:2',
+        'total_amount' => 'decimal:2',
+        'shipping_cost' => 'decimal:2',
+        'total_payable' => 'decimal:2',
+        'discount' => 'decimal:2'
     ];
 
     protected static $logAttributes = ['name', 'guard_name'];
