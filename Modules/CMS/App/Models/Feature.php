@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Cache;
 use Modules\Product\Entities\Product;
 
 class Feature extends Model
@@ -40,7 +41,7 @@ class Feature extends Model
 
     public function scopeFilter($query, $request)
     {
-        if($request->filled('status') && in_array($request->status, ['Active', 'Inactive'])) {
+        if ($request->filled('status') && in_array($request->status, ['Active', 'Inactive'])) {
             $query->where('status', $request->status);
         }
         return $query;
@@ -82,6 +83,18 @@ class Feature extends Model
 
         static::updating(function ($model) {
             $model->updated_by = auth('api')->user()->id;
+        });
+
+        static::created(function ($model) {
+            Cache::forget('banners');
+        });
+
+        static::updated(function ($model) {
+            Cache::forget('banners');
+        });
+
+        static::deleted(function ($model) {
+            Cache::forget('banners');
         });
     }
 }
