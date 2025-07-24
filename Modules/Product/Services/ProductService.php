@@ -151,7 +151,7 @@ class ProductService
     {
         $query = $this->productRepository->getModel()
             ->where('category_id', $feature->model_id)
-//            ->where('is_featured', true)
+            ->where('is_featured', true)
             ->filter($request)
             ->latest();
 
