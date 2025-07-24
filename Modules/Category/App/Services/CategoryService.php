@@ -193,7 +193,8 @@ class CategoryService
                 return $banner->status === AppConstant::ACTIVE;
             })
             ->map(function (Category $category) {
-            return $category->format();
-        });
+                return $category->format();
+            })
+            ->values();
     }
 }

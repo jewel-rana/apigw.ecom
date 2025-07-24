@@ -36,8 +36,9 @@ class BannerService
                 return $banner->status === AppConstant::ACTIVE;
             })
             ->map(function (Banner $banner) {
-            return $banner->format();
-        });
+                return $banner->format();
+            })
+            ->values();
     }
 
     public function getDataTable(Request $request): JsonResponse
