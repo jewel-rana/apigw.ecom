@@ -26,7 +26,7 @@ class Gateway extends Model
     ];
 
     protected $casts = [
-        'position' => 'boolean',
+        'position' => 'integer',
     ];
 
     protected static $logAttributes = ['name', 'class_name', 'status', 'is_editable'];

@@ -24,7 +24,7 @@ class Brand extends Model
     ];
 
     protected $casts = [
-        'position' => 'boolean',
+        'position' => 'integer',
     ];
 
     public function createdBy(): BelongsTo

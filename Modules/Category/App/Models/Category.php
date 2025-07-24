@@ -46,7 +46,7 @@ class Category extends Model
     ];
 
     protected $casts = [
-        'position' => 'boolean',
+        'position' => 'integer',
     ];
 
     public static array $defaultKeys = [

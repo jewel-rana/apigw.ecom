@@ -31,7 +31,7 @@ class Banner extends Model
     ];
 
     protected $casts = [
-        'position' => 'boolean',
+        'position' => 'integer',
     ];
 
     protected static $logAttributes = ['title', 'medium_text', 'small_text', 'status', 'position', 'remarks', 'created_by', 'updated_by'];
