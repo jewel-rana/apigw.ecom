@@ -21,7 +21,7 @@ class CategoryProductController extends Controller
         return response()->success(
             $this->categoryService->all($request)
                 ->map(function ($category) {
-                    return $category->only(['id', 'name', 'slug', 'icon']) +
+                    return $category->only(['id', 'name', 'slug', 'icon', 'position']) +
                         [
                             'children' => $category->children->map(function ($category) {
                                 return $category->only(['id', 'name', 'slug', 'icon']);
