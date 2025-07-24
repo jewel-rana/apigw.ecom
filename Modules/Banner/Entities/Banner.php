@@ -97,5 +97,9 @@ class Banner extends Model
         static::updated(function ($model) {
             Cache::forget('banners');
         });
+
+        static::deleted(function ($model) {
+            Cache::forget('banners');
+        });
     }
 }
