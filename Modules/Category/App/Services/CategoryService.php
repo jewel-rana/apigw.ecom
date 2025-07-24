@@ -2,21 +2,17 @@
 
 namespace Modules\Category\App\Services;
 
+use App\Constants\AppConstant;
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Modules\Bundle\App\Constant\BundleConstant;
-use Modules\Bundle\Repositories\BundleRepository;
 use Modules\Category\App\Jobs\CategoryMediaUploadJob;
 use Modules\Category\App\Models\Category;
 use Modules\Category\App\Repositories\Interfaces\CategoryRepositoryInterface;
 use Modules\Media\MediaService;
-use Modules\Operator\Repositories\Interfaces\OperatorRepositoryInterface;
-use Modules\Operator\Services\OperatorService;
 use Modules\Product\Entities\Product;
 
 class CategoryService
@@ -192,7 +188,11 @@ class CategoryService
 
     public function cms()
     {
-        return $this->all(request())->map(function (Category $category) {
+        return $this->all(request())
+            ->filter(function (Category $banner) {
+                return $banner->status === AppConstant::ACTIVE;
+            })
+            ->map(function (Category $category) {
             return $category->format();
         });
     }

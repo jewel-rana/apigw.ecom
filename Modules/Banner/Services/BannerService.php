@@ -31,7 +31,11 @@ class BannerService
 
     public function cms()
     {
-        return $this->all()->map(function (Banner $banner) {
+        return $this->all()
+            ->filter(function (Banner $banner) {
+                return $banner->status === AppConstant::ACTIVE;
+            })
+            ->map(function (Banner $banner) {
             return $banner->format();
         });
     }
