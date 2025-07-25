@@ -101,6 +101,11 @@ class Order extends Model
         return $this->hasOne(Refund::class);
     }
 
+    public function getStatusAttribute($value): string
+    {
+        return ucwords(str_replace('-', ' ', $value));
+    }
+
     public function scopeFilter($query, $request, $customerId = null)
     {
         if ($request->filled('order_id')) {
