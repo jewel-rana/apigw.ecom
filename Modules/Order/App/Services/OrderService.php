@@ -103,7 +103,6 @@ class OrderService
                 $order->format()
             );
         } catch (\Exception $exception) {
-            dd($exception->getMessage());
             LogHelper::exception($exception, [
                 'keyword' => 'ORDER_CREATE_EXCEPTION'
             ]);

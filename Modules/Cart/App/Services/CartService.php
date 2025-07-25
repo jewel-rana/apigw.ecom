@@ -90,7 +90,6 @@ class CartService
                 $this->getCarts($request)
             );
         } catch (\Exception $exception) {
-            dd($exception);
             LogHelper::exception($exception, [
                 'keyword' => 'DELETE_TO_CART_EXCEPTION'
             ]);
