@@ -48,6 +48,7 @@ class CmsService
                     'description' => $feature->description,
                     'type' => $feature->type,
                     'model_id' => $feature->model_id,
+                    'position' => $feature->position,
                     'products' => $products
                 ];
             }
