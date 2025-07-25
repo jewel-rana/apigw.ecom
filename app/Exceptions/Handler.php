@@ -9,6 +9,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -76,7 +77,12 @@ class Handler extends ExceptionHandler
             }
         });
 
-        $this->reportable(function (Throwable $exception) {
+        $this->renderable(function (ValidationException $e, $request) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation failed.',
+                'errors' => $e->errors(), // returns array of field => [messages]
+            ], 422);
         });
 
         $this->renderable(function (AccessDeniedHttpException $e, $request) {

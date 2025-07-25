@@ -9,7 +9,6 @@ use Modules\Cart\App\Services\CartService;
 
 class CheckoutValidationRule implements ValidationRule
 {
-
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         try {
