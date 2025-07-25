@@ -71,18 +71,31 @@ class CartService
         }
     }
 
-    public function validate($request): array
+    public function destroy($request, $id)
     {
-        $data = ['status' => false, 'message' => __('Failed')];
         try {
-            $operator = app(OperatorService::class)->get($request->input('operator_id'));
-            $product = Bundle::find($request->input('product_id'));
-            $data = (new Kartat())->validate($operator->getRequestPayload($request, $product), $data);
+            $cart = $this->getCarts($request);
+            if (!$cart) {
+                throw new \Exception('Cart not found');
+            }
+
+            if ($id) {
+                $item = CartItem::where('item_id', $id)->first();
+                if ($item && $item->cart->token == $cart['token']) {
+                    $item->delete();
+                }
+            }
+
+            return response()->success(
+                $this->getCarts($request)
+            );
         } catch (\Exception $exception) {
+            dd($exception);
             LogHelper::exception($exception, [
-                'keyword' => 'CART_VALIDATE_EXCEPTION'
+                'keyword' => 'DELETE_TO_CART_EXCEPTION'
             ]);
+            return response()->failed();
         }
-        return $data;
     }
+
 }

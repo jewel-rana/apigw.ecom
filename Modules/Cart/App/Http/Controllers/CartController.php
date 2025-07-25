@@ -35,9 +35,9 @@ class CartController extends Controller
         //
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        return $this->cartService->destroy($request, $id);
     }
 
     public function validate(CartValidateRequest $request): array

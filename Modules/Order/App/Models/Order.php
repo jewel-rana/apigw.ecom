@@ -15,6 +15,7 @@ use Modules\Payment\App\Constants\PaymentConstant;
 use Modules\Payment\App\Models\Payment;
 use Modules\Region\App\Models\City;
 use Modules\Region\Entities\Country;
+use Modules\Shipping\Entities\Shipping;
 use Modules\Voucher\Entities\Voucher;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -73,6 +74,11 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function shipping(): BelongsTo
+    {
+        return $this->belongsTo(Shipping::class);
     }
 
     public function delivery(): HasOne
@@ -169,8 +175,8 @@ class Order extends Model
                 'id',
                 'uuid',
                 'customer',
-                'code',
-                'address',
+                'shipping',
+                'delivery',
                 'total_qty',
                 'total_amount',
                 'discount',

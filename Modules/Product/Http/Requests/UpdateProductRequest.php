@@ -20,7 +20,7 @@ class UpdateProductRequest extends FormRequest
             'price' => 'required|numeric',
             'purchase_price' => 'required|numeric|min:0',
             'strike_price' => 'required|numeric|min:0',
-            'thumbnail' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg',
+            'thumbnail' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg|max:512',
             'attachments' => 'nullable|array',
             'attachments.*' => 'file|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'tags' => 'nullable|array',

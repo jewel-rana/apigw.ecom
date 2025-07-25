@@ -18,7 +18,7 @@ class CategoryCreateRequest extends FormRequest
             'color' => 'nullable|string|in:' . implode(',', config('category.colors')),
             'attachment' => 'nullable|image|mimes:jpg,png,gif,svg|max:500',
             'position' => 'required|integer',
-            'status' => 'required|in:Active,Inactive',
+            'status' => 'nullable|string|in:Active,Inactive',
             'remarks' => 'nullable|string'
         ];
     }
