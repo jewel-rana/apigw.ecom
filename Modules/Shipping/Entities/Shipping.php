@@ -5,6 +5,7 @@ namespace Modules\Shipping\Entities;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Cache;
 use Modules\Activity\App\Traits\ActivityTrait;
 
 class Shipping extends Model
@@ -67,6 +68,18 @@ class Shipping extends Model
 
         static::updating(function ($model) {
             $model->updated_by = auth()->id();
+        });
+
+        static::created(function ($model) {
+            Cache::forget('shippings');
+        });
+
+        static::updated(function ($model) {
+            Cache::forget('shippings');
+        });
+
+        static::deleted(function ($model) {
+            Cache::forget('shippings');
         });
     }
 }
