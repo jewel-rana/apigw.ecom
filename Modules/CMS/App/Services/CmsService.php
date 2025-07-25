@@ -40,7 +40,7 @@ class CmsService
     {
         $response = [];
         try {
-            $features = Feature::active()->get();
+            $features = Feature::active()->orderBy('position')->get();
             foreach ($features as $feature) {
                 $products = app(ProductService::class)->featureProducts($feature, $request);
                 $response[] = [
