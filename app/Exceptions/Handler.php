@@ -107,7 +107,6 @@ class Handler extends ExceptionHandler
 
         // Fallback for all other exceptions
         $this->renderable(function (Throwable $e, $request) {
-            dd($e);
             return response()->json([
                 'status' => false,
                 'message' => 'Server error.',
