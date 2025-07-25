@@ -17,3 +17,7 @@ use Modules\Shipping\Http\Controllers\Api\ShippingController;
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () {
     Route::apiResource('shipping', ShippingController::class);
 });
+
+Route::group(['prefix' => 'shipping'], function () {
+    Route::get('suggestion', [ShippingController::class, 'suggestion'])->name('gateway.suggestion');
+});

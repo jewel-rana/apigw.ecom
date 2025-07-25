@@ -31,4 +31,9 @@ class ShippingController extends Controller
     {
         return $this->shippingService->update($request, $id);
     }
+
+    public function suggestion(Request $request)
+    {
+        return $this->shippingService->suggestions($request);
+    }
 }
