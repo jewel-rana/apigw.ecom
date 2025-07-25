@@ -3,6 +3,7 @@
 namespace Modules\Order\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Order\Rules\CheckoutValidationRule;
 
 class OrderCheckoutRequest extends FormRequest
 {
@@ -12,15 +13,17 @@ class OrderCheckoutRequest extends FormRequest
             'cart_id' => [
                 'required',
                 'string',
-                'uuid'
+                'uuid',
+                new CheckoutValidationRule()
             ],
-            'name' => 'nullable|string',
-            'email' => 'nullable|email',
-            'mobile' => 'nullable|string|min:11|max:13',
-            'delivery' => 'nullable|array',
-            'shipping_method' => 'required|string|exists:shippings,code',
-            'shipping_method.account_number' => 'nullable|string',
-            'shipping_method.transaction_id' => 'nullable|string'
+            'info.name' => 'nullable|string',
+            'info.email' => 'nullable|email',
+            'info.mobile' => 'nullable|string|min:11|max:13',
+            'shipping_id' => 'required|string|exists:shippings,id',
+            'shipping' => 'required|array',
+            'gateway_id' => 'required|string|exists:gateways,id',
+            'payment.account_number' => 'nullable|string',
+            'payment.transaction_id' => 'nullable|string'
         ];
     }
 

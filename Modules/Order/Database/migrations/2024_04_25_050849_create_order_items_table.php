@@ -20,9 +20,7 @@ return new class extends Migration {
                 $table->decimal('discount', 10, 2)->default(0);
                 $table->decimal('coupon_discount', 10, 2)->default(0);
                 $table->decimal('total_price', 10, 2)->default(0);
-                $table->enum('status', ['pending', 'success', 'cancelled', 'refunded', 'failed'])
-                    ->default('pending')
-                    ->index();
+                $table->string('status')->default('Pending')->index();
                 $table->json('data')->nullable();
                 $table->timestamps();
                 $table->index('created_at');

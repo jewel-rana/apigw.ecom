@@ -16,11 +16,18 @@ class CreateOrderDeliveriesTable extends Migration
         Schema::create('order_deliveries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained();
-            $table->string('delivery_man_name');
-            $table->string('delivery_man_mobile');
+            $table->foreignId('customer_id')->constrained();
+            $table->foreignId('shipping_id')->constrained();
+            $table->string('city')->nullable();
+            $table->string('address')->nullable();
+            $table->foreignId('delivery_man_id')->nullable()->constrained('users', 'id');
+            $table->string('delivery_man_name')->nullable();
+            $table->string('delivery_man_mobile')->nullable();
             $table->decimal('cash_received', 10, 2)->default(0);
             $table->decimal('cash_returned', 10, 2)->default(0);
-            $table->enum('status', ['pending', 'collected', 'processing', 'failed', 'delivered'])->default('pending')->index();
+            $table->text('notes')->nullable();
+            $table->string('remarks')->nullable();
+            $table->enum('status', ['Pending', 'Collected', 'Processing', 'Failed', 'Delivered'])->default('Pending')->index();
             $table->timestamps();
         });
     }

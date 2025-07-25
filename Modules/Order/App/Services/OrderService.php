@@ -80,19 +80,30 @@ class OrderService
                     }
                 }
 
-                $gateway = Gateway::first();
+                $gateway = Gateway::find($request->input('gateway_id'));
 
                 $order->payment()->create([
                     'gateway_id' => $gateway->id,
                     'customer_id' => $customer->id,
                     'amount' => $order->total_payable,
-                    'status' => PaymentConstant::PENDING
+                    'status' => PaymentConstant::PENDING,
+                    'gateway_trx_id' => $request->input('payment.transaction_id'),
+                    'gateway_account_number' => $request->input('payment.account_number'),
                 ]);
+
+                $order->delivery()->create(
+                    $request->input('shipping', []) +
+                    [
+                        'customer_id' => $customer->id,
+                        'shipping_id' => $request->input('shipping_id'),
+                    ]);
             });
+
             return response()->success(
                 $order->format()
             );
         } catch (\Exception $exception) {
+            dd($exception->getMessage());
             LogHelper::exception($exception, [
                 'keyword' => 'ORDER_CREATE_EXCEPTION'
             ]);

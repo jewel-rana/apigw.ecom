@@ -7,18 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 class OrderDelivery extends Model
 {
     protected $fillable = [
+        'shipping_id',
         'order_id',
         'customer_id',
-        'delivery_to',
-        'deliver_type',
+        'city',
+        'address',
+        'note',
+        'remarks',
         'status'
     ];
 
     protected $casts = [
         'order_id' => 'integer',
         'customer_id' => 'integer',
-        'delivery_to' => 'string',
-        'delivery_type' => 'string',
-        'status' => 'boolean'
+        'shipping_id' => 'string',
+        'city' => 'string',
+        'address' => 'string',
+        'note' => 'string',
+        'remarks' => 'string',
+        'status' => 'string'
     ];
 }
