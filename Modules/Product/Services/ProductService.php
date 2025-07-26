@@ -39,6 +39,26 @@ class ProductService
         return response()->success(CommonHelper::parsePaginator($products));
     }
 
+    public function search(Request $request)
+    {
+        try {
+            $products = $this->productRepository->getModel()
+                ->filter($request)
+                ->orderBy('is_featured')
+                ->latest()
+                ->paginate($request->input('per_page', 10));
+
+            return response()->success(CommonHelper::parsePaginator($products));
+        } catch (\Exception $exception) {
+            dd($exception->getMessage(), $exception->getLine(), $exception->getFile());
+            LogHelper::exception($exception, [
+                'keyword' => 'PRODUCT_SEARCH_EXCEPTION'
+            ]);
+
+            return response()->failed(['message' => 'Internal server error']);
+        }
+    }
+
     public function suggestions(Request $request)
     {
         try {

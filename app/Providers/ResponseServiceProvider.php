@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Routing\ResponseFactory;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,13 +27,17 @@ class ResponseServiceProvider extends ServiceProvider
     public function boot(ResponseFactory $factory)
     {
         $factory->macro('success', function ($data = null, $message = 'Success!', $cookies = []) use ($factory) {
+            if ($data instanceof Response || $data instanceof JsonResponse) {
+                return $data; // already a response, just return
+            }
+
             $format = [
                 'status' => true,
                 'message' => $message,
                 'data' => $data,
             ];
 
-            $response = $factory->json($format);
+            $response = $factory->make($format);
 
             if($cookies) {
                 // Attach cookies if provided
@@ -46,11 +52,11 @@ class ResponseServiceProvider extends ServiceProvider
         $factory->macro('error', function ($params = []) use ($factory){
             $format = [
                 'status' => false,
-                'message' => $params['message'] ?? 'Failed!',
+                'message' => $params['message'] ?? 'Error!',
                 'errors' => $params['errors'] ?? [],
             ];
 
-            return $factory->json($format, $params['code'] ?? 500);
+            return $factory->make($format, $params['code'] ?? 500);
         });
 
         $factory->macro('failed', function ($params = []) use ($factory){
@@ -60,7 +66,7 @@ class ResponseServiceProvider extends ServiceProvider
                 'errors' => $params['errors'] ?? [],
             ];
 
-            return $factory->json($format, $params['code'] ?? 500);
+            return $factory->make($format, $params['code'] ?? 500);
         });
     }
 }

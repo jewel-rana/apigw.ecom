@@ -13,9 +13,9 @@ use Modules\Product\Services\ProductService;
 
 class CmsService
 {
-    public function search($request): array
+    public function search($request)
     {
-        return app(Product::class)->search($request);
+        return app(ProductService::class)->search($request);
     }
 
     public function recommended($request)

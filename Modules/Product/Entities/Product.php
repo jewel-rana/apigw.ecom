@@ -84,7 +84,43 @@ class Product extends Model
 
     public function scopeFilter($query, $request)
     {
-        $query = CommonHelper::filterModel($query, $request);
+        if ($request->filled('supplier_id')) {
+            $query->where('provider_id', $request->input('supplier_id'));
+        }
+
+        if ($request->filled('brand_id')) {
+            $query->where('brand_id', $request->input('brand_id'));
+        }
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->input('category_id'));
+        }
+
+        if ($request->filled('from')) {
+            $query->where('created_at', '>=', $request->input('from') . ' 00:00:00');
+        }
+
+        if ($request->filled('to')) {
+            $query->where('created_at', '<=', $request->input('to') . ' 23:59:59');
+        }
+
+        if ($request->filled('status') && in_array(strtolower($request->input('status')), ['pending', 'active', 'inactive', 'publish', 'failed', 'complete', 'refunded'])) {
+            $query->where('status', '=', ucfirst($request->input('status')));
+        }
+
+        if ($request->filled('created_by')) {
+            $query->where('created_by', '=', $request->input('created_by'));
+        }
+
+        if ($request->filled('updated_by')) {
+            $query->where('updated_by', '=', $request->input('updated_by'));
+        }
+
+        if ($request->filled('keyword')) {
+            $query->where(function ($query) use ($request) {
+                $query->where('title', 'like', "%" . $request->input('keyword') . "%");
+            });
+        }
         return $query;
     }
 

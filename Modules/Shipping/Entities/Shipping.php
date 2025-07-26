@@ -36,6 +36,11 @@ class Shipping extends Model
         return $this->belongsTo(User::class, 'updated_by', 'id')->select('id', 'name', 'email');
     }
 
+    public function getStatusAttribute($value): string
+    {
+        return ucfirst($value);
+    }
+
     public function scopeFilter($query, $request)
     {
         if ($request->filled('status')) {
