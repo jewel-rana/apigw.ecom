@@ -12,7 +12,7 @@ class UpdateShippingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:shippings,name' . $this->shipping,
             'code' => 'required|string|unique:shippings,code,' . $this->shipping,
             'description' => 'nullable|string',
             'status' => 'required|in:Active,Inactive',

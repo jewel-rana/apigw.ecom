@@ -12,7 +12,7 @@ class StoreShippingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:shippings,name',
             'code' => 'required|string|unique:shippings,code',
             'description' => 'nullable|string',
             'status' => 'required|in:Active,Inactive',
