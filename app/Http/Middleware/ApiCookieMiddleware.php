@@ -17,20 +17,11 @@ class ApiCookieMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Only if guest_cart_id not already set
-        if (!$request->hasCookie('guest_unique_id')) {
-            $guestId = (string) Str::uuid();
-
-            Cookie::queue('guest_unique_id', $guestId, 60 * 24 * 30);
-        }
-
         $response = $next($request);
 
-        // If cookie doesn't exist, generate one
         if (!$request->hasCookie('guest_unique_id')) {
             $guestId = (string) Str::uuid();
 
-            // Option 1: withCookie (cleaner)
             $response->withCookie(
                 cookie('guest_unique_id', $guestId, 60 * 24 * 30)
             );
