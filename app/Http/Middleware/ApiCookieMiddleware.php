@@ -19,10 +19,11 @@ class ApiCookieMiddleware
     {
         // Only if guest_cart_id not already set
         if (!$request->hasCookie('guest_unique_id')) {
-            $guestId = (string)Str::uuid();
+            $guestId = (string) Str::uuid();
 
             Cookie::queue('guest_unique_id', $guestId, 60 * 24 * 30);
         }
+
         return $next($request);
     }
 }
