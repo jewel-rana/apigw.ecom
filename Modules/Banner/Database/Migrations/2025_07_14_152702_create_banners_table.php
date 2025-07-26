@@ -18,7 +18,7 @@ class CreateBannersTable extends Migration
             $table->foreignId('media_id')->nullable()->constrained('medias');
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->string('medium_text')->nullable();
             $table->string('small_text')->nullable();
             $table->integer('position')->default(99)->index();

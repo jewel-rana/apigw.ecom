@@ -12,7 +12,7 @@ class StoreBannerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|unique:banners,title|max:191',
+            'title' => 'nullable|string|max:191',
             'medium_text' => 'nullable|string|max:120',
             'small_text' => 'nullable|string|max:120',
             'remarks' => 'nullable|string',
