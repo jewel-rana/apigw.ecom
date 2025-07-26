@@ -31,7 +31,7 @@ class ResponseServiceProvider extends ServiceProvider
                 'data' => $data,
             ];
 
-            $response = $factory->make($format);
+            $response = $factory->json($format);
 
             // Attach cookies if provided
             foreach ($cookies as $cookie) {
@@ -48,7 +48,7 @@ class ResponseServiceProvider extends ServiceProvider
                 'errors' => $params['errors'] ?? [],
             ];
 
-            return $factory->make($format, $params['code'] ?? 500);
+            return $factory->json($format, $params['code'] ?? 500);
         });
 
         $factory->macro('failed', function ($params = []) use ($factory){
@@ -58,7 +58,7 @@ class ResponseServiceProvider extends ServiceProvider
                 'errors' => $params['errors'] ?? [],
             ];
 
-            return $factory->make($format, $params['code'] ?? 500);
+            return $factory->json($format, $params['code'] ?? 500);
         });
     }
 }
