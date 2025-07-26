@@ -28,6 +28,10 @@ class CartService
     public function create($request)
     {
         try {
+            LogHelper::debug([
+                'cookie' => $request->cookie('guest_unique_id'),
+                'request' => $request->all()
+            ]);
             $product = Product::find($request->product_id);
             $priceArr = [
                 'price' => $product->price,
