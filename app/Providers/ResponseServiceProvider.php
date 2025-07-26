@@ -33,9 +33,11 @@ class ResponseServiceProvider extends ServiceProvider
 
             $response = $factory->json($format);
 
-            // Attach cookies if provided
-            foreach ($cookies as $cookie) {
-                $response->headers->setCookie($cookie);
+            if($cookies) {
+                // Attach cookies if provided
+                foreach ($cookies as $cookie) {
+                    $response->headers->setCookie($cookie);
+                }
             }
 
             return $response;

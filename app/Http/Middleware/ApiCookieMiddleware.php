@@ -24,6 +24,22 @@ class ApiCookieMiddleware
             Cookie::queue('guest_unique_id', $guestId, 60 * 24 * 30);
         }
 
-        return $next($request);
+        $response = $next($request);
+
+        // If cookie doesn't exist, generate one
+        if (!$request->hasCookie('guest_unique_id')) {
+            $guestId = (string) Str::uuid();
+
+            // Option 1: withCookie (cleaner)
+            $response->withCookie(
+                cookie('guest_unique_id', $guestId, 60 * 24 * 30)
+            );
+
+            // Option 2: headers->setCookie (more control)
+            // use Symfony\Component\HttpFoundation\Cookie;
+            // $response->headers->setCookie(new Cookie('guest_unique_id', $guestId, time() + 60 * 60 * 24 * 30));
+        }
+
+        return $response;
     }
 }
