@@ -12,6 +12,8 @@ use Modules\Gateway\Entities\Gateway;
 use Modules\Order\App\Constant\OrderDeliveryConstant;
 use Modules\Order\App\Constant\OrderItemConstant;
 use Modules\Order\App\Helpers\OrderHelper;
+use Modules\Order\App\Http\Requests\Api\StoreOrderRequest;
+use Modules\Order\App\Http\Requests\UpdateOrderRequest;
 use Modules\Order\App\Models\Order;
 use Modules\Order\App\Models\OrderItem;
 use Modules\Order\App\Repositories\Interfaces\OrderRepositoryInterface;
@@ -349,5 +351,10 @@ class OrderService
             ]);
         }
         return $data;
+    }
+
+    public function update(UpdateOrderRequest $request, Order $order)
+    {
+        return $this->orderRepository->update($request->validated(), $order->id);
     }
 }

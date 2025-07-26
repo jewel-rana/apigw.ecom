@@ -6,9 +6,8 @@ use App\Helpers\CommonHelper;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Order\App\Http\Requests\Api\StoreOrderRequest;
-use Modules\Order\App\Http\Requests\OrderDeliveryRequest;
+use Modules\Order\App\Http\Requests\UpdateOrderRequest;
 use Modules\Order\App\Models\Order;
-use Modules\Order\App\Models\OrderItem;
 use Modules\Order\App\Services\OrderService;
 
 class OrderController extends Controller
@@ -41,13 +40,11 @@ class OrderController extends Controller
         );
     }
 
-    public function payload(OrderItem $item)
+    public function update(UpdateOrderRequest $request, Order $order)
     {
-        return $this->orderService->getPayload($item);
-    }
-
-    public function deliver(Order $order, OrderDeliveryRequest $request): array
-    {
-        return $this->orderService->deliver($order, $request);
+        if ($order->isNotOwner()) {
+            return response()->failed(['message' => __('Sorry! you are not the owner of the property.')]);
+        }
+        return $this->orderService->update($request, $order);
     }
 }
