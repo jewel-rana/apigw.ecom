@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Modules\Media\Http\Controllers\Api\MediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/media', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function() {
+    Route::apiResource('media', MediaController::class);
 });

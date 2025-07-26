@@ -4,6 +4,7 @@ namespace Modules\Product\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\Product\Entities\Product;
 use Modules\Product\Http\Requests\StoreProductRequest;
 use Modules\Product\Http\Requests\UpdateProductRequest;
@@ -40,5 +41,19 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         return $this->productService->delete($product);
+    }
+
+    public function removeMedia(Product $product, $mediaId)
+    {
+        try {
+            DB::transaction(function () use ($product, $mediaId) {
+                $media = $product->medias()->where('media_id', $mediaId)->first();
+                $media->delete();
+                $product->medias()->detach($mediaId);
+            });
+            return response()->success();
+        } catch (\Exception $exception) {
+            return response()->failed(['message' => $exception->getMessage()]);
+        }
     }
 }

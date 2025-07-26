@@ -48,4 +48,15 @@ class Media extends Model
     {
         return [$this->ratio => $this->attachment];
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function (Media $media) {
+            if(file_exists(public_path($media->getRawOriginal('attachment')))) {
+                unlink(public_path($media->getRawOriginal('attachment')));
+            }
+        });
+    }
 }

@@ -16,6 +16,7 @@ use Modules\Product\Http\Controllers\Api\ProductController;
 
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:api']], function () {
     Route::group(['prefix' => 'product'], function () {
+        Route::delete('{product}/media/{media}', [ProductController::class, 'removeMedia']);
         Route::get('suggestions', [ProductController::class, 'suggestions']);
     });
 
