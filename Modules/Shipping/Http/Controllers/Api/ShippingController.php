@@ -4,6 +4,7 @@ namespace Modules\Shipping\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Shipping\Entities\Shipping;
 use Modules\Shipping\Http\Requests\StoreShippingRequest;
 use Modules\Shipping\Http\Requests\UpdateShippingRequest;
 use Modules\Shipping\Services\ShippingService;
@@ -25,6 +26,11 @@ class ShippingController extends Controller
     public function store(StoreShippingRequest $request)
     {
         return $this->shippingService->create($request);
+    }
+
+    public function show(Shipping $shipping)
+    {
+        return response()->success($shipping->format());
     }
 
     public function update(UpdateShippingRequest $request, $id)
