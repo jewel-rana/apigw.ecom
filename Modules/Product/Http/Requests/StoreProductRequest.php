@@ -28,6 +28,7 @@ class StoreProductRequest extends FormRequest
             'remarks' => 'nullable|string',
             'is_featured' => 'required|boolean',
             'weight' => 'nullable|numeric',
+            'badge' => 'nullable|string',
         ];
     }
 

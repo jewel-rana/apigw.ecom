@@ -35,7 +35,8 @@ class Product extends Model
         'remarks',
         'thumbnail',
         'weight',
-        'is_featured'
+        'is_featured',
+        'badge'
     ];
 
     protected $casts = [
@@ -119,6 +120,7 @@ class Product extends Model
                 'remarks',
                 'thumbnail',
                 'is_featured',
+                'badge',
                 'weight',
                 'created_at',
                 'updated_at'
