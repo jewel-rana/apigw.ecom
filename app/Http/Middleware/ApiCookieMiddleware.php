@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\CommonHelper;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,9 @@ class ApiCookieMiddleware
         $response = $next($request);
 
         if (!$request->hasCookie('guest_unique_id')) {
-            $guestId = (string) Str::uuid();
+            $guestId = CommonHelper::generateUniqueUUID();
+
+            $request->merge(['guest_unique_id' => $guestId]);
 
             $response->withCookie(
                 cookie('guest_unique_id', $guestId, 60 * 24 * 30)

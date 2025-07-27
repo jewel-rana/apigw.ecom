@@ -6,6 +6,8 @@ use App\Models\Otp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Modules\Cart\App\Models\Cart;
 use Modules\Payment\App\Models\Payment;
 
 class CommonHelper
@@ -250,5 +252,17 @@ class CommonHelper
         }
 
         return $query;
+    }
+
+    public static function generateUniqueUUID(): string
+    {
+        $uuid = (string) Str::uuid();
+        for(;;) {
+            if (Cart::where('token', $uuid)->count() == 0) {
+                break;
+            }
+            self::generateUniqueUUID();
+        }
+        return $uuid;
     }
 }

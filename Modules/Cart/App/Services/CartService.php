@@ -2,6 +2,7 @@
 
 namespace Modules\Cart\App\Services;
 
+use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
 use App\Processor\Kartat;
 use Illuminate\Http\Request;
@@ -41,7 +42,7 @@ class CartService
 
             $cart = Cart::updateOrCreate(
                 [
-                    'token' => $request->cookie('guest_unique_id')
+                    'token' => $request->cookie('guest_unique_id', $request->input('guest_unique_id', CommonHelper::generateUniqueUUID())),
                 ],
                 [
                     'customer_id' => auth('api')->id()
