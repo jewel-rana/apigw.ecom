@@ -20,7 +20,7 @@ use Modules\Product\Http\Controllers\Api\ProductController;
 */
 
 Route::name('api.')->group(function () {
-    Route::group(['prefix' => 'cms', 'middleware' => ['guest.cookie']], function() {
+    Route::group(['prefix' => 'cms'], function() {
         Route::get('init', [CMSController::class, 'index'])->name('cms.index');
         Route::get('search', [CMSController::class, 'search'])->name('cms.search');
         Route::get('recommendations', [CMSController::class, 'recommendations'])->name('cms.recommendations');

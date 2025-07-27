@@ -14,10 +14,8 @@ use Modules\Cart\App\Http\Controllers\CartController;
     |
 */
 
-Route::group(['middleware' => 'guest.cookie'], function () {
-    Route::group(['prefix' => 'cart'], function () {
-        Route::post('validate', [CartController::class, 'validate'])->name('api.cart.validate');
-    });
-
-    Route::apiResource('cart', CartController::class)->names('api.cart');
+Route::group(['prefix' => 'cart'], function () {
+    Route::post('validate', [CartController::class, 'validate'])->name('api.cart.validate');
 });
+
+Route::apiResource('cart', CartController::class)->names('api.cart');
