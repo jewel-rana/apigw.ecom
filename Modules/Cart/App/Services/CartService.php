@@ -4,12 +4,9 @@ namespace Modules\Cart\App\Services;
 
 use App\Helpers\CommonHelper;
 use App\Helpers\LogHelper;
-use App\Processor\Kartat;
 use Illuminate\Http\Request;
-use Modules\Bundle\Entities\Bundle;
 use Modules\Cart\App\Models\Cart;
 use Modules\Cart\App\Models\CartItem;
-use Modules\Operator\Services\OperatorService;
 use Modules\Product\Entities\Product;
 
 class CartService
