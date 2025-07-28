@@ -12,7 +12,6 @@ use Modules\Gateway\Entities\Gateway;
 use Modules\Order\App\Constant\OrderDeliveryConstant;
 use Modules\Order\App\Constant\OrderItemConstant;
 use Modules\Order\App\Helpers\OrderHelper;
-use Modules\Order\App\Http\Requests\Api\StoreOrderRequest;
 use Modules\Order\App\Http\Requests\UpdateOrderRequest;
 use Modules\Order\App\Models\Order;
 use Modules\Order\App\Models\OrderItem;
@@ -57,7 +56,7 @@ class OrderService
             DB::transaction(function () use ($request, &$order) {
                 $customer = OrderHelper::getCustomer($request->input('info'));
 
-                if (!$customer || !$customer->id) {
+                if (!$customer) {
                     throw new \Exception('Customer creation failed');
                 }
 
