@@ -22,7 +22,9 @@ class ApiCookieMiddleware
 
         $response = $next($request);
 
-        if (!$request->hasCookie('guest_unique_id')) {
+        $guestId = $request->cookie('guest_unique_id', $request->header('X-GUEST-ID'));
+
+        if (!$guestId) {
             $guestId = CommonHelper::generateUniqueUUID();
 
             $request->merge(['guest_unique_id' => $guestId]);
@@ -30,10 +32,6 @@ class ApiCookieMiddleware
             $response->withCookie(
                 cookie('guest_unique_id', $guestId, 60 * 24 * 30)
             );
-
-            // Option 2: headers->setCookie (more control)
-            // use Symfony\Component\HttpFoundation\Cookie;
-            // $response->headers->setCookie(new Cookie('guest_unique_id', $guestId, time() + 60 * 60 * 24 * 30));
         }
 
         return $response;
