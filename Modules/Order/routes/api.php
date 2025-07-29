@@ -16,14 +16,8 @@ use Modules\Order\Http\Controllers\Api\OrderCheckoutController;
 */
 
 Route::group(['middleware' => 'guest.cookie'], function () {
-    Route::get('order/{order}/check', [OrderController::class, 'check'])->name('api.order.check');
     Route::post('checkout', [OrderCheckoutController::class, 'checkout'])->name('api.order.checkout');
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::group(['prefix' => 'order'], function () {
-            Route::get('{item}/payload', [OrderController::class, 'payload'])->name('api.order.payload');
-            Route::get('{order}/mint-route', [OrderController::class, 'mintRoute'])->name('api.order.mint-route');
-            Route::post('{order}/deliver', [OrderController::class, 'deliver'])->name('api.order.deliver');
-        });
         Route::apiResource('order', OrderController::class);
     });
 });

@@ -53,14 +53,14 @@ class Cart extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            if(auth()->check()) {
-                $model->customer_id = auth('api')->id();
+            if(auth('customer')->check()) {
+                $model->customer_id = auth('customer')->id();
             }
         });
 
         static::updating(function ($model) {
-            if(auth()->check()) {
-                $model->customer_id = auth('api')->id();
+            if(auth('customer')->check()) {
+                $model->customer_id = auth('customer')->id();
             }
         });
 

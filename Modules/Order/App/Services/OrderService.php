@@ -315,46 +315,6 @@ class OrderService
         ]);
     }
 
-    public function deliver(Order $order, $request): array
-    {
-        $data = ['status' => false, 'message' => __('Failed')];
-        try {
-            $delivery = $order->deliveries()->create(
-                $request->validated() +
-                ['customer_id' => $order->customer_id, 'delivery_to' => $order->customer->mobile]
-            );
-
-            foreach ($order->items as $item) {
-                $data = (new Kartat())->post(config('gateway.kartat.urls.delivery'), [
-                    'transaction_id' => $item->order_id . $item->id,
-                    'order_id' => $item->order_id,
-                    'delivery_address' => $order->customer->mobile,
-                    'delivery_method' => $request->input('delivery_type'),
-                    'customer_info' => $order->customer->only('id', 'name', 'email', 'mobile'),
-                    'email' => $order->customer->email
-                ]);
-            }
-
-            LogHelper::debug('DELIVERY_RESPONSE', [
-                'order_id' => $order->id,
-                'customer-id' => $order->customer_id,
-                'json' => $data
-            ]);
-
-            $delivery->update([
-                'status' => $data['status'] ? OrderDeliveryConstant::SUCCESS : OrderDeliveryConstant::FAILED,
-                'remarks' => $data['message'],
-            ]);
-        } catch (\Exception $exception) {
-            LogHelper::error($exception, [
-                'order_id' => $order->id,
-                'keyword' => 'ORDER_DELIVERY_EXCEPTION',
-                'payload' => $request->all()
-            ]);
-        }
-        return $data;
-    }
-
     public function update(UpdateOrderRequest $request, Order $order)
     {
         return $this->orderRepository->update($request->validated(), $order->id);

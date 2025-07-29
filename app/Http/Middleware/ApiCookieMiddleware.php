@@ -7,6 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Modules\Cart\App\Models\Cart;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApiCookieMiddleware
@@ -19,6 +20,10 @@ class ApiCookieMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $guestId = $request->cookie('guest_unique_id', $request->header('X-GUEST-ID'));
+
+        if ($guestId && auth('customer')->check()) {
+            Cart::where('token', decrypt($guestId))->update(['customer_id' => auth('customer')->id()]);
+        }
 
         if (!$guestId) {
             $guestId = CommonHelper::generateUniqueUUID();
