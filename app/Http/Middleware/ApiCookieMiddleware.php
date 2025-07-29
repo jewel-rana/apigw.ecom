@@ -36,7 +36,7 @@ class ApiCookieMiddleware
         $response = $next($request);
 
         $response->withCookie(
-            cookie('guest_unique_id', $guestId, 60 * 24 * 30)
+            cookie('guest_unique_id', $guestId, 60 * 24 * 30, '/', null, true, false, false, 'none')
         );
 
         return $response;
