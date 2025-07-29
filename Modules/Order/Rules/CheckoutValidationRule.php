@@ -14,7 +14,7 @@ class CheckoutValidationRule implements ValidationRule
         try {
             $cart = (new CartService())->getCarts(request());
             if(!$cart) {
-                $fail("Cart is empty");
+                $fail('cart', "Cart is empty");
                 return;
             }
 

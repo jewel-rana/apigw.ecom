@@ -263,6 +263,6 @@ class CommonHelper
             }
             self::generateUniqueUUID();
         }
-        return $uuid;
+        return encrypt($uuid);
     }
 }

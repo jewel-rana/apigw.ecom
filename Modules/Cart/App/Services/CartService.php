@@ -27,7 +27,7 @@ class CartService
     {
         try {
             LogHelper::debug([
-                'cookie' => $request->cookie('guest_unique_id'),
+                'cookie' => $request->input('guest_unique_id'),
                 'request' => $request->all()
             ]);
             $product = Product::find($request->product_id);
@@ -39,7 +39,7 @@ class CartService
 
             $cart = Cart::updateOrCreate(
                 [
-                    'token' => $request->cookie('guest_unique_id', $request->input('guest_unique_id', CommonHelper::generateUniqueUUID())),
+                    'token' => decrypt($request->input('guest_unique_id'))
                 ],
                 [
                     'customer_id' => auth('api')->id()

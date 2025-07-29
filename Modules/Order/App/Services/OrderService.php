@@ -7,6 +7,7 @@ use App\Helpers\LogHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Modules\Cart\App\Models\Cart;
 use Modules\Cart\App\Services\CartService;
 use Modules\Gateway\Entities\Gateway;
 use Modules\Order\App\Constant\OrderDeliveryConstant;
@@ -98,6 +99,8 @@ class OrderService
                         'customer_id' => $customer->id,
                         'shipping_id' => $request->input('shipping_id'),
                     ]);
+
+                Cart::where('token', $cart['token'])->first()->delete();
             });
 
             return response()->success(

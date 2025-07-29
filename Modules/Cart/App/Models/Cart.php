@@ -19,8 +19,8 @@ class Cart extends Model
     {
         if (auth()->check()) {
             $query->where('customer_id', auth('api')->id());
-        } elseif ($request->input('cart_id', $request->input('guest_unique_id'))) {
-            $query->where('token', $request->input('cart_id', $request->input('guest_unique_id')));
+        } elseif ($guestId = $request->input('guest_unique_id')) {
+            $query->where('token', decrypt($guestId));
         }
 
         return $query;
@@ -62,6 +62,10 @@ class Cart extends Model
             if(auth()->check()) {
                 $model->customer_id = auth('api')->id();
             }
+        });
+
+        static::deleting(function ($model) {
+            $model->items()->delete();
         });
     }
 }
