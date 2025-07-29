@@ -19,8 +19,8 @@ class Cart extends Model
     {
         if (auth()->check()) {
             $query->where('customer_id', auth('api')->id());
-        } elseif ($request->input('cart_id', $request->hasCookie('guest_unique_id'))) {
-            $query->where('token', $request->input('cart_id', $request->cookie('guest_unique_id')));
+        } elseif ($request->input('cart_id', $request->input('guest_unique_id'))) {
+            $query->where('token', $request->input('cart_id', $request->input('guest_unique_id')));
         }
 
         return $query;
@@ -48,8 +48,20 @@ class Cart extends Model
         ];
     }
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
+
+        static::creating(function ($model) {
+            if(auth()->check()) {
+                $model->customer_id = auth('api')->id();
+            }
+        });
+
+        static::updating(function ($model) {
+            if(auth()->check()) {
+                $model->customer_id = auth('api')->id();
+            }
+        });
     }
 }
