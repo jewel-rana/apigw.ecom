@@ -19,7 +19,8 @@ class Shipping extends Model
         'code',
         'description',
         'status',
-        'remarks'
+        'remarks',
+        'position',
     ];
 
     protected $casts = [
@@ -60,7 +61,7 @@ class Shipping extends Model
                 'created_by' => $this->createdBy?->only(['id', 'name']),
                 'updated_by' => $this->updatedBy?->only(['id', 'name']),
             ]
-            + $this->only(['id', 'name', 'code', 'description', 'status', 'remarks', 'created_at', 'updated_at']);
+            + $this->only(['id', 'name', 'code', 'description', 'status', 'position', 'remarks', 'created_at', 'updated_at']);
     }
 
     public static function boot()

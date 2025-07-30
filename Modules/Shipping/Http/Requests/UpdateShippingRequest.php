@@ -13,9 +13,10 @@ class UpdateShippingRequest extends FormRequest
     {
         return [
             'name' => 'required|string|unique:shippings,name' . $this->shipping,
-            'code' => 'required|string|unique:shippings,code,' . $this->shipping,
+            'code' => 'nullable|string|unique:shippings,code,' . $this->shipping,
             'description' => 'nullable|string',
             'status' => 'required|in:Active,Inactive',
+            'position' => 'nullable|integer',
             'remarks' => 'nullable|string',
         ];
     }

@@ -13,9 +13,10 @@ class StoreShippingRequest extends FormRequest
     {
         return [
             'name' => 'required|string|unique:shippings,name',
-            'code' => 'required|string|unique:shippings,code',
+            'code' => 'nullable|string|unique:shippings,code',
             'description' => 'nullable|string',
             'status' => 'required|in:Active,Inactive',
+            'position' => 'nullable|integer',
             'remarks' => 'nullable|string',
         ];
     }
