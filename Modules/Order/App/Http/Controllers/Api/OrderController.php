@@ -21,7 +21,7 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
-        return $this->orderService->getMyOrders($request, auth()->id());
+        return $this->orderService->getIndex($request);
     }
 
     public function store(StoreOrderRequest $request)

@@ -15,9 +15,8 @@ use Modules\Order\Http\Controllers\Api\OrderCheckoutController;
     |
 */
 
-Route::group(['middleware' => 'guest.cookie'], function () {
-    Route::post('checkout', [OrderCheckoutController::class, 'checkout'])->name('api.order.checkout');
-    Route::group(['middleware' => 'auth:api'], function () {
-        Route::apiResource('order', OrderController::class);
-    });
+Route::post('checkout', [OrderCheckoutController::class, 'checkout'])->name('api.order.checkout');
+
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () {
+    Route::apiResource('order', OrderController::class);
 });

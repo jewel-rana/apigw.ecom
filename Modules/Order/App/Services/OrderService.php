@@ -319,4 +319,16 @@ class OrderService
     {
         return $this->orderRepository->update($request->validated(), $order->id);
     }
+
+    public function getIndex($request)
+    {
+        return response()->success(
+            CommonHelper::parsePaginator(
+                $this->orderRepository->getModel()
+                    ->filter($request)
+                    ->latest()
+                    ->paginate($request->input('per_page', 10))
+            )
+        );
+    }
 }
