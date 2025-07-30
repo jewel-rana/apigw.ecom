@@ -31,8 +31,10 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        if ($order->isNotOwner()) {
-            return response()->failed(['message' => __('Sorry! you are not the owner of the property.')]);
+        if(auth('customer')->check()) {
+            if ($order->isNotOwner()) {
+                return response()->failed(['message' => __('Sorry! you are not the owner of the property.')]);
+            }
         }
         return response()->success(
             CommonHelper::orderMessage($order->payment) +
