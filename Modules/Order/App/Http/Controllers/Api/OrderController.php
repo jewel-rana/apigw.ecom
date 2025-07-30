@@ -37,7 +37,7 @@ class OrderController extends Controller
             }
         }
         return response()->success(
-            CommonHelper::orderMessage($order->payment) +
+//            CommonHelper::orderMessage($order->payment) +
             $order->format(true)
         );
     }
