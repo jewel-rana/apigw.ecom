@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Order\App\Http\Controllers\Api\OrderController;
+use Modules\Order\Http\Controllers\Api\MyOrderController;
 use Modules\Order\Http\Controllers\Api\OrderCheckoutController;
 
 /*
@@ -16,6 +17,10 @@ use Modules\Order\Http\Controllers\Api\OrderCheckoutController;
 */
 
 Route::post('checkout', [OrderCheckoutController::class, 'checkout'])->name('api.order.checkout');
+
+Route::group(['prefix' => 'my', 'middleware' => ['auth:customer']], function() {
+    Route::apiResource('order', MyOrderController::class)->only(['index', 'show']);
+});
 
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () {
     Route::apiResource('order', OrderController::class);

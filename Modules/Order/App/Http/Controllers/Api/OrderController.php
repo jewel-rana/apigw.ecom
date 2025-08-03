@@ -2,7 +2,6 @@
 
 namespace Modules\Order\App\Http\Controllers\Api;
 
-use App\Helpers\CommonHelper;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Order\App\Http\Requests\Api\StoreOrderRequest;

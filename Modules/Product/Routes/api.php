@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Product\Http\Controllers\Api\MyWishListController;
 use Modules\Product\Http\Controllers\Api\ProductController;
 
 /*
@@ -23,6 +24,6 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:api']], function (
     Route::apiResource('product', ProductController::class);
 });
 
-Route::group(['prefix' => 'product', 'middleware' => ['auth:api']], function () {
-    Route::get('{product}', [ProductController::class, 'show']);
+Route::group(['prefix' => 'my', 'middleware' => ['auth:customer']], function () {
+    Route::apiResource('wishlist', MyWishListController::class)->only(['index', 'store', 'destroy']);
 });
