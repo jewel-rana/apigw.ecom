@@ -16,7 +16,7 @@ use Modules\Gateway\Http\Controllers\Api\GatewayController;
 
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'gateway'], function () {
-        Route::get('suggestion', [GatewayController::class, 'suggestion'])->name('gateway.suggestion');
+        Route::get('suggestion', [GatewayController::class, 'suggestion'])->name('api.gateway.suggestion');
     });
 
     Route::apiResource('gateway', GatewayController::class)->except(['destroy']);
