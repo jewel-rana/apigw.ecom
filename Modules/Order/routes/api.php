@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Order\App\Http\Controllers\Api\MyOrderController;
 use Modules\Order\App\Http\Controllers\Api\OrderController;
-use Modules\Order\Http\Controllers\Api\MyOrderController;
 use Modules\Order\Http\Controllers\Api\OrderCheckoutController;
 
 /*

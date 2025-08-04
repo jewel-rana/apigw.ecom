@@ -3,16 +3,15 @@
 namespace Modules\Product\Services;
 
 use App\Helpers\CommonHelper;
+use Illuminate\Http\Request;
 use Modules\Product\Entities\ProductWishList;
 
 class ProductWishListService
 {
-    public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
         $wishLists = ProductWishList::where('customer_id', auth('customer')->id())
-            ->with(['product' => function ($query) {
-                $query->select('id', 'name', 'slug', 'image', 'price');
-            }])
+            ->with(['product'])
             ->filter($request)
             ->paginate($request->get('per_page', 10));
 

@@ -47,10 +47,10 @@ class MyWishListController extends Controller
         }
     }
 
-    public function destroy(ProductWishList $wishList)
+    public function destroy(ProductWishList $wishlist)
     {
         try {
-            $wishList->delete();
+            $wishlist->delete();
             return response()->success();
         } catch (\Exception $exception) {
             return response()->failed(['message' => $exception->getMessage()]);
