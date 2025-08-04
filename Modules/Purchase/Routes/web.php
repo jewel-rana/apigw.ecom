@@ -15,11 +15,11 @@ use Modules\Purchase\Http\Controllers\PurchaseItemController;
 |
 */
 
-Route::group(['middleware'=>'auth','prefix'=>'dashboard'], function () {
-    Route::group(['prefix' => 'purchase'], function () {
-        Route::get('suggestion', [PurchaseController::class, 'suggestions'])->name('purchase.suggestion');
-        Route::get('item/suggestion', [PurchaseItemController::class, 'suggestions'])->name('purchase.item.suggestion');
-        Route::resource('item', PurchaseItemController::class)->names('purchase.item');
-    });
-    Route::resource('purchase', PurchaseController::class);
-});
+//Route::group(['middleware'=>'auth','prefix'=>'dashboard'], function () {
+//    Route::group(['prefix' => 'purchase'], function () {
+//        Route::get('suggestion', [PurchaseController::class, 'suggestions'])->name('purchase.suggestion');
+//        Route::get('item/suggestion', [PurchaseItemController::class, 'suggestions'])->name('purchase.item.suggestion');
+//        Route::resource('item', PurchaseItemController::class)->names('purchase.item');
+//    });
+//    Route::resource('purchase', PurchaseController::class);
+//});

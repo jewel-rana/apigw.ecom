@@ -14,6 +14,6 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Dashboard\Http\Controllers\DashboardController;
 
-Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:web'], function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
-});
+//Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:web'], function () {
+//    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+//});

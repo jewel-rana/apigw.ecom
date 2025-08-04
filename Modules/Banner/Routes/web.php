@@ -11,6 +11,3 @@
 |
 */
 
-Route::prefix('banner')->group(function() {
-    Route::get('/', 'BannerController@index');
-});

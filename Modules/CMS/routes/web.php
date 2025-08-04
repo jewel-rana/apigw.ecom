@@ -18,15 +18,15 @@ use Modules\CMS\App\Http\Controllers\NewArrivalController;
 |
 */
 
-Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
-    Route::group(['prefix' => 'cms'], function() {
-        Route::group(['prefix' => 'banner'], function() {
-            Route::post('{banner}/add', [BannerController::class, 'add'])->name('banner.add');
-            Route::get('{banner}/{item}/edit', [BannerItemController::class, 'edit'])->name('banner.item.edit');
-            Route::put('{banner}/{item}/edit', [BannerItemController::class, 'update'])->name('banner.item.update');
-            Route::delete('media/{banner}/delete', [BannerController::class, 'remove'])->name('banner.media.delete');
-        });
-        Route::resource('new-arrival', NewArrivalController::class);
-        Route::resource('banner', BannerController::class)->names('banner');
-    });
-});
+//Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
+//    Route::group(['prefix' => 'cms'], function() {
+//        Route::group(['prefix' => 'banner'], function() {
+//            Route::post('{banner}/add', [BannerController::class, 'add'])->name('banner.add');
+//            Route::get('{banner}/{item}/edit', [BannerItemController::class, 'edit'])->name('banner.item.edit');
+//            Route::put('{banner}/{item}/edit', [BannerItemController::class, 'update'])->name('banner.item.update');
+//            Route::delete('media/{banner}/delete', [BannerController::class, 'remove'])->name('banner.media.delete');
+//        });
+//        Route::resource('new-arrival', NewArrivalController::class);
+//        Route::resource('banner', BannerController::class)->names('banner');
+//    });
+//});

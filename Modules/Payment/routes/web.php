@@ -14,9 +14,9 @@ use Modules\Payment\App\Http\Controllers\PaymentIpnController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group(['prefix' => 'ipn'], function() {
-    Route::post('fib', [PaymentIpnController::class, 'fib'])->name('ipn.fib');
-});
-Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function() {
-    Route::resource('payment', PaymentController::class)->names('payment');
-});
+//Route::group(['prefix' => 'ipn'], function() {
+//    Route::post('fib', [PaymentIpnController::class, 'fib'])->name('ipn.fib');
+//});
+//Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function() {
+//    Route::resource('payment', PaymentController::class)->names('payment');
+//});

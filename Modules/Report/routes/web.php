@@ -14,14 +14,14 @@ use Modules\Report\App\Http\Controllers\ReportController;
 |
 */
 
-Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:web'], function () {
-    Route::group(['prefix' => 'report'], function () {
-        Route::get('transaction', [ReportController::class, 'transaction'])->name('report.transaction');
-        Route::get('order', [ReportController::class, 'order'])->name('report.order');
-        Route::get('customer', [ReportController::class, 'customer'])->name('report.customer');
-
-        Route::resource('export', 'ReportExportController')->only(['index', 'destroy'])->names('report.export');
-    });
-
-    Route::resource('report', ReportController::class)->only(['index', 'store'])->names('report');
-});
+//Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:web'], function () {
+//    Route::group(['prefix' => 'report'], function () {
+//        Route::get('transaction', [ReportController::class, 'transaction'])->name('report.transaction');
+//        Route::get('order', [ReportController::class, 'order'])->name('report.order');
+//        Route::get('customer', [ReportController::class, 'customer'])->name('report.customer');
+//
+//        Route::resource('export', 'ReportExportController')->only(['index', 'destroy'])->names('report.export');
+//    });
+//
+//    Route::resource('report', ReportController::class)->only(['index', 'store'])->names('report');
+//});

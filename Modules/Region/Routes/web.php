@@ -17,26 +17,26 @@ use Modules\Region\Http\Controllers\TimeZoneController;
 |
 */
 
-Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function() {
-    Route::group(['prefix' => 'region'], function() {
-        Route::get('country/suggestion', [CountryController::class, 'suggestion'])
-            ->name('country.suggestion');
-        Route::get('city/suggestion', [CityController::class, 'suggestion'])
-            ->name('city.suggestion');
-
-        Route::get('timezone/suggestion', [TimeZoneController::class, 'suggestion'])
-            ->name('timezone.suggestion');
-
-        Route::get('suggestion', [RegionController::class, 'suggestion'])
-            ->name('region.suggestion');
-
-        Route::resources([
-            'country' => 'CountryController',
-            'city' => 'CityController',
-            'language' => 'LanguageController',
-            'timezone' => 'TimeZoneController'
-        ]);
-    });
-
-    Route::resource('region', 'RegionController');
-});
+//Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function() {
+//    Route::group(['prefix' => 'region'], function() {
+//        Route::get('country/suggestion', [CountryController::class, 'suggestion'])
+//            ->name('country.suggestion');
+//        Route::get('city/suggestion', [CityController::class, 'suggestion'])
+//            ->name('city.suggestion');
+//
+//        Route::get('timezone/suggestion', [TimeZoneController::class, 'suggestion'])
+//            ->name('timezone.suggestion');
+//
+//        Route::get('suggestion', [RegionController::class, 'suggestion'])
+//            ->name('region.suggestion');
+//
+//        Route::resources([
+//            'country' => 'CountryController',
+//            'city' => 'CityController',
+//            'language' => 'LanguageController',
+//            'timezone' => 'TimeZoneController'
+//        ]);
+//    });
+//
+//    Route::resource('region', 'RegionController');
+//});

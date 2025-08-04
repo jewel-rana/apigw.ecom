@@ -13,17 +13,17 @@ use Modules\Customer\App\Http\Controllers\CustomerController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
-    Route::group(['prefix' => 'customer'], function() {
-        Route::get('suggestion', [CustomerController::class, 'suggestions'])
-            ->name('customer.suggestion');
-        Route::put('{customer}/action', [CustomerController::class, 'action'])
-            ->name('customer.action');
-        Route::get('export', [CustomerController::class, 'export'])
-            ->name('customer.export');
-        Route::get('order/{customer}/export', [CustomerController::class, 'orderExport'])
-            ->name('customer.order.export');
-    });
-    Route::resource('customer', CustomerController::class)->names('customer');
-});
+//
+//Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
+//    Route::group(['prefix' => 'customer'], function() {
+//        Route::get('suggestion', [CustomerController::class, 'suggestions'])
+//            ->name('customer.suggestion');
+//        Route::put('{customer}/action', [CustomerController::class, 'action'])
+//            ->name('customer.action');
+//        Route::get('export', [CustomerController::class, 'export'])
+//            ->name('customer.export');
+//        Route::get('order/{customer}/export', [CustomerController::class, 'orderExport'])
+//            ->name('customer.order.export');
+//    });
+//    Route::resource('customer', CustomerController::class)->names('customer');
+//});

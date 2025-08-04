@@ -14,6 +14,6 @@ use Modules\Activity\App\Http\Controllers\ActivityController;
 |
 */
 
-Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
-    Route::resource('activity', ActivityController::class)->names('activity');
-});
+//Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
+//    Route::resource('activity', ActivityController::class)->names('activity');
+//});

@@ -14,16 +14,16 @@ use Modules\Gateway\Http\Controllers\GatewayController;
 |
 */
 
-Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function() {
-    Route::resource('credential', 'GatewayCredentialController')
-        ->only(['store', 'destroy'])
-        ->names('gateway.credential');
-
-    Route::resource('endpoint', 'GatewayEndpointController')
-        ->only(['store', 'destroy'])
-        ->names('gateway.endpoint');
-
-    Route::get('suggestion', [GatewayController::class, 'suggestion'])->name('gateway.suggestion');
-
-    Route::resource('gateway', 'GatewayController')->except(['destroy']);
-});
+//Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function() {
+//    Route::resource('credential', 'GatewayCredentialController')
+//        ->only(['store', 'destroy'])
+//        ->names('gateway.credential');
+//
+//    Route::resource('endpoint', 'GatewayEndpointController')
+//        ->only(['store', 'destroy'])
+//        ->names('gateway.endpoint');
+//
+//    Route::get('suggestion', [GatewayController::class, 'suggestion'])->name('gateway.suggestion');
+//
+//    Route::resource('gateway', 'GatewayController')->except(['destroy']);
+//});

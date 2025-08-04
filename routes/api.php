@@ -22,68 +22,68 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('verify', [AuthController::class, 'verify']);
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('forgot', [AuthController::class, 'forgot']);
-    Route::post('reset-password', [AuthController::class, 'resetPassword']);
-    Route::post('change-password', [AuthController::class, 'changePassword'])
-        ->middleware('auth:customer');
-    Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:customer');
-
-    Route::group(['prefix' => 'user'], function () {
-        Route::post('login', [AuthUserController::class, 'login']);
-        Route::post('forgot', [AuthUserController::class, 'forgot']);
-        Route::post('verify', [AuthUserController::class, 'verify']);
-        Route::post('reset-password', [AuthUserController::class, 'resetPassword']);
-        Route::post('change-password', [AuthUserController::class, 'changePassword'])->middleware('auth:api');
-        Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:api');
-    });
-});
-
-/* Auth Routes */
-Route::group(['prefix' => 'customer', 'middleware' => 'auth:customer'], function () {
-    Route::group(['prefix' => 'payment'], function() {
-        Route::post('verify', [PaymentController::class, 'verify']);
-        Route::post('execute', [PaymentController::class, 'execute']);
-        Route::post('refund', [PaymentController::class, 'refund']);
-    });
-
-    Route::apiResource('order', OrderController::class)->only(['index', 'show', 'store'])->names('customer.order');
-    Route::apiResource('payment', PaymentController::class)->except(['destroy'])->names('customer.payment');
-});
-
-Route::group(['middleware' => 'auth:api'], function () {
-    Route::group(['prefix' => 'dashboard'], function () {
-        Route::get('/', [DashboardController::class, 'index']);
-        Route::get('orders', [DashboardController::class, 'orderGraphs']);
-        Route::get('customers', [DashboardController::class, 'customerGraphs']);
-    });
-
-    Route::group(['prefix' => 'user'], function () {
-        Route::post('{id}/action', [UserController::class, 'action']);
-    });
-
-    Route::group(['prefix' => 'customer'], function () {
-        Route::get('export', [CustomerController::class, 'export']);
-    });
-
-    Route::group(['prefix' => 'order'], function () {
-        Route::get('form', [OrderController::class, 'create']);
-        Route::get('export', [OrderController::class, 'export']);
-        Route::put('{order}/action', [OrderController::class, 'action']);
-    });
-
-    Route::group(['prefix' => 'payment'], function() {
-        Route::post('verify', [PaymentController::class, 'verify'])->name('payment.verify');
-        Route::post('refund', [PaymentController::class, 'refund'])->name('payment.refund');
-    });
-
-    Route::apiResource('customer', CustomerController::class)->except(['destroy']);
-    Route::apiResource('role', RoleController::class)->except(['destroy']);
-    Route::apiResource('permission', PermissionController::class)->except(['destroy']);
-    Route::apiResource('user', UserController::class)->except(['destroy']);
-    Route::apiResource('order', OrderController::class)->except(['destroy']);
-    Route::apiResource('payment', PaymentController::class)->only(['index', 'show']);
-});
+//Route::group(['prefix' => 'auth'], function () {
+//    Route::post('login', [AuthController::class, 'login']);
+//    Route::post('verify', [AuthController::class, 'verify']);
+//    Route::post('register', [AuthController::class, 'register']);
+//    Route::post('forgot', [AuthController::class, 'forgot']);
+//    Route::post('reset-password', [AuthController::class, 'resetPassword']);
+//    Route::post('change-password', [AuthController::class, 'changePassword'])
+//        ->middleware('auth:customer');
+//    Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:customer');
+//
+//    Route::group(['prefix' => 'user'], function () {
+//        Route::post('login', [AuthUserController::class, 'login']);
+//        Route::post('forgot', [AuthUserController::class, 'forgot']);
+//        Route::post('verify', [AuthUserController::class, 'verify']);
+//        Route::post('reset-password', [AuthUserController::class, 'resetPassword']);
+//        Route::post('change-password', [AuthUserController::class, 'changePassword'])->middleware('auth:api');
+//        Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+//    });
+//});
+//
+///* Auth Routes */
+//Route::group(['prefix' => 'customer', 'middleware' => 'auth:customer'], function () {
+//    Route::group(['prefix' => 'payment'], function() {
+//        Route::post('verify', [PaymentController::class, 'verify']);
+//        Route::post('execute', [PaymentController::class, 'execute']);
+//        Route::post('refund', [PaymentController::class, 'refund']);
+//    });
+//
+//    Route::apiResource('order', OrderController::class)->only(['index', 'show', 'store'])->names('customer.order');
+//    Route::apiResource('payment', PaymentController::class)->except(['destroy'])->names('customer.payment');
+//});
+//
+//Route::group(['middleware' => 'auth:api'], function () {
+//    Route::group(['prefix' => 'dashboard'], function () {
+//        Route::get('/', [DashboardController::class, 'index']);
+//        Route::get('orders', [DashboardController::class, 'orderGraphs']);
+//        Route::get('customers', [DashboardController::class, 'customerGraphs']);
+//    });
+//
+//    Route::group(['prefix' => 'user'], function () {
+//        Route::post('{id}/action', [UserController::class, 'action']);
+//    });
+//
+//    Route::group(['prefix' => 'customer'], function () {
+//        Route::get('export', [CustomerController::class, 'export']);
+//    });
+//
+//    Route::group(['prefix' => 'order'], function () {
+//        Route::get('form', [OrderController::class, 'create']);
+//        Route::get('export', [OrderController::class, 'export']);
+//        Route::put('{order}/action', [OrderController::class, 'action']);
+//    });
+//
+//    Route::group(['prefix' => 'payment'], function() {
+//        Route::post('verify', [PaymentController::class, 'verify'])->name('payment.verify');
+//        Route::post('refund', [PaymentController::class, 'refund'])->name('payment.refund');
+//    });
+//
+//    Route::apiResource('customer', CustomerController::class)->except(['destroy']);
+//    Route::apiResource('role', RoleController::class)->except(['destroy']);
+//    Route::apiResource('permission', PermissionController::class)->except(['destroy']);
+//    Route::apiResource('user', UserController::class)->except(['destroy']);
+//    Route::apiResource('order', OrderController::class)->except(['destroy']);
+//    Route::apiResource('payment', PaymentController::class)->only(['index', 'show']);
+//});

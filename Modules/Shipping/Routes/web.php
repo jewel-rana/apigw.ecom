@@ -11,6 +11,3 @@
 |
 */
 
-Route::prefix('shipping')->group(function() {
-    Route::get('/', 'ShippingController@index');
-});

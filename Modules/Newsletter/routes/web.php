@@ -14,6 +14,3 @@ use Modules\Newsletter\App\Http\Controllers\NewsletterController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('newsletter', NewsletterController::class)->names('newsletter');
-});
