@@ -45,7 +45,6 @@ class Order extends Model
 
     protected $hidden = [
         'customer_id',
-        'updated_at'
     ];
 
     protected $casts = [
@@ -174,9 +173,27 @@ class Order extends Model
         return $this->customer_id == auth('customer')->id();
     }
 
-    public function format(): array
+    public function isWishListed(): bool
     {
-        return $this->only(
+        $isWishlisted = false;
+        if (auth('customer')->check()) {
+            $myWishlists = CommonHelper::getMyWishList(auth('customer')->id());
+            if ($myWishlists && in_array($this->id, $myWishlists)) {
+                $isWishlisted = true;
+            }
+        }
+
+        return $isWishlisted;
+    }
+
+    public function format($single = false): array
+    {
+        $data = [
+                'created_by' => $this->createdBy?->only(['id', 'name', 'email']),
+                'updated_by' => $this->updatedBy?->only(['id', 'name', 'email']),
+                'wishlisted' => $this->isWishListed()
+            ] +
+            $this->only(
                 'id',
                 'uuid',
                 'customer',
@@ -187,14 +204,19 @@ class Order extends Model
                 'discount',
                 'coupon_discount',
                 'status',
-                'created_at'
-            ) +
-            [
-                'items' => $this->items?->map(function ($item) {
-                    return $item->format(true);
-                }),
-                'payment' => $this->payment?->format()
-            ];
+                'remarks',
+                'created_at',
+                'updated_at'
+            );
+
+        if ($single) {
+            $data['items'] = $this->items?->map(function ($item) {
+                return $item->format(true);
+            });
+            $data['payment'] = $this->payment?->format();
+        }
+
+        return $data;
     }
 
     public function formatCheck()

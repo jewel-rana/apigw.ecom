@@ -5,10 +5,12 @@ namespace App\Helpers;
 use App\Models\Otp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Cart\App\Models\Cart;
 use Modules\Payment\App\Models\Payment;
+use Modules\Product\Entities\ProductWishList;
 
 class CommonHelper
 {
@@ -264,5 +266,12 @@ class CommonHelper
             self::generateUniqueUUID();
         }
         return encrypt($uuid);
+    }
+
+    public static function getMyWishList($id): array
+    {
+        return Cache::remember('my_wishlist_' . $id, 300, function () use ($id) {
+            return ProductWishList::where('customer_id', $id)->get()->pluck('product_id')->toArray();
+        });
     }
 }
