@@ -186,7 +186,7 @@ class Order extends Model
         return $isWishlisted;
     }
 
-    public function format($single = false): array
+    public function format($single = true): array
     {
         $data = [
                 'created_by' => $this->createdBy?->only(['id', 'name', 'email']),
