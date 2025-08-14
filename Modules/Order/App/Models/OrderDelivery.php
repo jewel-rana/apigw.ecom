@@ -27,4 +27,9 @@ class OrderDelivery extends Model
         'remarks' => 'string',
         'status' => 'string'
     ];
+
+    public function format(): array
+    {
+        return $this->only(['id', 'city', 'address', 'note', 'remarks', 'note']);
+    }
 }
