@@ -191,14 +191,14 @@ class Order extends Model
         $data = [
                 'created_by' => $this->createdBy?->only(['id', 'name', 'email']),
                 'updated_by' => $this->updatedBy?->only(['id', 'name', 'email']),
-                'wishlisted' => $this->isWishListed()
+                'wishlisted' => $this->isWishListed(),
+                'delivery' => $this->delivery?->format(),
+                'shipping' => $this->shipping?->format(),
             ] +
             $this->only(
                 'id',
                 'uuid',
                 'customer',
-                'shipping',
-                'delivery',
                 'total_qty',
                 'total_amount',
                 'discount',
