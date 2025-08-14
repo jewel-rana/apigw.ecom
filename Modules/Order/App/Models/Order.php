@@ -29,7 +29,6 @@ class Order extends Model
         'customer_id',
         'country_id',
         'city_id',
-        'shipping_id',
         'code',
         'address',
         'total_qty',
@@ -197,7 +196,7 @@ class Order extends Model
                 'updated_by' => $this->updatedBy?->only(['id', 'name', 'email']),
                 'wishlisted' => $this->isWishListed(),
                 'delivery' => $this->delivery?->format(),
-                'shipping' => $this->shipping?->format(),
+                'shipping' => $this->delivery?->shipping?->format(),
             ] +
             $this->only(
                 'id',

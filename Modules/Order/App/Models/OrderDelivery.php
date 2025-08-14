@@ -3,6 +3,8 @@
 namespace Modules\Order\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Shipping\Entities\Shipping;
 
 class OrderDelivery extends Model
 {
@@ -27,6 +29,16 @@ class OrderDelivery extends Model
         'remarks' => 'string',
         'status' => 'string'
     ];
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function shipping(): BelongsTo
+    {
+        return $this->belongsTo(Shipping::class);
+    }
 
     public function format(): array
     {

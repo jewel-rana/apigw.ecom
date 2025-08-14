@@ -48,7 +48,6 @@ class OrderHelper
 
             if ($cart) {
                 $data += [
-                    'shipping_id' => $request->input('shipping_id'),
                     'total_qty' => $cart['total_qty'],
                     'total_amount' => $cart['total_amount'],
                     'discount' => 0,
