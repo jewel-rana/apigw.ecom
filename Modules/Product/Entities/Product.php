@@ -77,6 +77,11 @@ class Product extends Model
         return $this->hasMany(ProductTag::class);
     }
 
+    public function wishLists(): HasMany
+    {
+        return $this->hasMany(ProductWishlist::class);
+    }
+
     public function medias(): BelongsToMany
     {
         return $this->belongsToMany(Media::class);
@@ -134,6 +139,17 @@ class Product extends Model
         return ucfirst($value);
     }
 
+    public function getIsWishListedAttribute(): bool
+    {
+        try {
+            if($id = auth('customer')->id()) {
+                return $this->wishLists()->where('customer_id', $id)->count() !== 0;
+            }
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
     public function format($single = false): array
     {
         $data = [
@@ -143,7 +159,7 @@ class Product extends Model
                 'brand' => $this->brand?->only(['id', 'name']),
                 'supplier_id' => $this->provider_id,
                 'supplier' => $this->provider?->only(['id', 'name']),
-                'wishlisted' => CommonHelper::getMyWishList(auth('customer')->id())
+                'wishlisted' => $this->is_wish_listed
             ] + $this->only([
                 'id',
                 'title',
