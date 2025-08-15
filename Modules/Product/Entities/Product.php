@@ -79,7 +79,7 @@ class Product extends Model
 
     public function wishLists(): HasMany
     {
-        return $this->hasMany(ProductWishlist::class);
+        return $this->hasMany(ProductWishList::class);
     }
 
     public function medias(): BelongsToMany
@@ -139,7 +139,7 @@ class Product extends Model
         return ucfirst($value);
     }
 
-    public function getIsWishListedAttribute(): bool
+    public function getWishlistedAttribute(): bool
     {
         try {
             if($id = auth('customer')->id()) {
@@ -159,7 +159,7 @@ class Product extends Model
                 'brand' => $this->brand?->only(['id', 'name']),
                 'supplier_id' => $this->provider_id,
                 'supplier' => $this->provider?->only(['id', 'name']),
-                'wishlisted' => $this->is_wish_listed
+                'wishlisted' => $this->wishlisted
             ] + $this->only([
                 'id',
                 'title',
