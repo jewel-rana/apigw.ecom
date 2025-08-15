@@ -50,7 +50,6 @@ class ProductService
 
             return response()->success(CommonHelper::parsePaginator($products));
         } catch (\Exception $exception) {
-            dd($exception->getMessage(), $exception->getLine(), $exception->getFile());
             LogHelper::exception($exception, [
                 'keyword' => 'PRODUCT_SEARCH_EXCEPTION'
             ]);

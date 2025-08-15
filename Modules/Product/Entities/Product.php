@@ -143,6 +143,7 @@ class Product extends Model
                 'brand' => $this->brand?->only(['id', 'name']),
                 'supplier_id' => $this->provider_id,
                 'supplier' => $this->provider?->only(['id', 'name']),
+                'wishlisted' => CommonHelper::getMyWishList(auth('customer')->id())
             ] + $this->only([
                 'id',
                 'title',
@@ -178,7 +179,7 @@ class Product extends Model
         static::creating(function ($model) {
             $user = auth('api')->user();
             $provider = auth('supplier')->user();
-            if($provider) {
+            if ($provider) {
                 $model->provider_id = $provider->id;
             } else {
                 $model->provider_id = request()->input('supplier_id') ?? null;
