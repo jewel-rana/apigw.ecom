@@ -10,7 +10,7 @@
         rel="stylesheet"
     />
 
-    <title>Order {{ $order->status == \App\Constants\AppConstant::ORDER_ACTIVE ? 'In-Review' : $order->status }}</title>
+    <title>Order {{ $order->status }}</title>
 
 </head>
 <body style="
@@ -26,7 +26,7 @@
   box-sizing: border-box;
   margin: 20px auto;
 ">
-    <a href="https://prokash.io/"><img src="https://prokash.io/logo.png" height="40" alt="prokash"></a>
+    <a href="{{ config('app.url') }}"><img src="{{ config('app.url') }}/logo.png" height="40" alt="{{ config('app.name') }}"></a>
 
     <table style="width: 100%; margin-bottom: 32px; margin-top: 20px;">
         <thead>
@@ -86,7 +86,7 @@
         margin: 0px;
       ">Payment Method: <span style="
         font-weight: 400;
-      ">{{ $order->payment->payment_method ?? '---' }}</span></p>
+      ">{{ $order->payment?->payment_method ?? '---' }}</span></p>
                 <p style="
         color: #333;
         font-family: 'Roboto', sans-serif;
@@ -97,7 +97,7 @@
         margin: 0px;
       ">TRX ID: <span style="
         font-weight: 400;
-      ">{{ $order->payment->gateway_trx_id ?? '---' }}</span></p>
+      ">{{ $order->payment?->gateway_trx_id ?? '---' }}</span></p>
             </td>
             <td>
                 <p style="
@@ -110,7 +110,7 @@
         margin: 0px;
       ">Name: <span style="
         font-weight: 400;
-      ">{{ $order->customer->name ?? '' }}</span></p>
+      ">{{ $order->customer?->name ?? '' }}</span></p>
                 <p style="
         color: #333;
         font-family: 'Roboto', sans-serif;
@@ -121,7 +121,7 @@
         margin: 0px;
       ">Number: <span style="
         font-weight: 400;
-      ">{{ $order->customer->mobile ?? '' }}</span></p>
+      ">{{ $order->customer?->mobile ?? '' }}</span></p>
                 <p style="
         color: #333;
         font-family: 'Roboto', sans-serif;
@@ -132,7 +132,7 @@
         margin: 0px;
       ">Email: <span style="
         font-weight: 400;
-      ">{{ $order->customer->email }}</span></p>
+      ">{{ $order->customer?->email }}</span></p>
                 <p style="
         color: #333;
         font-family: 'Roboto', sans-serif;
@@ -147,36 +147,12 @@
         padding: 2px 10px ;
         border-radius: 8px;
         color: #fff;
-      ">{{ $order->status == \App\Constants\AppConstant::ORDER_ACTIVE ? 'In-Review' : $order->status }}</span></p>
+      ">{{ $order->status }}</span></p>
             </td>
         </tr>
         </tbody>
     </table>
 
-
-    <table style="margin-bottom: 32px; width: 100%; font-family: 'Roboto', sans-serif;  border: 1px solid black;
-    border-collapse: collapse;">
-        <thead>
-        <tr style="text-align: left;     font-size: 14px; background: #f4f4f4;">
-            <th style="border: 1px solid #ddd;
-          border-collapse: collapse; padding: 5px 10px;">promotion</th>
-            <th style="border: 1px solid #ddd;
-          border-collapse: collapse; padding: 5px 10px;">Duration(Days)</th>
-            <th style="border: 1px solid #ddd;
-          border-collapse: collapse; padding: 5px 10px;">Amount(TK)</th>
-        </tr>
-        </thead>
-        <tbody style="text-align: left;     font-size: 14px;">
-        <tr>
-            <td style="border: 1px solid #ddd;
-        border-collapse: collapse; padding: 5px 10px;">{{ $order->promotion }}</td>
-            <td style="border: 1px solid #ddd;
-        border-collapse: collapse; padding: 5px 10px;">{{ $order->promotion_period }}</td>
-            <td style="border: 1px solid #ddd;
-        border-collapse: collapse; padding: 5px 10px;">{{ $order->amount }}</td>
-        </tr>
-        </tbody>
-    </table>
     <p style="
         color: #333;
         font-family: 'Roboto', sans-serif;
@@ -185,7 +161,7 @@
         font-weight: 400;
         line-height: 22px;
         margin: 0px 0px 32px;
-      ">Thank you for choosing Prokash.</p>
+      ">Thank you for choosing {{ config('app.name') }}.</p>
     <p style="
         color: #333;
         font-family: 'Roboto', sans-serif;
@@ -203,7 +179,7 @@
         font-weight: 500;
         line-height: 22px;
         margin: 0px 0px 32px;
-      "><a href="https://prokash.io/" style="text-decoration:none; color: #834BFF"> prokash.io</a></p>
+      "><a href="{{ config('app.url') }}" style="text-decoration:none; color: #834BFF"> {{ config('app.name') }}</a></p>
 
     <p style="
       color: #333;

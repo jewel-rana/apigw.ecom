@@ -17,4 +17,7 @@ class AppConstant
     const PRODUCT_UNAVAILABLE = 'Out-Of-Stock';
     const USER_INACTIVE = 'Inactive';
     const ACTIVE = 'Active';
+    const DELIVERY_PENDING = 'Processing';
+    const DELIVERY_PROCESSING = 'Processing';
+    const DELIVERY_COLLECTED = 'Delivered';
 }
