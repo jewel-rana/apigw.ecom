@@ -145,6 +145,7 @@ class Product extends Model
             if($id = auth('customer')->id()) {
                 return $this->wishLists()->where('customer_id', $id)->count() !== 0;
             }
+            return false;
         } catch (\Exception $exception) {
             return false;
         }
