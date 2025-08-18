@@ -44,7 +44,7 @@ class Cart extends Model
                     'id' => $item->item_id,
                     'qty' => $item->qty,
                     'price' => $item->product->price,
-                    'sub_total' => $item->qty * $item->price,
+                    'sub_total' => $item->qty * $item->product->price,
                     'product' => $item->product->only(['id', 'title', 'price', 'thumbnail'])
                 ];
             })
