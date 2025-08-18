@@ -32,8 +32,11 @@ class Cart extends Model
             'token' => $this->token,
             'total_qty' => $this->items->sum('qty'),
             'total_amount' => $this->items->map(function ($item, $k) {
+                if ($item->price != $item->product->price) {
+                    $item->product->update(['price' => $item->product->price]);
+                }
                 return [
-                    'amount' => $item->qty * $item->price
+                    'amount' => $item->qty * $item->product->price
                 ];
             })->sum('amount'),
             'items' => $this->items->map(function ($item) {
@@ -53,13 +56,13 @@ class Cart extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            if(auth('customer')->check()) {
+            if (auth('customer')->check()) {
                 $model->customer_id = auth('customer')->id();
             }
         });
 
         static::updating(function ($model) {
-            if(auth('customer')->check()) {
+            if (auth('customer')->check()) {
                 $model->customer_id = auth('customer')->id();
             }
         });
