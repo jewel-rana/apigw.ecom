@@ -43,7 +43,7 @@ class Cart extends Model
                 return [
                     'id' => $item->item_id,
                     'qty' => $item->qty,
-                    'price' => $item->price,
+                    'price' => $item->product->price,
                     'sub_total' => $item->qty * $item->price,
                     'product' => $item->product->only(['id', 'title', 'price', 'thumbnail'])
                 ];
