@@ -145,7 +145,7 @@ class OrderItem extends Model
                 'status'
             ]) +
             [
-                'product' => $this->product?->only(['id', 'name', 'thumbnail'])
+                'product' => $this->product?->only(['id', 'title', 'thumbnail'])
             ];
     }
 
