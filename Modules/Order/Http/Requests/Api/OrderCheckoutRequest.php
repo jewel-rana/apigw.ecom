@@ -12,7 +12,7 @@ class OrderCheckoutRequest extends FormRequest
         return [
             'info.name' => 'nullable|string',
             'info.email' => 'nullable|email',
-            'info.mobile' => 'nullable|string|min:11|max:13',
+            'info.mobile' => 'nullable|string|min:11|max:75',
             'shipping_id' => [
                 'required',
                 'string',
