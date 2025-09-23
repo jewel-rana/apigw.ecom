@@ -27,6 +27,11 @@ class OrderHistory extends Model
         return $this->belongsTo(Order::class);
     }
 
+    public function format(): array
+    {
+        return $this->only(['id', 'type', 'old_value', 'new_value', 'remarks', 'created_at']);
+    }
+
     public static function boot(): void
     {
         parent::boot();
