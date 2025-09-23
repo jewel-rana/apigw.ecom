@@ -36,7 +36,8 @@ class Order extends Model
         'status',
         'is_refund_initiated',
         'is_refunded',
-        'remarks'
+        'remarks',
+        'tracking_number'
     ];
 
     protected $hidden = [
@@ -202,6 +203,7 @@ class Order extends Model
             $this->only(
                 'id',
                 'uuid',
+                'tracking_number',
                 'customer',
                 'total_qty',
                 'total_amount',
