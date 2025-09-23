@@ -249,6 +249,13 @@ class Order extends Model
         parent::boot();
         static::creating(function (Order $order) {
             $order->uuid = self::uuid();
+            $order->tracking_number = self::trackingNumber();
+        });
+
+        static::updating(function (Order $order) {
+            if(!$order->tracking_number) {
+                $order->tracking_number = self::trackingNumber();
+            }
         });
 
         static::deleting(function ($order) {
@@ -268,5 +275,19 @@ class Order extends Model
             }
         }
         return $uuid;
+    }
+
+    private static function trackingNumber(): string
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+        do {
+            $tracking = '';
+            for ($i = 0; $i < 12; $i++) {
+                $tracking .= $characters[random_int(0, strlen($characters) - 1)];
+            }
+        } while (self::where('tracking_number', $tracking)->exists());
+
+        return $tracking;
     }
 }
