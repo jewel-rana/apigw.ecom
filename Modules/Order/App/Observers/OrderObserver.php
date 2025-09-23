@@ -8,39 +8,42 @@ class OrderObserver
 {
     public function created(Order $order): void
     {
+        if (! empty($order->status)) {
+            $order->histories()->create([
+                'old_value' => null,
+                'new_value' => $order->status,
+                'user_id' => auth('api')->id() ?? null,
+                'remarks'     => 'Order created',
+            ]);
+        }
         if(!$order->customer->country_id || !$order->customer->city_id) {
             $order->customer->update($order->only(['country_id', 'city_id', 'code', 'address']));
         }
 //                $order->customer->notify(new OrderInvoiceNotification($order));
     }
 
-    /**
-     * Handle the Order "updated" event.
-     */
     public function updated(Order $order): void
     {
-        //
+        if ($order->wasChanged('status')) {
+            $order->histories()->create([
+                'old_value' => $order->getOriginal('status'),
+                'new_value' => $order->status,
+                'user_id' => auth('api')->id() ?? null,
+                'remarks'     => 'Order created',
+            ]);
+        }
     }
 
-    /**
-     * Handle the Order "deleted" event.
-     */
     public function deleted(Order $order): void
     {
         //
     }
 
-    /**
-     * Handle the Order "restored" event.
-     */
     public function restored(Order $order): void
     {
         //
     }
 
-    /**
-     * Handle the Order "force deleted" event.
-     */
     public function forceDeleted(Order $order): void
     {
         //

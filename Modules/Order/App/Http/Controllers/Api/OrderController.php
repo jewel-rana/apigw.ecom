@@ -48,4 +48,9 @@ class OrderController extends Controller
         }
         return $this->orderService->update($request, $order);
     }
+
+    public function tracking(Request $request, $trackingNumber)
+    {
+        return $this->orderService->trackMyOrder($trackingNumber);
+    }
 }

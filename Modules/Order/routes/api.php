@@ -18,6 +18,8 @@ use Modules\Order\Http\Controllers\Api\OrderCheckoutController;
 
 Route::post('checkout', [OrderCheckoutController::class, 'checkout'])->name('api.order.checkout');
 
+Route::post('order/tracking', [OrderController::class, 'tracking'])->name('api.order.tracking');
+
 Route::group(['prefix' => 'my', 'middleware' => ['auth:customer']], function() {
     Route::apiResource('order', MyOrderController::class)->only(['index', 'show']);
 });

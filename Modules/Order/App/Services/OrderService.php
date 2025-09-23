@@ -317,7 +317,18 @@ class OrderService
 
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        return $this->orderRepository->update($request->validated(), $order->id);
+        try {
+            if (!$order) {
+                $order->histories()->create([
+                    'type' => $request->input('type'),
+                    'old_value' => $order->getOriginal($request->input('type')),
+                    'new_value' => $request->input('value'),
+                ]);
+            }
+            return $this->orderRepository->update($request->validated(), $order->id);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     public function getIndex($request)
@@ -330,5 +341,25 @@ class OrderService
                     ->paginate($request->input('per_page', 10))
             )
         );
+    }
+
+    public function trackMyOrder($trackingNumber)
+    {
+        try {
+            $order = $this->orderRepository->getModel()
+                ->where('tracking_number', $trackingNumber)
+                ->first();
+
+            return response()->success(
+                $order->trackingFormat()
+            );
+        } catch (\Exception $exception) {
+            LogHelper::exception($exception,[
+                'keyword' => 'ORDER_TRACKING_EXCEPTION',
+                'tracking_number' => $trackingNumber,
+            ]);
+
+            return response()->failed(['message' => 'Internal Server Error!']);
+        }
     }
 }

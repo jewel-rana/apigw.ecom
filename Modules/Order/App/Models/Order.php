@@ -11,12 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Activity\App\Traits\ActivityTrait;
 use Modules\Customer\App\Models\Customer;
 use Modules\Order\App\Constant\OrderConstant;
-use Modules\Payment\App\Constants\PaymentConstant;
 use Modules\Payment\App\Models\Payment;
-use Modules\Region\App\Models\City;
-use Modules\Region\Entities\Country;
 use Modules\Shipping\Entities\Shipping;
-use Modules\Voucher\Entities\Voucher;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -101,6 +97,11 @@ class Order extends Model
     public function refund(): HasOne
     {
         return $this->hasOne(Refund::class);
+    }
+
+    public function histories(): HasMany
+    {
+        return $this->hasMany(OrderHistory::class);
     }
 
     public function getStatusAttribute($value): string
@@ -220,6 +221,16 @@ class Order extends Model
         }
 
         return $data;
+    }
+
+    public function trackingFormat(): array
+    {
+        return $this->format(true) +
+            [
+                'lifecycle' => $this->histories->map(function ($history) {
+                    return $history->format();
+                })
+            ];
     }
 
     public function formatCheck()
