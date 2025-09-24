@@ -11,7 +11,7 @@ class CreateOrderHistoriesTable extends Migration
         Schema::create('order_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->string('old_value')->nullable();
             $table->string('new_value')->nullable();
             $table->string('remarks')->nullable();
