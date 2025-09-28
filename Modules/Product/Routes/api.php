@@ -18,7 +18,6 @@ use Modules\Product\Http\Controllers\Api\ProductController;
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:api']], function () {
     Route::group(['prefix' => 'product'], function () {
         Route::delete('{product}/media/{media}', [ProductController::class, 'removeMedia']);
-        Route::delete('{product}/wishlist', [ProductController::class, 'removeWishlist']);
         Route::get('suggestions', [ProductController::class, 'suggestions']);
         Route::get('wishlist', [ProductController::class, 'wishlist']);
     });
@@ -27,5 +26,6 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:api']], function (
 });
 
 Route::group(['prefix' => 'my', 'middleware' => ['auth:customer']], function () {
-    Route::apiResource('wishlist', MyWishListController::class)->only(['index', 'store', 'destroy']);
+    Route::delete('wishlist/{product}', [MyWishListController::class, 'destroy']);
+    Route::apiResource('wishlist', MyWishListController::class)->only(['index', 'store']);
 });

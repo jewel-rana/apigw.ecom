@@ -21,7 +21,7 @@ class ProductWishListService
         );
     }
 
-    public function get()
+    public function getProductIds()
     {
         return Cache::remember('wishlists', 1200, function (){
             return ProductWishList::pluck('product_id')->toArray();

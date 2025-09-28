@@ -6,6 +6,7 @@ use App\Helpers\LogHelper;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
+use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductWishList;
 use Modules\Product\Services\ProductWishListService;
 
@@ -50,14 +51,18 @@ class MyWishListController extends Controller
         }
     }
 
-    public function destroy(ProductWishList $wishlist)
+
+    public function destroy(Product $product)
     {
         try {
-            $wishlist->delete();
+            dd($product);
+            $product->wishLists()
+                ->where('customer_id', auth('customer')->id())
+                ->delete();
             Cache::forget('wishlists');
             return response()->success();
         } catch (\Exception $exception) {
-            return response()->failed(['message' => $exception->getMessage()]);
+            return response()->failed(['message' => 'Internal Server Error!']);
         }
     }
 }

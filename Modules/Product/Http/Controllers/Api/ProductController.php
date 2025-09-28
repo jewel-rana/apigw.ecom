@@ -64,17 +64,4 @@ class ProductController extends Controller
             return response()->failed(['message' => $exception->getMessage()]);
         }
     }
-
-    public function removeWishlist(Product $product)
-    {
-        try {
-            $product->wishLists()
-                ->where('customer_id', auth('customer')->id())
-                ->delete();
-            Cache::forget('wishlists');
-            return response()->success();
-        } catch (\Exception $exception) {
-            return response()->failed(['message' => 'Internal Server Error!']);
-        }
-    }
 }
