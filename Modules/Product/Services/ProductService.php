@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Modules\CMS\App\Models\Feature;
 use Modules\Product\Entities\Product;
+use Modules\Product\Entities\ProductWishList;
 use Modules\Product\Http\Requests\StoreProductRequest;
 use Modules\Product\Http\Requests\UpdateProductRequest;
 use Modules\Product\Jobs\ProductMediaUploadJob;
@@ -238,5 +239,19 @@ class ProductService
             ->map(function ($product) {
                 return $product->format();
             });
+    }
+
+    public function getWishlistedProducts(Request $request)
+    {
+        $wishlistedIds = app(ProductWishListService::class)->getProductIds();
+
+        $products = $this->productRepository->getModel()
+            ->whereIn('id', $wishlistedIds)
+            ->withCount(['wishLists'])
+            ->filter($request)
+            ->latest()
+            ->paginate(CommonHelper::perPage($request));
+
+        return response()->success(CommonHelper::parsePaginator($products));
     }
 }

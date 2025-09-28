@@ -5,6 +5,7 @@ namespace Modules\Product\Http\Controllers\Api;
 use App\Helpers\LogHelper;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
 use Modules\Product\Entities\ProductWishList;
 use Modules\Product\Services\ProductWishListService;
 
@@ -37,6 +38,8 @@ class MyWishListController extends Controller
                 ]
             );
 
+            Cache::forget('wishlists');
+
             return response()->success();
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
@@ -51,6 +54,7 @@ class MyWishListController extends Controller
     {
         try {
             $wishlist->delete();
+            Cache::forget('wishlists');
             return response()->success();
         } catch (\Exception $exception) {
             return response()->failed(['message' => $exception->getMessage()]);

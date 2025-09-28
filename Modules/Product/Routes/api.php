@@ -20,6 +20,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:api']], function (
         Route::delete('{product}/media/{media}', [ProductController::class, 'removeMedia']);
         Route::delete('{product}/wishlist', [ProductController::class, 'removeWishlist']);
         Route::get('suggestions', [ProductController::class, 'suggestions']);
+        Route::get('wishlist', [ProductController::class, 'wishlist']);
     });
 
     Route::apiResource('product', ProductController::class);

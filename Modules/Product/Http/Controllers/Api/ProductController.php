@@ -4,8 +4,10 @@ namespace Modules\Product\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Modules\Product\Entities\Product;
+use Modules\Product\Entities\ProductWishList;
 use Modules\Product\Http\Requests\StoreProductRequest;
 use Modules\Product\Http\Requests\UpdateProductRequest;
 use Modules\Product\Services\ProductService;
@@ -44,6 +46,11 @@ class ProductController extends Controller
         return $this->productService->delete($product);
     }
 
+    public function wishlist(Request $request)
+    {
+        return $this->productService->getWishlistedProducts($request);
+    }
+
     public function removeMedia(Product $product, $mediaId)
     {
         try {
@@ -61,7 +68,10 @@ class ProductController extends Controller
     public function removeWishlist(Product $product)
     {
         try {
-            $product->wishLists()->detach(auth('customer')->id());
+            $product->wishLists()
+                ->where('customer_id', auth('customer')->id())
+                ->delete();
+            Cache::forget('wishlists');
             return response()->success();
         } catch (\Exception $exception) {
             return response()->failed(['message' => 'Internal Server Error!']);
