@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductWishList;
+use Modules\Product\Http\Requests\StoreProductWishlistRequest;
 use Modules\Product\Services\ProductWishListService;
 
 class MyWishListController extends Controller
@@ -25,10 +26,10 @@ class MyWishListController extends Controller
         return $this->wishListService->index($request);
     }
 
-    public function store(Request $request)
+    public function store(StoreProductWishlistRequest $request)
     {
         try {
-            ProductWishList::updateOrCreate(
+            $wishlist = ProductWishList::updateOrCreate(
                 [
                     'customer_id' => auth('customer')->id(),
                     'product_id' => $request->product_id,
@@ -41,7 +42,7 @@ class MyWishListController extends Controller
 
             Cache::forget('wishlists');
 
-            return response()->success();
+            return response()->success($wishlist->only(['id', 'product_id']));
         } catch (\Exception $exception) {
             LogHelper::exception($exception, [
                 'keyword' => 'PRODUCT_WISH_LIST_EXCEPTION',
@@ -55,7 +56,6 @@ class MyWishListController extends Controller
     public function destroy(Product $product)
     {
         try {
-            dd($product);
             $product->wishLists()
                 ->where('customer_id', auth('customer')->id())
                 ->delete();
