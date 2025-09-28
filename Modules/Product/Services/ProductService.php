@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Modules\CMS\App\Models\Feature;
 use Modules\Product\Entities\Product;
-use Modules\Product\Entities\ProductWishList;
 use Modules\Product\Http\Requests\StoreProductRequest;
 use Modules\Product\Http\Requests\UpdateProductRequest;
 use Modules\Product\Jobs\ProductMediaUploadJob;
