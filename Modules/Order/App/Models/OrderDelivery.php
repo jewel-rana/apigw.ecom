@@ -14,6 +14,7 @@ class OrderDelivery extends Model
         'customer_id',
         'city',
         'address',
+        'postal_code',
         'note',
         'remarks',
         'status'
@@ -42,6 +43,6 @@ class OrderDelivery extends Model
 
     public function format(): array
     {
-        return $this->only(['id', 'city', 'address', 'note', 'remarks', 'note']);
+        return $this->only(['id', 'city', 'address', 'postal_code', 'note', 'remarks', 'note']);
     }
 }
