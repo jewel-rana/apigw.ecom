@@ -19,5 +19,5 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () 
 });
 
 Route::group(['prefix' => 'shipping'], function () {
-    Route::get('suggestion', [ShippingController::class, 'suggestion'])->name('gateway.suggestion');
+    Route::get('suggestion', [ShippingController::class, 'suggestion'])->name('shipping.suggestion');
 });

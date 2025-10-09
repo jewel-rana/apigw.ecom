@@ -21,9 +21,9 @@ Route::post('checkout', [OrderCheckoutController::class, 'checkout'])->name('api
 Route::get('order/tracking/{trackingNumber}', [OrderController::class, 'tracking'])->name('api.order.tracking');
 
 Route::group(['prefix' => 'my', 'middleware' => ['auth:customer']], function() {
-    Route::apiResource('order', MyOrderController::class)->only(['index', 'show']);
+    Route::apiResource('order', MyOrderController::class)->only(['index', 'show'])->names('api.my.order');
 });
 
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () {
-    Route::apiResource('order', OrderController::class);
+    Route::apiResource('order', OrderController::class)->names('api.order');
 });

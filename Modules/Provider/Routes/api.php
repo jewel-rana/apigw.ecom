@@ -27,11 +27,11 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () 
 
 Route::group(['prefix' => 'auth', 'middleware' => 'guest'], function () {
     Route::group(['prefix' => 'supplier'], function () {
-        Route::post('login', [ProviderAuthController::class, 'login']);
-        Route::post('forgot', [ProviderAuthController::class, 'forgot'])->name('api.auth.forgot');
-        Route::post('verify', [ProviderAuthController::class, 'verify'])->name('api.auth.verify');
-        Route::post('reset', [ProviderAuthController::class, 'reset'])->name('api.auth.reset');
-        Route::post('resend/{reference}', [ProviderAuthController::class, 'resendOtp']);
+        Route::post('login', [ProviderAuthController::class, 'login'])->name('api.supplier.login');
+        Route::post('forgot', [ProviderAuthController::class, 'forgot'])->name('api.supplier.forgot');
+        Route::post('verify', [ProviderAuthController::class, 'verify'])->name('api.supplier.verify');
+        Route::post('reset', [ProviderAuthController::class, 'reset'])->name('api.supplier.reset');
+        Route::post('resend/{reference}', [ProviderAuthController::class, 'resendOtp'])->name('api.supplier.resend-otp');
     });
 });
 
