@@ -64,6 +64,7 @@ class ProductService
             return response()->success(
                 $this->productRepository->getModel()
                     ->filter($request)
+                    ->get()
                     ->map(function ($item) {
                         return [
                             'id' => $item->id,
