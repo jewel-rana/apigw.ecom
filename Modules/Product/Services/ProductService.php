@@ -69,7 +69,8 @@ class ProductService
                         return [
                             'id' => $item->id,
                             'name' => $item->title,
-                            'slug' => $item->slug
+                            'slug' => $item->slug,
+                            'thumbnail' => $item->thumbnail
                         ];
                     })
             );
