@@ -86,7 +86,9 @@ class ProductService
     {
         try {
             $product = $this->productRepository->create($request->validated());
-
+            if($request->filled('related_product_ids') && is_array($request->input('related_product_ids'))) {
+                $product->relatedProducts()->attach($request->input('related_product_ids'));
+            }
             if ($request->filled('tags')) {
                 foreach ($request->input('tags') as $tag) {
                     $product->tags()->create([
@@ -119,6 +121,10 @@ class ProductService
     {
         try {
             $this->productRepository->update($request->validated(), $product->id);
+
+            if($request->filled('related_product_ids') && is_array($request->input('related_product_ids'))) {
+                $product->relatedProducts()->sync($request->input('related_product_ids'));
+            }
             if ($request->filled('tags')) {
                 foreach ($request->input('tags') as $tag) {
                     $product->tags()->create([

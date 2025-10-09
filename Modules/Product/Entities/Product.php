@@ -2,7 +2,6 @@
 
 namespace Modules\Product\Entities;
 
-use App\Helpers\CommonHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -82,6 +81,11 @@ class Product extends Model
         return $this->hasMany(ProductWishList::class);
     }
 
+    public function relatedProducts(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_related_product', 'product_id', 'related_product_id');
+    }
+
     public function medias(): BelongsToMany
     {
         return $this->belongsToMany(Media::class);
@@ -142,7 +146,7 @@ class Product extends Model
     public function getWishlistedAttribute(): bool
     {
         try {
-            if($id = auth('customer')->id()) {
+            if ($id = auth('customer')->id()) {
                 return $this->wishLists()->where('customer_id', $id)->count() !== 0;
             }
             return false;
@@ -184,9 +188,25 @@ class Product extends Model
             $data['medias'] = $this->medias->map(function ($media) {
                 return $media->only(['id', 'attachment']);
             });
+            $data['related_products'] = $this->relatedProducts->map(function ($product) {
+                return $product->formatRelatedProduct();
+            });
         }
 
         return $data;
+    }
+
+    public function formatRelatedProduct(): array
+    {
+        return $this->only([
+            'id',
+            'title',
+            'slug',
+            'description',
+            'price',
+            'status',
+            'thumbnail',
+        ]);
     }
 
     public static function boot()

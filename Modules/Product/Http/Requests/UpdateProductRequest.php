@@ -29,6 +29,8 @@ class UpdateProductRequest extends FormRequest
             'is_featured' => 'required|boolean',
             'weight' => 'nullable|numeric',
             'badge' => 'nullable|string',
+            'related_product_ids' => ['bail|nullable|array'],
+            'related_product_ids.*' => 'integer|exists:products,id',
         ];
     }
 
