@@ -51,6 +51,11 @@ class ProductController extends Controller
         return $this->productService->getWishlistedProducts($request);
     }
 
+    public function suggestions(Request $request)
+    {
+        return $this->productService->suggestions($request);
+    }
+
     public function removeMedia(Product $product, $mediaId)
     {
         try {
