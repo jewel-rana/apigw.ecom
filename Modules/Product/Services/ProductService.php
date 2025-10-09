@@ -68,7 +68,7 @@ class ProductService
                     ->map(function ($item) {
                         return [
                             'id' => $item->id,
-                            'name' => $item->name,
+                            'name' => $item->title,
                             'slug' => $item->slug
                         ];
                     })
