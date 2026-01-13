@@ -14,7 +14,7 @@ class BannerSeeder extends Seeder
     {
         $banners = [
             [
-                'name' => 'main',
+                'title' => 'main',
                 'label' => 'Main banner (Top)'
             ]
         ];
